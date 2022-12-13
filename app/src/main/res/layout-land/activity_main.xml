@@ -8,69 +8,25 @@
     tools:context=".MainActivity">
 
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button"
-        android:layout_width="118dp"
-        android:layout_height="42dp"
-        android:layout_centerInParent="true"
-        android:layout_marginStart="146dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="147dp"
-        android:background="@drawable/buttonbg"
-        android:text="Accedi"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="#DBA775"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
-
-    <EditText
-        android:id="@+id/MailText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="380dp"
-        android:layout_marginEnd="101dp"
-        android:background="@drawable/inputbg"
-        android:ems="10"
-        android:textCursorDrawable="@drawable/cursorcolor"
-        android:gravity="center"
-        android:hint="E-Mail"
-        android:inputType="textPersonName"
-        android:textColor="#723B06"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <EditText
         android:id="@+id/editTextTextPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:layout_marginStart="100dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="35dp"
         android:layout_marginEnd="101dp"
         android:background="@drawable/inputbg"
         android:ems="10"
-        android:textCursorDrawable="@drawable/cursorcolor"
         android:gravity="center"
-        android:layout_centerInParent="true"
         android:hint="Password"
         android:inputType="textPassword"
         android:textColor="#723B06"
+        android:textCursorDrawable="@drawable/cursorcolor"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/MailText" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="161dp"
-        android:layout_height="173dp"
-        android:layout_marginStart="125dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/museum" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/passwordforgetten"
@@ -78,7 +34,6 @@
         android:layout_height="30dp"
         android:layout_centerInParent="true"
         android:layout_marginStart="141dp"
-        android:layout_marginTop="32dp"
         android:layout_marginEnd="141dp"
         android:background="@drawable/loginoptbg"
         android:outlineAmbientShadowColor="#DBA775"
@@ -96,7 +51,6 @@
         android:layout_height="30dp"
         android:layout_centerInParent="true"
         android:layout_marginStart="173dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="173dp"
         android:background="@drawable/loginoptbg"
         android:outlineAmbientShadowColor="#DBA775"
@@ -108,14 +62,51 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordforgetten" />
 
-    <ImageView
-        android:id="@+id/imageView3"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button"
+        android:layout_width="118dp"
+        android:layout_height="42dp"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="146dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="147dp"
+        android:background="@drawable/buttonbg"
+        android:text="Accedi"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="#DBA775"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
+
+    <EditText
+        android:id="@+id/MailText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="97dp"
-        android:layout_marginTop="19dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="124dp"
+        android:layout_marginEnd="101dp"
+        android:background="@drawable/inputbg"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="E-Mail"
+        android:inputType="textPersonName"
+        android:textColor="#723B06"
+        android:textCursorDrawable="@drawable/cursorcolor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="185dp"
+        android:layout_height="88dp"
+        android:layout_marginStart="276dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="277dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/hystory4fun" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
