@@ -4,33 +4,49 @@ import java.net.*;
 import java.io.*;
 
 public class Client {
+    private final String message_to_send = "Hello! I am the client!";
     private final int server_port = 6969;
     private Socket client_socket = null;
     private InetAddress server_address = null;
-    PrintWriter out_toServer = null;
-    BufferedReader in_fromServer = null;
 
+    /* CONSTRUCTOR */
     public Client() {
         connect();
     }
 
+    /* GETTERS AND SETTERS */
+    public Socket getClientSocket() {
+        return this.client_socket;
+    }
+
+    public void setClient_socket(Socket client_socket) {
+        this.client_socket = client_socket;
+    }
+
+    public InetAddress getServer_address() {
+        return server_address;
+    }
+
+    public void setServer_address(InetAddress server_address) {
+        this.server_address = server_address;
+    }
+
+    /* METHODS */
     public void connect() {
         try {
-            server_address = InetAddress.getByName("10.0.2.2");
-            client_socket = new Socket(server_address, server_port);
+            InetAddress server_address = InetAddress.getByName("10.0.2.2");
+            setServer_address(server_address);
 
-            out_toServer = new PrintWriter(client_socket.getOutputStream(), true);
-            in_fromServer = new BufferedReader(new InputStreamReader(client_socket.getInputStream()));
+            Socket client_socket = new Socket(getServer_address(), this.server_port);
+            setClient_socket(client_socket);
 
-            String message_to_send = "Hello! I am the client!";
-            out_toServer.println(message_to_send);
+            OutputStreamWriter out_toServer = new OutputStreamWriter(getClientSocket().getOutputStream());
+            BufferedReader in_fromServer = new BufferedReader(new InputStreamReader(getClientSocket().getInputStream()));
+
+            out_toServer.write(this.message_to_send);
             out_toServer.flush();
-            String message_received = in_fromServer.readLine();
-
             out_toServer.close();
             in_fromServer.close();
-        } catch(UnknownHostException e) {
-            e.printStackTrace();
         } catch(IOException e) {
             e.printStackTrace();
         }
@@ -38,19 +54,18 @@ public class Client {
 
     public void send_flag(String flag) {
         try {
-            out_toServer = new PrintWriter(client_socket.getOutputStream(), true);
-            out_toServer.println(flag);
+            OutputStreamWriter out_toServer = new OutputStreamWriter(getClientSocket().getOutputStream());
+            out_toServer.write(flag);
             out_toServer.flush();
             out_toServer.close();
-            close_connection();
         } catch(IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void close_connection() {
+    public void close_connection() { // for now it is unused
         try {
-            client_socket.close();
+            getClientSocket().close();
         } catch(IOException e) {
             e.printStackTrace();
         }

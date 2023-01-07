@@ -12,16 +12,23 @@ public class MainActivity extends AppCompatActivity {
     private EditText mail_text = null;
     private EditText pass_text = null;
 
-    void handle_login_button(Client client) {
+    private void handle_login_button(Client client) {
         login_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String email = String.valueOf(mail_text.getText());
-                String password = String.valueOf(pass_text.getText());
+                Thread t = new Thread(() -> {
+                    String email = String.valueOf(mail_text.getText());
+                    String password = String.valueOf(pass_text.getText());
 
-                client.send_flag("LOGIN");
-                // handle errors!
+                    // handle errors!
+                    client.send_flag("LOGIN");
+                });
+                t.start();
             }
         });
+    }
+
+    private void manage_home_page(Client client) {
+        handle_login_button(client);
     }
 
     @Override
@@ -29,14 +36,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        login_button = (Button) findViewById(R.id.button);
-        mail_text = (EditText) findViewById(R.id.MailText);
-        pass_text = (EditText) findViewById(R.id.editTextTextPassword);
+        login_button = (Button)   findViewById(R.id.button);
+        mail_text    = (EditText) findViewById(R.id.MailText);
+        pass_text    = (EditText) findViewById(R.id.editTextTextPassword);
 
-        Thread client_thread = new Thread(() -> {
-            client = new Client();
-            handle_login_button(client);
+        Thread t = new Thread(() -> {
+            this.client = new Client();
+            manage_home_page(this.client);
         });
-        client_thread.start();
+        t.start();
     }
 }
