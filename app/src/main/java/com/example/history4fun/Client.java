@@ -32,10 +32,7 @@ public class Client {
 
     public void setServer_address(InetAddress server_address) { this.server_address = server_address; }
 
-    public OutputStreamWriter getOut_toServer() {
-        // To close: getOut_toServer().close();
-        return out_toServer;
-    }
+    public OutputStreamWriter getOut_toServer() { return out_toServer; }
 
     public void setOut_toServer(OutputStreamWriter out_toServer) { this.out_toServer = out_toServer; }
 
@@ -60,19 +57,32 @@ public class Client {
 
             getOut_toServer().write(this.message_to_send);
             getOut_toServer().flush();
-            getIn_fromServer().reset();
         } catch(IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void send_flag(String flag) {
+    public void send(String str) {
         try {
-            getOut_toServer().write(flag);
+            getOut_toServer().write(str);
             getOut_toServer().flush();
         } catch(IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public String receive() {
+        String str = null;
+        StringBuilder builder = new StringBuilder();
+
+        try {
+            while((str = getIn_fromServer().readLine()) != null) {
+                builder.append(str);
+            }
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+        return builder.toString();
     }
 
     public void close_connection() {

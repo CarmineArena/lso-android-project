@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
+// import org.json.*;
 
 public class MainActivity extends AppCompatActivity {
     private Client client = null;
@@ -16,13 +17,17 @@ public class MainActivity extends AppCompatActivity {
         login_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Thread t = new Thread(() -> {
-                    String email = String.valueOf(mail_text.getText());
-                    String password = String.valueOf(pass_text.getText());
+                    // String email = String.valueOf(mail_text.getText());
+                    // String password = String.valueOf(pass_text.getText());
 
-                    if (email.equals("") || password.equals("")) {
-                        client.send_flag("LOGIN");
+                    // HANDLE ERRORS
+
+                    client.send("LOGIN");
+                    if (client.receive().equals("OK")) {
+                        client.send("aaa");
+                        client.send("bbb");
                     } else {
-                        client.send_flag("LOGIN");
+                        System.out.println("Mocc a mammt");
                     }
                 });
                 t.start();
@@ -30,9 +35,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void manage_home_page(Client client) {
-        handle_login_button(client);
-    }
+    private void manage_home_page(Client client) { handle_login_button(client); }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
