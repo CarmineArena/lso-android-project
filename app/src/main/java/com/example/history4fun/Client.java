@@ -9,13 +9,11 @@ public class Client {
     private Socket client_socket = null;
     private InetAddress server_address = null;
 
-    /* Util variables */
     OutputStreamWriter out_toServer = null;
     BufferedReader in_fromServer = null;
 
     /* CONSTRUCTOR */
     public Client() {
-        // And you closed it here. Closing either the input or the output stream of a Socket closes the other stream and the Socket.
         connect();
     }
 
@@ -60,13 +58,9 @@ public class Client {
             in_fromServer = new BufferedReader(new InputStreamReader(getClientSocket().getInputStream()));
             setIn_fromServer(in_fromServer);
 
-            // out_toServer.write(this.message_to_send);
-            // out_toServer.flush();
             getOut_toServer().write(this.message_to_send);
             getOut_toServer().flush();
             getIn_fromServer().reset();
-            // out_toServer.close();
-            // in_fromServer.close();
         } catch(IOException e) {
             e.printStackTrace();
         }
@@ -74,20 +68,18 @@ public class Client {
 
     public void send_flag(String flag) {
         try {
-            // OutputStreamWriter out_toServer = new OutputStreamWriter(getClientSocket().getOutputStream());
             getOut_toServer().write(flag);
             getOut_toServer().flush();
-            // out_toServer.write(flag);
-            // out_toServer.flush();
-            // out_toServer.close();
         } catch(IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void close_connection() { // for now it is unused
+    public void close_connection() {
         try {
             getClientSocket().close();
+            getOut_toServer().close();
+            getIn_fromServer().close();
         } catch(IOException e) {
             e.printStackTrace();
         }

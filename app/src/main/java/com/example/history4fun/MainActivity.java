@@ -19,8 +19,11 @@ public class MainActivity extends AppCompatActivity {
                     String email = String.valueOf(mail_text.getText());
                     String password = String.valueOf(pass_text.getText());
 
-                    // handle errors!
-                    client.send_flag("LOGIN");
+                    if (email.equals("") || password.equals("")) {
+                        client.send_flag("LOGIN");
+                    } else {
+                        client.send_flag("LOGIN");
+                    }
                 });
                 t.start();
             }
