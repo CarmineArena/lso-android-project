@@ -1,16 +1,13 @@
 package com.example.history4fun;
 
+import android.util.Log;
 import java.net.*;
 import java.io.*;
 
 public class Client {
-    private final String message_to_send = "Hello! I am the client!";
     private final int server_port = 6969;
     private Socket client_socket = null;
     private InetAddress server_address = null;
-
-    OutputStreamWriter out_toServer = null;
-    BufferedReader in_fromServer = null;
 
     /* CONSTRUCTOR */
     public Client() {
@@ -32,14 +29,6 @@ public class Client {
 
     public void setServer_address(InetAddress server_address) { this.server_address = server_address; }
 
-    public OutputStreamWriter getOut_toServer() { return out_toServer; }
-
-    public void setOut_toServer(OutputStreamWriter out_toServer) { this.out_toServer = out_toServer; }
-
-    public BufferedReader getIn_fromServer() { return in_fromServer; }
-
-    public void setIn_fromServer(BufferedReader in_fromServer) { this.in_fromServer = in_fromServer; }
-
     /* METHODS */
     public void connect() {
         try {
@@ -48,48 +37,41 @@ public class Client {
 
             Socket client_socket = new Socket(getServer_address(), this.server_port);
             setClient_socket(client_socket);
-
-            out_toServer = new OutputStreamWriter(getClientSocket().getOutputStream());
-            setOut_toServer(out_toServer);
-
-            in_fromServer = new BufferedReader(new InputStreamReader(getClientSocket().getInputStream()));
-            setIn_fromServer(in_fromServer);
-
-            getOut_toServer().write(this.message_to_send);
-            getOut_toServer().flush();
         } catch(IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void send(String str) {
+    public void send_msg(String message) {
         try {
-            getOut_toServer().write(str);
-            getOut_toServer().flush();
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
+            PrintWriter out_toServer = new PrintWriter(getClientSocket().getOutputStream(), true);
+            out_toServer.println(message);
+            Log.i("SEND_MSG", message + " has been sent to server.");
+        } catch (IOException e) { e.printStackTrace(); }
     }
 
-    public String receive() {
-        String str = null;
-        StringBuilder builder = new StringBuilder();
-
-        try {
-            while((str = getIn_fromServer().readLine()) != null) {
-                builder.append(str);
-            }
-        } catch(IOException e) {
-            e.printStackTrace();
+    public void respond_specific_message(String what_to_send, String specific_msg) {
+        if (what_to_send != null && specific_msg != null) {
+            try {
+                BufferedReader input = new BufferedReader(new InputStreamReader(getClientSocket().getInputStream()));
+                String response;
+                while ((response = input.readLine()) != null) {
+                    if (response.equals(specific_msg)) {
+                        Log.i("REC_MSG", specific_msg + " has been sent received from the server.");
+                        send_msg(what_to_send);
+                        Log.i("SEND_MSG", what_to_send + " has been sent to server.");
+                        break;
+                    }
+                }
+            } catch (IOException e) { e.printStackTrace(); }
+        } else {
+            // manage this error
         }
-        return builder.toString();
     }
 
     public void close_connection() {
         try {
             getClientSocket().close();
-            getOut_toServer().close();
-            getIn_fromServer().close();
         } catch(IOException e) {
             e.printStackTrace();
         }

@@ -1,10 +1,15 @@
 package com.example.history4fun;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 // import org.json.*;
 
 public class MainActivity extends AppCompatActivity {
@@ -14,24 +19,16 @@ public class MainActivity extends AppCompatActivity {
     private EditText pass_text = null;
 
     private void handle_login_button(Client client) {
-        login_button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Thread t = new Thread(() -> {
-                    // String email = String.valueOf(mail_text.getText());
-                    // String password = String.valueOf(pass_text.getText());
+        login_button.setOnClickListener(v -> {
+            Thread t = new Thread(() -> {
+                String email = String.valueOf(mail_text.getText());
+                String password = String.valueOf(pass_text.getText());
 
-                    // HANDLE ERRORS
-
-                    client.send("LOGIN");
-                    if (client.receive().equals("OK")) {
-                        client.send("aaa");
-                        client.send("bbb");
-                    } else {
-                        System.out.println("Mocc a mammt");
-                    }
-                });
-                t.start();
-            }
+                // REMEMBER TO HANDLE ERRORS
+                client.send_msg("LOGIN");
+                client.respond_specific_message("WEEE", "OK");
+            });
+            t.start();
         });
     }
 
