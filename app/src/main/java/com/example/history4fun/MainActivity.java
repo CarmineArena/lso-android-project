@@ -25,8 +25,9 @@ public class MainActivity extends AppCompatActivity {
                 String password = String.valueOf(pass_text.getText());
 
                 // REMEMBER TO HANDLE ERRORS
-                client.send_msg("LOGIN");
-                client.respond_specific_message("WEEE", "OK");
+                // client.send_msg("LOGIN");
+                client.send_json_login_msg("LOGIN", "olee", "daje roma");
+                // client.respond_specific_message("WEEE", "OK");
             });
             t.start();
         });
