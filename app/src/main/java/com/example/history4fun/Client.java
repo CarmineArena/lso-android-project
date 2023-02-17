@@ -30,46 +30,59 @@ public class Client {
     public void setServer_address(InetAddress server_address) { this.server_address = server_address; }
 
     /* METHODS */
-    public void connect() {
+    public void connect()
+    {
         try {
             InetAddress server_address = InetAddress.getByName("10.0.2.2");
             setServer_address(server_address);
 
             Socket client_socket = new Socket(getServer_address(), this.server_port);
             setClient_socket(client_socket);
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
+        } catch (UnknownHostException e) { e.printStackTrace(); } catch (IOException e) { e.printStackTrace(); }
     }
 
-    public void send_msg(String message) {
+    public void send_msg(String message)
+    {
         try {
             PrintWriter out_toServer = new PrintWriter(getClientSocket().getOutputStream(), true);
             out_toServer.println(message);
-            Log.i("SEND_MSG", message + " has been sent to server.");
+            Log.i("SEND_MSG", message + " sent to server.");
         } catch (IOException e) { e.printStackTrace(); }
     }
 
-    public void respond_specific_message(String what_to_send, String specific_msg) {
+    public void respond_specific_message(String what_to_send, String specific_msg)
+    {
         if (what_to_send != null && specific_msg != null) {
-            try {
-                BufferedReader input = new BufferedReader(new InputStreamReader(getClientSocket().getInputStream()));
-                String response;
-                while ((response = input.readLine()) != null) {
-                    if (response.equals(specific_msg)) {
-                        Log.i("REC_MSG", specific_msg + " has been sent received from the server.");
-                        send_msg(what_to_send);
-                        Log.i("SEND_MSG", what_to_send + " has been sent to server.");
-                        break;
+            Socket client_socket = getClientSocket();
+            if (client_socket != null && !client_socket.isClosed()) {
+                try {
+                    client_socket.setSoTimeout(10000);
+
+                    BufferedReader input = new BufferedReader(new InputStreamReader(client_socket.getInputStream()));
+                    String response;
+
+                    while (!client_socket.isClosed() && (response = input.readLine()) != null) {
+                        if (response.equals(specific_msg)) {
+                            Log.i("REC_MSG", specific_msg + " received from the server.");
+                            send_msg(what_to_send);
+                            break;
+                        }
                     }
+                } catch (SocketTimeoutException e) {
+                    Log.i("RESP_SPEC_MESS", "Socket timeout occurred while waiting for response.");
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) { e.printStackTrace(); }
+            } else {
+                Log.i("RESP_SPEC_MESS", " respond_specific_message(): client_socket is null.");
+            }
         } else {
-            // manage this error
+            Log.i("RESP_SPEC_MESS", " respond_specific_message(): one of the parameters provided is null.");
         }
     }
 
-    public void close_connection() {
+    public void close_connection()
+    {
         try {
             getClientSocket().close();
         } catch(IOException e) {
