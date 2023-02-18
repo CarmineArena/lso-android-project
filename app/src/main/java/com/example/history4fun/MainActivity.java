@@ -21,13 +21,11 @@ public class MainActivity extends AppCompatActivity {
     private void handle_login_button(Client client) {
         login_button.setOnClickListener(v -> {
             Thread t = new Thread(() -> {
-                String email = String.valueOf(mail_text.getText());
-                String password = String.valueOf(pass_text.getText());
+                // String email = String.valueOf(mail_text.getText());
+                // String password = String.valueOf(pass_text.getText());
 
                 // REMEMBER TO HANDLE ERRORS
-                // client.send_msg("LOGIN");
-                client.send_json_login_msg("LOGIN", "olee", "daje roma");
-                // client.respond_specific_message("WEEE", "OK");
+                client.send_json_login_msg("LOGIN", "catapano.smn.2001@gmail.com", "owner1");
             });
             t.start();
         });

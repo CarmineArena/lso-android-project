@@ -41,29 +41,36 @@ public class Client {
 
             Socket client_socket = new Socket(getServer_address(), this.server_port);
             setClient_socket(client_socket);
-        } catch (UnknownHostException e) { e.printStackTrace(); } catch (IOException e) { e.printStackTrace(); }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void send_simple_msg(String message) {
+        Log.i("SEND_SMP_MSG", " send_simple_message() called.");
         try {
             PrintWriter out_toServer = new PrintWriter(getClientSocket().getOutputStream(), true);
             out_toServer.println(message);
             Log.i("SEND_MSG", message + " sent to server.");
-        } catch (IOException e) { e.printStackTrace(); }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void send_json_login_msg(String flag, String email, String password) {
+        Log.i("SEND_JSON_LOG", " send_json_login_msg() called.");
         try {
-            PrintWriter out_toServer = new PrintWriter(getClientSocket().getOutputStream(), true);
+            // PrintWriter out_toServer = new PrintWriter(getClientSocket().getOutputStream(), true);
             JSONObject json = new JSONObject()
                     .put("flag", flag)
                     .put("email", email)
                     .put("password", password);
 
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(getClientSocket().getOutputStream()));
-            writer.write(json.toString());
+            String myjson = json.toString();
+            writer.write(myjson);
             writer.flush();
-            Log.i("SEND_MSG", json.toString() + " sent to server.");
+            Log.i("SEND_JSON_LOG", myjson + " sent to server.");
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {
@@ -72,6 +79,7 @@ public class Client {
     }
 
     public void respond_specific_message(String what_to_send, String specific_msg) {
+        Log.i("RESP_SPEC_MSG", " respond_specific_message() called.");
         if (what_to_send != null && specific_msg != null) {
             Socket client_socket = getClientSocket();
             if (client_socket != null) {
@@ -81,7 +89,6 @@ public class Client {
                     BufferedReader input = new BufferedReader(new InputStreamReader(client_socket.getInputStream()));
                     String response;
                     while (!client_socket.isClosed() && (response = input.readLine()) != null) {
-                        // Log.i("RESP_SPEC_MESS", "Response: " + response);
                         if (response.equals(specific_msg)) {
                             Log.i("REC_MSG", specific_msg + " received from the server.");
                             send_simple_msg(what_to_send);
