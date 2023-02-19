@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#DBA775"
+    android:background="@drawable/gradient_background_horizzontal"
     tools:context=".MainActivity">
 
 
@@ -13,29 +13,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="35dp"
-        android:layout_marginEnd="101dp"
+        android:layout_marginTop="25dp"
         android:background="@drawable/inputbg"
         android:ems="10"
         android:gravity="center"
         android:hint="Password"
         android:inputType="textPassword"
         android:textColor="#723B06"
+        android:textColorHint="#723B06"
         android:textCursorDrawable="@drawable/cursorcolor"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/MailText" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/passwordforgetten"
-        android:layout_width="129dp"
-        android:layout_height="30dp"
+        android:layout_width="139dp"
+        android:layout_height="29dp"
         android:layout_centerInParent="true"
-        android:layout_marginStart="141dp"
-        android:layout_marginEnd="141dp"
-        android:background="@drawable/loginoptbg"
+        android:background="@android:color/transparent"
         android:outlineAmbientShadowColor="#DBA775"
         android:outlineSpotShadowColor="#DBA775"
         android:text="Password dimenticata?"
@@ -43,16 +39,15 @@
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/signup" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/signup"
-        android:layout_width="65dp"
-        android:layout_height="30dp"
+        android:layout_width="64dp"
+        android:layout_height="21dp"
         android:layout_centerInParent="true"
-        android:layout_marginStart="173dp"
-        android:layout_marginEnd="173dp"
-        android:background="@drawable/loginoptbg"
+        android:layout_marginTop="2dp"
+        android:background="@android:color/transparent"
         android:outlineAmbientShadowColor="#DBA775"
         android:outlineSpotShadowColor="#DBA775"
         android:text="Registrati"
@@ -60,16 +55,14 @@
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordforgetten" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button"
         android:layout_width="118dp"
         android:layout_height="42dp"
         android:layout_centerInParent="true"
-        android:layout_marginStart="146dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="147dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/buttonbg"
         android:text="Accedi"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
@@ -82,18 +75,16 @@
         android:id="@+id/MailText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="124dp"
-        android:layout_marginEnd="101dp"
+        android:layout_marginTop="170dp"
         android:background="@drawable/inputbg"
         android:ems="10"
         android:gravity="center"
         android:hint="E-Mail"
         android:inputType="textPersonName"
         android:textColor="#723B06"
+        android:textColorHint="#723B06"
         android:textCursorDrawable="@drawable/cursorcolor"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -101,12 +92,10 @@
         android:id="@+id/imageView3"
         android:layout_width="185dp"
         android:layout_height="88dp"
-        android:layout_marginStart="276dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="277dp"
+        android:layout_marginTop="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/hystory4fun" />
+        app:srcCompat="@drawable/logohistory4fun" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
