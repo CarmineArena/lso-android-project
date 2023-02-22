@@ -2,67 +2,87 @@ package com.example.history4fun;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.io.BufferedReader;
+import org.json.*;
 import java.io.IOException;
-import java.io.InputStreamReader;
-// import org.json.*;
 
 public class MainActivity extends AppCompatActivity {
     String MailString;
-    private Client client = null;
-    private Button login_button = null;
-    private EditText mail_text = null;
-    private EditText pass_text = null;
+    private Client client        = null;
+    private Button login_button  = null;
+    private Button signup_button = null;
+    private EditText mail_text   = null;
+    private EditText pass_text   = null;
 
     private void handle_login_button(Client client) {
         login_button.setOnClickListener(v -> {
             Thread t = new Thread(() -> {
-                String email = String.valueOf(mail_text.getText());
+                String email    = String.valueOf(mail_text.getText());
                 String password = String.valueOf(pass_text.getText());
 
-                // REMEMBER TO HANDLE ERRORS
-                client.send_json_login_msg("LOGIN", email, password);
-                mail_text.setText("");
-                pass_text.setText("");
+                if ((email == null) || (password == null) || (email.isEmpty()) || (password.isEmpty())) {
+
+                } else {
+                    client.send_json_login_msg("LOGIN", email, password);
+                    try {
+                        JSONArray myjson = client.receive_json_array();
+                        mail_text.setText("");
+                        pass_text.setText("");
+                        // TODO: Creare l'oggetto utente con tutti i dati e passarlo alla prossima schermata!
+                        // va bene anche un intent vuoto!
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             });
             t.start();
         });
     }
 
-    private void manage_home_page(Client client) { handle_login_button(client); }
+    private void handle_signup_button(Client client) {
+        signup_button.setOnClickListener(view -> {
+            Thread t = new Thread(() -> {
+                /* It creates a new intent to get access to SecondActivity from MainActivity */
+                Intent intent = new Intent(MainActivity.this, Sign_up.class);
+                startActivity(intent);
+            });
+            t.start();
+        });
+    }
+
+    private void manage_start_page(Client client) {
+        handle_login_button(client);
+        handle_signup_button(client);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        login_button = (Button)   findViewById(R.id.button);
-        mail_text    = (EditText) findViewById(R.id.MailText);
-        pass_text    = (EditText) findViewById(R.id.editTextTextPassword);
+        login_button  = (Button)   findViewById(R.id.button);
+        signup_button = (Button)   findViewById(R.id.signup);
+        mail_text     = (EditText) findViewById(R.id.MailText);
+        pass_text     = (EditText) findViewById(R.id.PasswordText);
 
         Thread t = new Thread(() -> {
             this.client = new Client();
-            manage_home_page(this.client);
+            manage_start_page(this.client);
         });
         t.start();
 
-        final Button signup = (Button) findViewById(R.id.signup);
-        signup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Crea l'intent per passare dalla MainActivity alla SecondActivity
-                Intent intent = new Intent(MainActivity.this, Sign_up.class);
-                startActivity(intent);
-            }
-        });
+        // final Button signup = (Button) findViewById(R.id.signup);
+        /*
+        signup.setOnClickListener(view -> {
+            // Crea l'intent per passare dalla MainActivity alla SecondActivity
+            Intent intent = new Intent(MainActivity.this, Sign_up.class);
+            startActivity(intent);
+        }); */
     }
 
     @Override
@@ -70,11 +90,10 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
 
         MailString = String.valueOf(mail_text.getText());
-//        PwdString = String.valueOf(password.getText());
+        // PwdString = String.valueOf(password.getText());
 
         outState.putString("MailKey", MailString);
-//        outState.putString("PwdKey", PwdString);
-
+        // outState.putString("PwdKey", PwdString);
     }
 
     @Override

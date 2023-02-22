@@ -1,10 +1,7 @@
 package com.example.history4fun;
 
 import android.util.Log;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import org.json.*;
 import java.net.*;
 import java.io.*;
 
@@ -78,34 +75,22 @@ public class Client {
         }
     }
 
-    public void respond_specific_message(String what_to_send, String specific_msg) {
-        Log.i("RESP_SPEC_MSG", " respond_specific_message() called.");
-        if (what_to_send != null && specific_msg != null) {
-            Socket client_socket = getClientSocket();
-            if (client_socket != null) {
-                try {
-                    client_socket.setSoTimeout(10000);
+    public JSONArray receive_json_array() throws IOException, JSONException {
+        Log.i("REC_JSON_ARRAY", "receive_json_array() called.");
+        BufferedReader input = new BufferedReader(new InputStreamReader(getClientSocket().getInputStream()));
+        StringBuilder jsonStr = new StringBuilder();
 
-                    BufferedReader input = new BufferedReader(new InputStreamReader(client_socket.getInputStream()));
-                    String response;
-                    while (!client_socket.isClosed() && (response = input.readLine()) != null) {
-                        if (response.equals(specific_msg)) {
-                            Log.i("REC_MSG", specific_msg + " received from the server.");
-                            send_simple_msg(what_to_send);
-                            break;
-                        }
-                    }
-                } catch (SocketTimeoutException e) {
-                    Log.i("RESP_SPEC_MESS", "Socket timeout occurred while waiting for response.");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                Log.i("RESP_SPEC_MESS", " respond_specific_message(): client_socket is null.");
-            }
-        } else {
-            Log.i("RESP_SPEC_MESS", " respond_specific_message(): one of the parameters provided is null.");
+        int cc;
+        while ((cc = input.read()) != -1) {
+            char c = (char) cc;
+            jsonStr.append(c);
+
+            if (c == ']') break;
         }
+
+        JSONArray myjson = new JSONArray(jsonStr.toString());
+        Log.i("REC_JSON_ARRAY", myjson.toString() + " received from server.");
+        return myjson;
     }
 
     public void close_connection() {
