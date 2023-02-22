@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.Button;
 import android.widget.EditText;
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import org.json.*;
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
+    private Handler handler = null;
     String MailString;
     private Client client        = null;
     private Button login_button  = null;
@@ -25,30 +27,41 @@ public class MainActivity extends AppCompatActivity {
                 String email    = String.valueOf(mail_text.getText());
                 String password = String.valueOf(pass_text.getText());
 
-                if ((email == null) || (password == null) || (email.isEmpty()) || (password.isEmpty())) {
-                    // crea un oggetto AlertDialog.Builder
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                if ((email.isEmpty()) || (password.isEmpty())) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 
-                    // setta il messaggio da visualizzare nel dialog
-                    builder.setMessage("Riempi tutti i campi di testo");
+                    builder.setTitle("ERRORE");
+                    builder.setMessage("Attenzione, non puoi lasciare campi vuoti!");
 
-                    // aggiunge un bottone per chiudere il dialog
+                    builder.setIcon(android.R.drawable.ic_dialog_alert);
+                    // builder.setIcon(android.R.drawable.ic_dialog_info);
+
                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            // azione da eseguire quando l'utente preme il bottone OK
+                            // When we click "OK"
                             dialog.dismiss();
                         }
                     });
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
+
+                    // Signals main thread requesting to show Dialog
+                    this.handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
+                        }
+                    });
                 } else {
                     client.send_json_login_msg("LOGIN", email, password);
                     try {
                         JSONArray myjson = client.receive_json_array();
                         mail_text.setText("");
                         pass_text.setText("");
-                        // TODO: Creare l'oggetto utente con tutti i dati e passarlo alla prossima schermata!
-                        // va bene anche un intent vuoto!
+
+                        // TODO: Creare l'oggetto utente con tutti i dati e passarlo alla schermata Home!
+
+                        Intent intent = new Intent(MainActivity.this, Home.class);
+                        startActivity(intent);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -81,6 +94,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        this.handler = new Handler();
+
         login_button  = (Button)   findViewById(R.id.button);
         signup_button = (Button)   findViewById(R.id.signup);
         mail_text     = (EditText) findViewById(R.id.MailText);
@@ -94,11 +109,12 @@ public class MainActivity extends AppCompatActivity {
 
         // final Button signup = (Button) findViewById(R.id.signup);
         /*
-        signup.setOnClickListener(view -> {
-            // Crea l'intent per passare dalla MainActivity alla SecondActivity
-            Intent intent = new Intent(MainActivity.this, Sign_up.class);
-            startActivity(intent);
-        }); */
+            signup.setOnClickListener(view -> {
+                // Crea l'intent ha passare dalla MainActivity alla SecondActivity
+                Intent intent = new Intent(MainActivity.this, Sign_up.class);
+                startActivity(intent);
+            });
+        */
     }
 
     @Override
