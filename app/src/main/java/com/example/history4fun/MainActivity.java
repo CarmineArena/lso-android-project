@@ -1,5 +1,7 @@
 package com.example.history4fun;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -24,7 +26,21 @@ public class MainActivity extends AppCompatActivity {
                 String password = String.valueOf(pass_text.getText());
 
                 if ((email == null) || (password == null) || (email.isEmpty()) || (password.isEmpty())) {
+                    // crea un oggetto AlertDialog.Builder
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
+                    // setta il messaggio da visualizzare nel dialog
+                    builder.setMessage("Riempi tutti i campi di testo");
+
+                    // aggiunge un bottone per chiudere il dialog
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // azione da eseguire quando l'utente preme il bottone OK
+                            dialog.dismiss();
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
                 } else {
                     client.send_json_login_msg("LOGIN", email, password);
                     try {
