@@ -54,12 +54,13 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     client.send_json_login_msg("LOGIN", email, password);
                     try {
-                        JSONObject myjson = client.receive_json_array();
                         mail_text.setText("");
                         pass_text.setText("");
-
-                        // TODO: Creare l'oggetto utente con tutti i dati e passarlo alla schermata Home!
-
+                        JSONObject myjson = client.receive_json();
+                        /* TODO:
+                            1. Analizzare il campo flag dell'oggetto json ricevuto sulla socket e gestire di conseguenza.
+                            2. Se leggi SUCCESS, devi creare l'oggetto utente con tutti i dati e passarlo alla schermata "Home".
+                        */
                         Intent intent = new Intent(MainActivity.this, Home.class);
                         startActivity(intent);
                     } catch (JSONException e) {

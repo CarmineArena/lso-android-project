@@ -39,15 +39,24 @@ public class Client {
     /* METHODS */
     public void connect() {
         try {
+            int timeout_ms = 5000;  // 5 seconds of timeout
             InetAddress server_address = InetAddress.getByName("10.0.2.2");
-            // InetAddress server_address = InetAddress.getByName("172.30.219.119"); // 172.30.219.119 // 127.0.0.1
+            // InetAddress server_address = InetAddress.getByName("172.30.219.119");
             setServer_address(server_address);
 
-            Socket client_socket = new Socket(getServer_address(), this.server_port);
+            Socket client_socket = new Socket();
+            client_socket.connect(new InetSocketAddress(getServer_address(), this.server_port), timeout_ms);
+            client_socket.setSoTimeout(timeout_ms);
             setClient_socket(client_socket);
-        } catch (IOException e) {
+        } catch (SocketTimeoutException e) {
+            Log.d("SocketTimeoutException", "Client --> connect()");
+            // TODO: Show AlertDialog ...
+        } catch (ConnectException e) {
+            Log.e("ConnectException", "Client --> connect()");
             e.printStackTrace();
-            // Show AlertDialog ...
+        } catch (IOException e) {
+            Log.d("IOException", "Client --> connect()");
+            e.printStackTrace();
         }
     }
 
@@ -83,7 +92,7 @@ public class Client {
         }
     }
 
-    public JSONObject receive_json_array() throws IOException, JSONException {
+    public JSONObject receive_json() throws IOException, JSONException {
         Log.i("REC_JSON_ARRAY", "receive_json_array() called.");
         BufferedReader input = new BufferedReader(new InputStreamReader(getClientSocket().getInputStream()));
         StringBuilder jsonStr = new StringBuilder();
@@ -98,7 +107,6 @@ public class Client {
                 if (i == 2) break;
             }
         }
-
         JSONObject jsn = new JSONObject(jsonStr.toString());
         Log.i("REC_JSON_ARRAY", jsn + " received from server.");
         return jsn;
