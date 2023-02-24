@@ -1,6 +1,12 @@
 package com.example.history4fun;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import org.json.*;
 import java.net.*;
 import java.io.*;
@@ -34,12 +40,14 @@ public class Client {
     public void connect() {
         try {
             InetAddress server_address = InetAddress.getByName("10.0.2.2");
+            // InetAddress server_address = InetAddress.getByName("172.30.219.119"); // 172.30.219.119 // 127.0.0.1
             setServer_address(server_address);
 
             Socket client_socket = new Socket(getServer_address(), this.server_port);
             setClient_socket(client_socket);
         } catch (IOException e) {
             e.printStackTrace();
+            // Show AlertDialog ...
         }
     }
 
@@ -75,22 +83,25 @@ public class Client {
         }
     }
 
-    public JSONArray receive_json_array() throws IOException, JSONException {
+    public JSONObject receive_json_array() throws IOException, JSONException {
         Log.i("REC_JSON_ARRAY", "receive_json_array() called.");
         BufferedReader input = new BufferedReader(new InputStreamReader(getClientSocket().getInputStream()));
         StringBuilder jsonStr = new StringBuilder();
 
-        int cc;
+        int cc, i = 0;
         while ((cc = input.read()) != -1) {
             char c = (char) cc;
             jsonStr.append(c);
 
-            if (c == ']') break;
+            if (c == '}') {
+                i++;
+                if (i == 2) break;
+            }
         }
 
-        JSONArray myjson = new JSONArray(jsonStr.toString());
-        Log.i("REC_JSON_ARRAY", myjson.toString() + " received from server.");
-        return myjson;
+        JSONObject jsn = new JSONObject(jsonStr.toString());
+        Log.i("REC_JSON_ARRAY", jsn + " received from server.");
+        return jsn;
     }
 
     public void close_connection() {

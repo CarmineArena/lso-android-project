@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     client.send_json_login_msg("LOGIN", email, password);
                     try {
-                        JSONArray myjson = client.receive_json_array();
+                        JSONObject myjson = client.receive_json_array();
                         mail_text.setText("");
                         pass_text.setText("");
 
