@@ -11,8 +11,18 @@ public class Utente {
     private boolean expert = false;
 
     /* CONSTRUCTOR */
-    public Utente() {
-        // Fai qualcosa ...
+    public Utente() {}
+
+    public Utente(String user_id, String name, String surname, String email,
+                  int age, String phone_number, boolean expert) {
+        this.user_id = user_id;
+        this.name    = name;
+        this.surname = surname;
+        this.email   = email;
+
+        this.age          = age;
+        this.phone_number = phone_number;
+        this.expert       = expert;
     }
 
     /* GETTERS AND SETTERS */

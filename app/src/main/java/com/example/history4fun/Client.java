@@ -1,12 +1,6 @@
 package com.example.history4fun;
 
-import android.content.Context;
-import android.content.DialogInterface;
 import android.util.Log;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import org.json.*;
 import java.net.*;
 import java.io.*;
@@ -15,6 +9,7 @@ public class Client {
     private final int server_port = 6969;
     private Socket client_socket = null;
     private InetAddress server_address = null;
+    private boolean error_connection = false;
 
     /* CONSTRUCTOR */
     public Client() {
@@ -36,6 +31,10 @@ public class Client {
 
     public void setServer_address(InetAddress server_address) { this.server_address = server_address; }
 
+    public boolean getError_Connection() { return this.error_connection; }
+
+    public void setError_connection(boolean error_connection) { this.error_connection = error_connection; }
+
     /* METHODS */
     public void connect() {
         try {
@@ -50,7 +49,7 @@ public class Client {
             setClient_socket(client_socket);
         } catch (SocketTimeoutException e) {
             Log.d("SocketTimeoutException", "Client --> connect()");
-            // TODO: Show AlertDialog ...
+            setError_connection(true);
         } catch (ConnectException e) {
             Log.e("ConnectException", "Client --> connect()");
             e.printStackTrace();
