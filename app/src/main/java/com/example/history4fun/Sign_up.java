@@ -2,6 +2,7 @@ package com.example.history4fun;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -38,6 +39,9 @@ public class Sign_up extends AppCompatActivity {
         conf_pass_text   = findViewById(R.id.ConfPwdField);
         register_button  = findViewById(R.id.button3);
         data_button      = findViewById(R.id.dataButton);
+
+        Intent intent = getIntent();
+        Client client = (Client) intent.getSerializableExtra("client");
 
         /*
             Thread t = new Thread(() -> {

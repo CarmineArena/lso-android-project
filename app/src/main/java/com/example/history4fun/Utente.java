@@ -2,7 +2,7 @@ package com.example.history4fun;
 
 import java.io.Serializable;
 
-public class Utente implements Serializable{
+public class Utente implements Serializable {
     private String user_id = null;
     private String name = null;
     private String surname = null;
@@ -16,12 +16,12 @@ public class Utente implements Serializable{
     public Utente() {}
 
     public Utente(String user_id, String name, String surname, String email,
-                  int age, String phone_number, boolean expert) {
-        this.user_id = user_id;
-        this.name    = name;
-        this.surname = surname;
-        this.email   = email;
-
+                  String password, int age, String phone_number, boolean expert) {
+        this.user_id      = user_id;
+        this.name         = name;
+        this.surname      = surname;
+        this.email        = email;
+        this.password     = password;
         this.age          = age;
         this.phone_number = phone_number;
         this.expert       = expert;

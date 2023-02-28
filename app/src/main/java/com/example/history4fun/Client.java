@@ -5,7 +5,7 @@ import org.json.*;
 import java.net.*;
 import java.io.*;
 
-public class Client implements Serializable{
+public class Client implements Serializable {
     private final int server_port = 6969;
     private Socket client_socket = null;
     private InetAddress server_address = null;
@@ -38,7 +38,7 @@ public class Client implements Serializable{
     /* METHODS */
     public void connect() {
         try {
-            int timeout_ms = 5000;  // 5 seconds of timeout
+            int timeout_ms = 5000;
             InetAddress server_address = InetAddress.getByName("10.0.2.2");
             // InetAddress server_address = InetAddress.getByName("172.30.219.119");
             setServer_address(server_address);
@@ -73,7 +73,6 @@ public class Client implements Serializable{
     public void send_json_login_msg(String flag, String email, String password) {
         Log.i("SEND_JSON_LOG", " send_json_login_msg() called.");
         try {
-            // PrintWriter out_toServer = new PrintWriter(getClientSocket().getOutputStream(), true);
             JSONObject json = new JSONObject()
                     .put("flag", flag)
                     .put("email", email)

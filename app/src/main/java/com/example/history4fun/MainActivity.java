@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import androidx.annotation.NonNull;
@@ -14,8 +13,8 @@ import org.json.*;
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
-    private Handler handler = null;
-    private String MailString; // before this variable had "package" accessor
+    String MailString;
+    private Handler handler      = null;
     private Client client        = null;
     private Button login_button  = null;
     private Button signup_button = null;
@@ -45,30 +44,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private Utente createUser(JSONArray retrieved_data) {
-        String user_id = null, name = null, surname = null, email = null, phone_number = null;
+        String user_id = null, name = null, surname = null, email = null, password = null, phone_number = null;
         int age = 0;
         boolean expert = false;
 
         try {
-            user_id = retrieved_data.getJSONObject(0).getString("user_id");
-            name    = retrieved_data.getJSONObject(0).getString("name");
-            surname = retrieved_data.getJSONObject(0).getString("surname");
-            email   = retrieved_data.getJSONObject(0).getString("email");
-
-            // TODO: recuperare la password è un notevole rischio di divulgazione di dati sensibili dell'utente.
-            // TODO: per questo motivo non creo l'utente passando la password
-            // Dobbiamo farlo? Per il cambio password alla fine basterebbe fare qualche query in più al db
-
-            age             = retrieved_data.getJSONObject(0).getInt("age");
+            user_id  = retrieved_data.getJSONObject(0).getString("user_id");
+            name     = retrieved_data.getJSONObject(0).getString("name");
+            surname  = retrieved_data.getJSONObject(0).getString("surname");
+            email    = retrieved_data.getJSONObject(0).getString("email");
+            password = retrieved_data.getJSONObject(0).getString("password");
+            age          = retrieved_data.getJSONObject(0).getInt("age");
             phone_number = retrieved_data.getJSONObject(0).getString("phone_number");
-            expert      = retrieved_data.getJSONObject(0).getBoolean("phone_number");
+            expert       = retrieved_data.getJSONObject(0).getBoolean("expert");
         } catch(JSONException e) {
             e.printStackTrace();
         }
 
-        // TODO: passare questo utente alla nuova activity
-        Utente utente = new Utente(user_id, name, surname, email, age, phone_number, expert);
-        return utente;
+        return new Utente(user_id, name, surname, email, password, age, phone_number, expert);
     }
 
     private void handle_login_button(Client client) {
@@ -89,13 +82,11 @@ public class MainActivity extends AppCompatActivity {
                         String flag = myjson.getString("flag");
                         if (flag.equals("SUCCESS")) {
                             JSONArray retrieved_data = myjson.getJSONArray("retrieved_data");
-
-                            // TODO: RISOLVI TODO NELLA FUNZIONE
                             Utente u = createUser(retrieved_data);
 
                             Intent intent = new Intent(MainActivity.this, Home.class);
-                            intent.putExtra("client", this.client);
-                            intent.putExtra("Utente", u);
+                            intent.putExtra("client", client);
+                            intent.putExtra("user", u);
                             startActivity(intent);
                         } else if (flag.equals("FAILURE")) {
                             showAlertDialog("ERRORE", "L'utente dichiarato non esiste!");
@@ -115,11 +106,8 @@ public class MainActivity extends AppCompatActivity {
         signup_button.setOnClickListener(view -> {
             Thread t = new Thread(() -> {
                 /* It creates a new intent to get access to SecondActivity from MainActivity */
-
-                // TODO: SIGN_UP DEVE ricevere in input una istanza del client.
-                // altrimenti non posso fare NULLA
-
                 Intent intent = new Intent(MainActivity.this, Sign_up.class);
+                intent.putExtra("client", client);
                 startActivity(intent);
             });
             t.start();
@@ -152,16 +140,11 @@ public class MainActivity extends AppCompatActivity {
                 builder.setTitle("ERRORE DI CONNESSIONE");
                 builder.setMessage("Non è stato possibile stabilire una connessione con il server.");
                 builder.setIcon(android.R.drawable.ic_dialog_alert);
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton("ESCI", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.dismiss();
-                        // TODO: DOVREMMO FARE QUALCHE ALTRA COSA?
-                        /*
-                            * Capire nel caso, se basta usare quindi showAlertDialog(). Per il momento sta cosi
-                            * Es: come informiamo l'utente che la funzionalità dell'app non è garantita?
-                            * Es: chiudere app? chiudere socket?
-                        */
+                        Runtime.getRuntime().exit(0);
                     }
                 });
 
@@ -176,8 +159,8 @@ public class MainActivity extends AppCompatActivity {
         });
         t.start();
 
-        // final Button signup = (Button) findViewById(R.id.signup);
         /*
+            final Button signup = (Button) findViewById(R.id.signup);
             signup.setOnClickListener(view -> {
                 // Crea l'intent ha passare dalla MainActivity alla SecondActivity
                 Intent intent = new Intent(MainActivity.this, Sign_up.class);
@@ -203,5 +186,4 @@ public class MainActivity extends AppCompatActivity {
         mail_text.setText(savedInstanceState.getString("MailKey"));
         //password.setText(savedInstanceState.getString("PwdKey"));
     }
-
 }
