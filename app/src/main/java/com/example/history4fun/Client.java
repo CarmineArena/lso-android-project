@@ -5,7 +5,7 @@ import org.json.*;
 import java.net.*;
 import java.io.*;
 
-public class Client {
+public class Client implements Serializable{
     private final int server_port = 6969;
     private Socket client_socket = null;
     private InetAddress server_address = null;

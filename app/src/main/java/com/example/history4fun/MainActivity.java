@@ -94,6 +94,8 @@ public class MainActivity extends AppCompatActivity {
                             Utente u = createUser(retrieved_data);
 
                             Intent intent = new Intent(MainActivity.this, Home.class);
+                            intent.putExtra("client", this.client);
+                            intent.putExtra("Utente", u);
                             startActivity(intent);
                         } else if (flag.equals("FAILURE")) {
                             showAlertDialog("ERRORE", "L'utente dichiarato non esiste!");

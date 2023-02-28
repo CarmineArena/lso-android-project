@@ -1,6 +1,8 @@
 package com.example.history4fun;
 
-public class Utente {
+import java.io.Serializable;
+
+public class Utente implements Serializable{
     private String user_id = null;
     private String name = null;
     private String surname = null;
