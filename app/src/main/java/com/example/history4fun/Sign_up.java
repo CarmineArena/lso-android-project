@@ -41,7 +41,7 @@ public class Sign_up extends AppCompatActivity {
         data_button      = findViewById(R.id.dataButton);
 
         Intent intent = getIntent();
-        Client client = (Client) intent.getSerializableExtra("client");
+        // Client client = (Client) intent.getSerializableExtra("client");
 
         /*
             Thread t = new Thread(() -> {

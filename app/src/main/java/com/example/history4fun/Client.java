@@ -5,21 +5,17 @@ import org.json.*;
 import java.net.*;
 import java.io.*;
 
-public class Client implements Serializable {
-    private final int server_port = 6969;
-    private Socket client_socket = null;
-    private InetAddress server_address = null;
-    private boolean error_connection = false;
+public class Client {
+    private static Client instance;
+    private static final int server_port  = 6969;
+    private static final String server_ip = "10.0.2.2"; // "172.30.219.119"
+    private Socket client_socket          = null;
 
-    /* CONSTRUCTOR */
-    public Client() {
-        connect();
-    }
+    private InetAddress server_address = null;
+    private boolean error_connection   = false;
 
     /* GETTERS AND SETTERS */
-    public Socket getClientSocket() {
-        return this.client_socket;
-    }
+    public Socket getClientSocket() { return this.client_socket; }
 
     public void setClient_socket(Socket client_socket) {
         this.client_socket = client_socket;
@@ -35,12 +31,14 @@ public class Client implements Serializable {
 
     public void setError_connection(boolean error_connection) { this.error_connection = error_connection; }
 
+    /* CONSTRUCTOR */
+    private Client() { connect(); }
+
     /* METHODS */
     public void connect() {
         try {
             int timeout_ms = 5000;
-            InetAddress server_address = InetAddress.getByName("10.0.2.2");
-            // InetAddress server_address = InetAddress.getByName("172.30.219.119");
+            InetAddress server_address = InetAddress.getByName(this.server_ip);
             setServer_address(server_address);
 
             Socket client_socket = new Socket();
@@ -57,6 +55,13 @@ public class Client implements Serializable {
             Log.d("IOException", "Client --> connect()");
             e.printStackTrace();
         }
+    }
+
+    public static synchronized Client getInstance() {
+        if (instance == null) {
+            instance = new Client();
+        }
+        return instance;
     }
 
     public void send_simple_msg(String message) {

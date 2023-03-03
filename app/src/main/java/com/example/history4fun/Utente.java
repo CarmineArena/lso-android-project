@@ -3,20 +3,19 @@ package com.example.history4fun;
 import java.io.Serializable;
 
 public class Utente implements Serializable {
-    private String user_id = null;
-    private String name = null;
-    private String surname = null;
-    private String email = null;
-    private String password = null;
-    private int age = 0;
+    private String user_id      = null;
+    private String name         = null;
+    private String surname      = null;
+    private String email        = null;
+    private String password     = null;
     private String phone_number = null;
-    private boolean expert = false;
+    private int expert = 0, age = 0;
 
     /* CONSTRUCTOR */
     public Utente() {}
 
     public Utente(String user_id, String name, String surname, String email,
-                  String password, int age, String phone_number, boolean expert) {
+                  String password, int age, String phone_number, int expert) {
         this.user_id      = user_id;
         this.name         = name;
         this.surname      = surname;
@@ -84,11 +83,11 @@ public class Utente implements Serializable {
         this.phone_number = phone_number;
     }
 
-    public boolean isExpert() {
+    public int isExpert() {
         return expert;
     }
 
-    public void setExpert(boolean expert) {
+    public void setExpert(int expert) {
         this.expert = expert;
     }
 

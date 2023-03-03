@@ -14,8 +14,8 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
     String MailString;
+    static Client client         = null;
     private Handler handler      = null;
-    private Client client        = null;
     private Button login_button  = null;
     private Button signup_button = null;
     private EditText mail_text   = null;
@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void showAlertDialog(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-
         builder.setTitle(title);
         builder.setMessage(message);
         builder.setIcon(android.R.drawable.ic_dialog_alert);
@@ -45,22 +44,20 @@ public class MainActivity extends AppCompatActivity {
 
     private Utente createUser(JSONArray retrieved_data) {
         String user_id = null, name = null, surname = null, email = null, password = null, phone_number = null;
-        int age = 0;
-        boolean expert = false;
+        int age = 0, expert = 0;
 
         try {
-            user_id  = retrieved_data.getJSONObject(0).getString("user_id");
-            name     = retrieved_data.getJSONObject(0).getString("name");
-            surname  = retrieved_data.getJSONObject(0).getString("surname");
-            email    = retrieved_data.getJSONObject(0).getString("email");
-            password = retrieved_data.getJSONObject(0).getString("password");
+            user_id      = retrieved_data.getJSONObject(0).getString("user_id");
+            name         = retrieved_data.getJSONObject(0).getString("name");
+            surname      = retrieved_data.getJSONObject(0).getString("surname");
+            email        = retrieved_data.getJSONObject(0).getString("email");
+            password     = retrieved_data.getJSONObject(0).getString("password");
             age          = retrieved_data.getJSONObject(0).getInt("age");
             phone_number = retrieved_data.getJSONObject(0).getString("phone_number");
-            expert       = retrieved_data.getJSONObject(0).getBoolean("expert");
+            expert       = retrieved_data.getJSONObject(0).getInt("expert");
         } catch(JSONException e) {
             e.printStackTrace();
         }
-
         return new Utente(user_id, name, surname, email, password, age, phone_number, expert);
     }
 
@@ -85,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
                             Utente u = createUser(retrieved_data);
 
                             Intent intent = new Intent(MainActivity.this, Home.class);
-                            intent.putExtra("client", client);
                             intent.putExtra("user", u);
                             startActivity(intent);
                         } else if (flag.equals("FAILURE")) {
@@ -107,7 +103,6 @@ public class MainActivity extends AppCompatActivity {
             Thread t = new Thread(() -> {
                 /* It creates a new intent to get access to SecondActivity from MainActivity */
                 Intent intent = new Intent(MainActivity.this, Sign_up.class);
-                intent.putExtra("client", client);
                 startActivity(intent);
             });
             t.start();
@@ -132,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         pass_text     = (EditText) findViewById(R.id.PasswordText);
 
         Thread t = new Thread(() -> {
-            this.client = new Client();
+            this.client = Client.getInstance();
             if (!this.client.getError_Connection()) {
                 manage_start_page(this.client);
             } else {
@@ -172,7 +167,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-
         MailString = String.valueOf(mail_text.getText());
         // PwdString = String.valueOf(password.getText());
 
