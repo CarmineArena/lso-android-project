@@ -26,19 +26,12 @@ public class MainActivity extends AppCompatActivity {
         builder.setTitle(title);
         builder.setMessage(message);
         builder.setIcon(android.R.drawable.ic_dialog_alert);
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.dismiss();
-            }
-        });
+        builder.setPositiveButton("OK", (dialog, id) -> dialog.dismiss());
 
         // Signals main thread requesting to show Dialog
-        this.handler.post(new Runnable() {
-            @Override
-            public void run() {
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            }
+        this.handler.post(() -> {
+            AlertDialog dialog = builder.create();
+            dialog.show();
         });
     }
 
@@ -98,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void handle_signup_button(Client client) {
+    private void handle_signup_button() {
         signup_button.setOnClickListener(view -> {
             Thread t = new Thread(() -> {
                 /* It creates a new intent to get access to SecondActivity from MainActivity */
@@ -111,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void manage_start_page(Client client) {
         handle_login_button(client);
-        handle_signup_button(client);
+        handle_signup_button();
     }
 
     @Override
@@ -135,33 +128,18 @@ public class MainActivity extends AppCompatActivity {
                 builder.setTitle("ERRORE DI CONNESSIONE");
                 builder.setMessage("Non è stato possibile stabilire una connessione con il server.");
                 builder.setIcon(android.R.drawable.ic_dialog_alert);
-                builder.setPositiveButton("ESCI", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.dismiss();
-                        Runtime.getRuntime().exit(0);
-                    }
+                builder.setPositiveButton("ESCI", (dialog, id) -> {
+                    dialog.dismiss();
+                    Runtime.getRuntime().exit(0);
                 });
 
-                this.handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
-                    }
+                this.handler.post(() -> {
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
                 });
             }
         });
         t.start();
-
-        /*
-            final Button signup = (Button) findViewById(R.id.signup);
-            signup.setOnClickListener(view -> {
-                // Crea l'intent ha passare dalla MainActivity alla SecondActivity
-                Intent intent = new Intent(MainActivity.this, Sign_up.class);
-                startActivity(intent);
-            });
-        */
     }
 
     @Override

@@ -1,9 +1,13 @@
 package com.example.history4fun;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -11,9 +15,11 @@ import android.widget.TextView;
 import java.util.Calendar;
 
 public class Sign_up extends AppCompatActivity {
+    private static Client client      = MainActivity.client;
+    private Handler handler           = null;
     private TextView name_text        = null;
     private TextView surname_text     = null;
-    private TextView second_name_text = null;
+    private TextView nickname_text    = null;
     private TextView phone_text       = null;
     private TextView mail_text        = null;
     private TextView pass_text        = null;
@@ -21,9 +27,63 @@ public class Sign_up extends AppCompatActivity {
     private Button register_button    = null;
     private Button data_button        = null;
 
-    // TODO: QUESTE VARIABILI SERVONO A QUALCOSA?
-    private DatePickerDialog datePickerDialog;
-    private Button dateButton;
+    private void showAlertDialog(String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Sign_up.this);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setIcon(android.R.drawable.ic_dialog_alert);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+            }
+        });
+
+        // Signals main thread requesting to show Dialog
+        this.handler.post(new Runnable() {
+            @Override
+            public void run() {
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+    }
+
+    private void manage_register() {
+        // TODO: Controllare che ogni singolo campo vada bene sencondo la progettazione del database
+        // TODO: relativamente alla data, accettiamo date di nascita valide fino a persone vecchie di 100 anni?
+        // TODO: Non possiamo accettare valida una persona nata un giorno che viene dopo quello corrente
+
+        register_button.setOnClickListener(v -> {
+            Thread t = new Thread(() -> {
+                String name          = String.valueOf(name_text.getText());
+                String surname       = String.valueOf(surname_text.getText());
+                String email         = String.valueOf(mail_text.getText());
+                String password      = String.valueOf(pass_text.getText());
+                String conf_password = String.valueOf(conf_pass_text.getText());
+                String phone         = String.valueOf(phone_text.getText());
+                String nickname      = String.valueOf(nickname_text.getText());
+
+                // MySQL data format: YYYY-MM-DD
+                String birth_date    = String.valueOf(data_button.getText());
+
+                // TODO: CALCOLARE L'ETA DELL'UTENTE
+                // TODO: SE IL NICKNAME NON E' STATO SCELTO SCRIVERE NOME E COGNOME NELLA HOME E
+                    // CAMBIARE "SECONDO NOME" in "NICKNAME"
+
+                if ((name.isEmpty()) || (surname.isEmpty()) || (email.isEmpty()) || (password.isEmpty())
+                        || (conf_password.isEmpty()) || (phone.isEmpty())) {
+                    showAlertDialog("ERRORE", "Attenzione, almeno un campo obbligatorio è vuoto!");
+                } else if (!conf_password.equals(password)) {
+                    showAlertDialog("ERRORE", "Attenzione, la password e la password di conferma devono essere uguali!");
+                } else {
+                    Log.i("ALERT", "TUTTO OK");
+                }
+
+
+            });
+            t.start();
+        });
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +92,7 @@ public class Sign_up extends AppCompatActivity {
 
         name_text        = findViewById(R.id.NameField);
         surname_text     = findViewById(R.id.SurnameField);
-        second_name_text = findViewById(R.id.SecondNameField);
+        nickname_text    = findViewById(R.id.SecondNameField);
         phone_text       = findViewById(R.id.PhoneField);
         mail_text        = findViewById(R.id.MailField);
         pass_text        = findViewById(R.id.PwdField);
@@ -40,17 +100,8 @@ public class Sign_up extends AppCompatActivity {
         register_button  = findViewById(R.id.button3);
         data_button      = findViewById(R.id.dataButton);
 
-        Intent intent = getIntent();
-        // Client client = (Client) intent.getSerializableExtra("client");
+        this.handler = new Handler();
 
-        /*
-            Thread t = new Thread(() -> {
-
-            });
-            t.start();
-        */
-
-        // TODO: MA IO DOVE LO DEVO METTERE QUESTO COSO?
         data_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,7 +114,8 @@ public class Sign_up extends AppCompatActivity {
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                String selectedDate = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
+                                // String selectedDate = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
+                                String selectedDate = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
                                 data_button.setText(selectedDate);
                             }
                         }, mYear, mMonth, mDay);
@@ -71,11 +123,9 @@ public class Sign_up extends AppCompatActivity {
             }
         });
 
-
-
-
-
-
-
+        Thread t = new Thread(() -> {
+            manage_register();
+        });
+        t.start();
     }
 }
