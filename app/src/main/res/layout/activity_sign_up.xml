@@ -7,7 +7,7 @@
     android:background="@drawable/gradient_background">
 
 
-    <TextView
+    <EditText
         android:id="@+id/ConfPwdField"
         android:layout_width="180dp"
         android:layout_height="35dp"
@@ -23,7 +23,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/PwdField" />
 
-    <TextView
+    <EditText
         android:id="@+id/SecondNameField"
         android:layout_width="180dp"
         android:layout_height="35dp"
@@ -39,7 +39,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/NameField" />
 
-    <TextView
+    <EditText
         android:id="@+id/PhoneField"
         android:layout_width="180dp"
         android:layout_height="35dp"
@@ -55,7 +55,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ConfPwdField" />
 
-    <TextView
+    <EditText
         android:id="@+id/SurnameField"
         android:layout_width="180dp"
         android:layout_height="35dp"
@@ -71,7 +71,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/SecondNameField" />
 
-    <TextView
+    <EditText
         android:id="@+id/PwdField"
         android:layout_width="180dp"
         android:layout_height="35dp"
@@ -87,7 +87,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <EditText
         android:id="@+id/MailField"
         android:layout_width="180dp"
         android:layout_height="35dp"
@@ -103,7 +103,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/SurnameField" />
 
-    <TextView
+    <EditText
         android:id="@+id/NameField"
         android:layout_width="180dp"
         android:layout_height="35dp"

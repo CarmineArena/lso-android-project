@@ -11,19 +11,20 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
 import java.util.Calendar;
 
 public class Sign_up extends AppCompatActivity {
     private static Client client      = MainActivity.client;
     private Handler handler           = null;
-    private TextView name_text        = null;
-    private TextView surname_text     = null;
-    private TextView nickname_text    = null;
-    private TextView phone_text       = null;
-    private TextView mail_text        = null;
-    private TextView pass_text        = null;
-    private TextView conf_pass_text   = null;
+    private EditText name_text        = null;
+    private EditText surname_text     = null;
+    private EditText nickname_text    = null;
+    private EditText phone_text       = null;
+    private EditText mail_text        = null;
+    private EditText pass_text        = null;
+    private EditText conf_pass_text   = null;
     private Button register_button    = null;
     private Button data_button        = null;
 
