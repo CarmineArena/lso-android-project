@@ -44,6 +44,14 @@ public class Sign_up extends AppCompatActivity {
         });
     }
 
+    // TODO: SE IL NICKNAME NON E' STATO SCELTO SCRIVERE NOME E COGNOME NELLA HOME E CAMBIARE "SECONDO NOME" in "NICKNAME"
+    // TODO: BLOCCHIAMO L' EDIT-TEXT A MAX 30 CHAR?
+    // TODO: MODIFICARE IL DATE PICKER, "PRIMA CHE ARRIVi AL 2023 POTRESTI MORIRE"
+    // TODO: Accettiamo date di nascita valide fino a persone vecchie di 100 anni?
+    // TODO: send_json_register_msg() setta expert = 0 perchè ho pensato all'update della tabella nel caso
+    // TODO: birth date non ci sta nel database? Per il momento non la passo alla funzione per mandare il json
+    // TODO: LAVORARE AL SERVER C PER GESTIRE LA RICEZIONE DEL JSON DI REGISTRAZIONE
+
     private void manage_register() {
         register_button.setOnClickListener(v -> {
             Thread t = new Thread(() -> {
@@ -54,11 +62,8 @@ public class Sign_up extends AppCompatActivity {
                 String conf_password = String.valueOf(conf_pass_text.getText());
                 String phone         = String.valueOf(phone_text.getText());
                 String nickname      = String.valueOf(nickname_text.getText());
+                String birth_date    = String.valueOf(data_button.getText()); // MySQL data format: YYYY-MM-DD
 
-                // MySQL data format: YYYY-MM-DD
-                String birth_date    = String.valueOf(data_button.getText());
-
-                // TODO: SE IL NICKNAME NON E' STATO SCELTO SCRIVERE NOME E COGNOME NELLA HOME E CAMBIARE "SECONDO NOME" in "NICKNAME"
                 if ((name.isEmpty()) || (surname.isEmpty()) || (email.isEmpty()) || (password.isEmpty())
                         || (conf_password.isEmpty()) || (phone.isEmpty())) {
                     showAlertDialog("ERRORE", "Attenzione, almeno un campo obbligatorio è vuoto!");
@@ -67,20 +72,30 @@ public class Sign_up extends AppCompatActivity {
                     pass_text.setText("");
                     conf_pass_text.setText("");
                 } else {
-                    Log.i("ALERT", "TUTTO OK");
-
-                    /* DATABASE CONTROLS */
                     if (name.length() > 30) {
                         showAlertDialog("ATTENZIONE", "Il nome può avere massimo 30 caratteri.");
-                    } else if (surname.length() > 30) {
+                    }
+                    Log.i("NAME: ", "OK");
+
+                    if (surname.length() > 30) {
                         showAlertDialog("ATTENZIONE", "Il cognome può avere massimo 30 caratteri.");
-                    } else if (email.length() > 50) {
+                    }
+                    Log.i("SURNAME: ", "OK");
+
+                    if (email.length() > 50) {
                         showAlertDialog("ATTENZIONE", "L'email può avere massimo 50 caratteri.");
-                    } else if (password.length() > 30) {
+                    }
+                    Log.i("EMAIL: ", "OK");
+
+                    if (password.length() > 30) {
                         showAlertDialog("ATTENZIONE", "La password può avere massimo 30 caratteri.");
-                    } else if (phone.length() > 10) {
+                    }
+                    Log.i("PASSWORD: ", "OK");
+
+                    if (phone.length() != 10) {
                         showAlertDialog("ATTENZIONE", "Il numero di telefono deve essere di 10 caratteri.");
                     }
+                    Log.i("PHONE: ", "OK");
 
                     Date currentDate = Calendar.getInstance().getTime();
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -88,30 +103,31 @@ public class Sign_up extends AppCompatActivity {
 
                     // birth_date --> data selected as form's input
                     // dateString --> current date
-
                     int result = birth_date.compareTo(dateString);
                     if (result >= 0) {
                         showAlertDialog("ERRORE", "Inserire una data di nascita che sia valida!");
+                    } else {
+                        Log.i("BIRTH DATE: ", "OK");
+                        /* Age calculation */
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                        Date birth   = null;
+                        Date current = null;
+                        try {
+                            birth   = formatter.parse(birth_date);
+                            current = formatter.parse(dateString);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                        long ageInMillis = Math.abs(current.getTime() - birth.getTime());
+                        int years_age = (int) (ageInMillis / (24L * 60L * 60L * 1000L * 365L));
+
+                        CharsetGenerator generator = new CharsetGenerator(10);
+                        String user_id = generator.get_generated_random_string();
+
+                        this.client.send_json_register_msg("REGISTER", user_id, name, surname, email, password,
+                                years_age, phone, 0);
                     }
-
-                    /* Age calculation */
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                    Date birth   = null;
-                    Date current = null;
-                    try {
-                        birth   = formatter.parse(birth_date);
-                        current = formatter.parse(dateString);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-
-                    long ageInMillis = Math.abs(current.getTime() - birth.getTime());
-                    int years_age = (int) (ageInMillis / (24L * 60L * 60L * 1000L * 365L));
-
-                    // TODO: Accettiamo date di nascita valide fino a persone vecchie di 100 anni?
-                    // TODO: generare lo user_id
-                    // TODO: provare che tutti i controlli funzionano
-                    // TODO: comporre il json da mandare al server C
                 }
             });
             t.start();

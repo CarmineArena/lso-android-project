@@ -95,6 +95,34 @@ public class Client {
         }
     }
 
+    public void send_json_register_msg(String flag, String u_id, String name, String surname, String email, String password,
+                                       int age, String phone, int expert) {
+        // TODO: DATA DI NASCITA?
+        Log.i("SEND_JSON_REG", " send_json_register_msg() called.");
+        try {
+            JSONObject json = new JSONObject()
+                    .put("flag", flag)
+                    .put("user_id", u_id)
+                    .put("name", name)
+                    .put("surname", surname)
+                    .put("email", email)
+                    .put("password", password)
+                    .put("age", age)
+                    .put("phone_number", phone)
+                    .put("expert", expert);
+
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(getClientSocket().getOutputStream()));
+            String myjson = json.toString();
+            writer.write(myjson);
+            writer.flush();
+            Log.i("SEND_JSON_REG", myjson + " sent to server.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     public JSONObject receive_json() throws IOException, JSONException {
         Log.i("REC_JSON_ARRAY", "receive_json_array() called.");
         BufferedReader input = new BufferedReader(new InputStreamReader(getClientSocket().getInputStream()));
