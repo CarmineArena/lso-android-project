@@ -3,22 +3,29 @@ package com.example.history4fun;
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.Objects;
 
 public class Sign_up extends AppCompatActivity {
-    private static Client client      = MainActivity.client;
+    private static Client client;
     private Handler handler           = null;
     private EditText name_text        = null;
     private EditText surname_text     = null;
@@ -37,7 +44,6 @@ public class Sign_up extends AppCompatActivity {
         builder.setIcon(android.R.drawable.ic_dialog_alert);
         builder.setPositiveButton("OK", (dialog, id) -> dialog.dismiss());
 
-        // Signals main thread requesting to show Dialog
         this.handler.post(() -> {
             AlertDialog dialog = builder.create();
             dialog.show();
@@ -45,14 +51,9 @@ public class Sign_up extends AppCompatActivity {
     }
 
     // TODO: SE IL NICKNAME NON E' STATO SCELTO SCRIVERE NOME E COGNOME NELLA HOME E CAMBIARE "SECONDO NOME" in "NICKNAME"
-    // TODO: BLOCCHIAMO L' EDIT-TEXT A MAX 30 CHAR?
-    // TODO: MODIFICARE IL DATE PICKER, "PRIMA CHE ARRIVi AL 2023 POTRESTI MORIRE"
-    // TODO: Accettiamo date di nascita valide fino a persone vecchie di 100 anni?
-    // TODO: send_json_register_msg() setta expert = 0 perchè ho pensato all'update della tabella nel caso
-    // TODO: birth date non ci sta nel database? Per il momento non la passo alla funzione per mandare il json
-    // TODO: LAVORARE AL SERVER C PER GESTIRE LA RICEZIONE DEL JSON DI REGISTRAZIONE
 
     private void manage_register() {
+        Log.i("SIGN_UP", "manage_register() called.");
         register_button.setOnClickListener(v -> {
             Thread t = new Thread(() -> {
                 String name          = String.valueOf(name_text.getText());
@@ -74,59 +75,67 @@ public class Sign_up extends AppCompatActivity {
                 } else {
                     if (name.length() > 30) {
                         showAlertDialog("ATTENZIONE", "Il nome può avere massimo 30 caratteri.");
-                    }
-                    Log.i("NAME: ", "OK");
-
-                    if (surname.length() > 30) {
+                    } else if (surname.length() > 30) {
                         showAlertDialog("ATTENZIONE", "Il cognome può avere massimo 30 caratteri.");
-                    }
-                    Log.i("SURNAME: ", "OK");
-
-                    if (email.length() > 50) {
+                    } else if (email.length() > 50) {
                         showAlertDialog("ATTENZIONE", "L'email può avere massimo 50 caratteri.");
-                    }
-                    Log.i("EMAIL: ", "OK");
-
-                    if (password.length() > 30) {
+                    } else if (password.length() > 30) {
                         showAlertDialog("ATTENZIONE", "La password può avere massimo 30 caratteri.");
-                    }
-                    Log.i("PASSWORD: ", "OK");
-
-                    if (phone.length() != 10) {
+                    } else if (phone.length() != 10) {
                         showAlertDialog("ATTENZIONE", "Il numero di telefono deve essere di 10 caratteri.");
-                    }
-                    Log.i("PHONE: ", "OK");
-
-                    Date currentDate = Calendar.getInstance().getTime();
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                    String dateString = dateFormat.format(currentDate);
-
-                    // birth_date --> data selected as form's input
-                    // dateString --> current date
-                    int result = birth_date.compareTo(dateString);
-                    if (result >= 0) {
-                        showAlertDialog("ERRORE", "Inserire una data di nascita che sia valida!");
                     } else {
-                        Log.i("BIRTH DATE: ", "OK");
-                        /* Age calculation */
-                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                        Date birth   = null;
-                        Date current = null;
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                        Date currentDate = new Date();
+                        String curr_date = dateFormat.format(currentDate);
+
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTime(currentDate);
+                        calendar.add(Calendar.DATE, -1);
+                        Date maxDate = calendar.getTime();
+
                         try {
-                            birth   = formatter.parse(birth_date);
-                            current = formatter.parse(dateString);
+                            Date birthDate = dateFormat.parse(birth_date);
+
+                            /* NON PUOI REGISTRARTI SE SEI NATO NEL GIORNO CORRENTE O ADDIRITTURA DOPO IL GIORNO CORRENTE */
+                            if (birthDate.after(maxDate)) {
+                                showAlertDialog("ERRORE", "Inserire una data di nascita che sia valida!");
+                            } else {
+                                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                                Date birth   = null;
+                                Date current = null;
+                                try {
+                                    birth   = formatter.parse(birth_date);
+                                    current = formatter.parse(curr_date);
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+
+                                long ageInMillis = Math.abs(current.getTime() - birth.getTime());
+                                int years_age = (int) (ageInMillis / (24L * 60L * 60L * 1000L * 365L));
+
+                                CharsetGenerator generator = new CharsetGenerator(10);
+                                String user_id = generator.get_generated_random_string();
+                                client.send_json_register_msg("REGISTER", user_id, name, surname, email, password, years_age, phone, 0);
+
+                                try {
+                                    JSONObject myjson = client.receive_json();
+                                    String flag = myjson.getString("flag");
+
+                                    if (flag.equals("SUCCESS")) {
+                                        // TODO: I NOMI CON APICI DANNO PROBLEMI CON LA INSERT NEL DB
+                                        // TODO: PASSARE ALLA HOME ACTIVITY
+                                    } else if (flag.equals("FAILURE")) {
+                                        showAlertDialog("ERRORE", "L'utente dichiarato è già registrato!");
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
-
-                        long ageInMillis = Math.abs(current.getTime() - birth.getTime());
-                        int years_age = (int) (ageInMillis / (24L * 60L * 60L * 1000L * 365L));
-
-                        CharsetGenerator generator = new CharsetGenerator(10);
-                        String user_id = generator.get_generated_random_string();
-
-                        this.client.send_json_register_msg("REGISTER", user_id, name, surname, email, password,
-                                years_age, phone, 0);
                     }
                 }
             });
@@ -149,17 +158,17 @@ public class Sign_up extends AppCompatActivity {
         register_button  = findViewById(R.id.button3);
         data_button      = findViewById(R.id.dataButton);
 
+        client  = MainActivity.client;
         this.handler = new Handler();
 
         data_button.setOnClickListener(v -> {
             final Calendar c = Calendar.getInstance();
-            int mYear = c.get(Calendar.YEAR) - 20;
-            int mMonth = c.get(Calendar.MONTH);
-            int mDay = c.get(Calendar.DAY_OF_MONTH);
+            int mYear        = c.get(Calendar.YEAR);
+            int mMonth       = c.get(Calendar.MONTH);
+            int mDay         = c.get(Calendar.DAY_OF_MONTH);
 
             DatePickerDialog datePickerDialog = new DatePickerDialog(Sign_up.this,
                     (view, year, monthOfYear, dayOfMonth) -> {
-                        // String selectedDate = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
                         String selectedDate = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
                         data_button.setText(selectedDate);
                     }, mYear, mMonth, mDay);

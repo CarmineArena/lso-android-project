@@ -38,11 +38,11 @@ public class Client {
     public void connect() {
         try {
             int timeout_ms = 5000;
-            InetAddress server_address = InetAddress.getByName(this.server_ip);
+            InetAddress server_address = InetAddress.getByName(server_ip);
             setServer_address(server_address);
 
             Socket client_socket = new Socket();
-            client_socket.connect(new InetSocketAddress(getServer_address(), this.server_port), timeout_ms);
+            client_socket.connect(new InetSocketAddress(getServer_address(), server_port), timeout_ms);
             client_socket.setSoTimeout(timeout_ms);
             setClient_socket(client_socket);
         } catch (SocketTimeoutException e) {
@@ -64,17 +64,6 @@ public class Client {
         return instance;
     }
 
-    public void send_simple_msg(String message) {
-        Log.i("SEND_SMP_MSG", " send_simple_message() called.");
-        try {
-            PrintWriter out_toServer = new PrintWriter(getClientSocket().getOutputStream(), true);
-            out_toServer.println(message);
-            Log.i("SEND_MSG", message + " sent to server.");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void send_json_login_msg(String flag, String email, String password) {
         Log.i("SEND_JSON_LOG", " send_json_login_msg() called.");
         try {
@@ -88,10 +77,8 @@ public class Client {
             writer.write(myjson);
             writer.flush();
             Log.i("SEND_JSON_LOG", myjson + " sent to server.");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
+        } catch (JSONException | IOException e) {
+                e.printStackTrace();
         }
     }
 
@@ -116,9 +103,7 @@ public class Client {
             writer.write(myjson);
             writer.flush();
             Log.i("SEND_JSON_REG", myjson + " sent to server.");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
     }

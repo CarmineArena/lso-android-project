@@ -4,10 +4,8 @@ import java.security.SecureRandom;
 import java.util.Random;
 
 public class CharsetGenerator {
-    // TODO: AL CHARSET AGGIUNGO ANCHE CARATTERI SPECIALI?
-
-    private static final String CHARSET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    private static int len = 0;
+    private static final String CHARSET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#!?_";
+    private final int len;
     private final Random random = new SecureRandom();
 
     public CharsetGenerator(int len) {
