@@ -2,7 +2,6 @@ package com.example.history4fun;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Home extends AppCompatActivity {
@@ -14,8 +13,9 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         Intent intent = getIntent();
-        Utente user   = (Utente) intent.getSerializableExtra("user");
+        Utente user     = (Utente) intent.getSerializableExtra("user");
+        String nickname = (String) intent.getSerializableExtra("user_nickname");
 
-        // TODO: Abbiamo risolto il come passare gli oggetti alle nuove Activity. Completare questa activity.
+        // TODO: COMPLETARE QUESTA ACTIVITY
     }
 }

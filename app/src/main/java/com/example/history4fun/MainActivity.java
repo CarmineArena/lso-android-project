@@ -1,7 +1,6 @@
 package com.example.history4fun;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -35,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private Utente createUser(JSONArray retrieved_data) {
+    public static Utente createUser(JSONArray retrieved_data) {
         String user_id = null, name = null, surname = null, email = null, password = null, phone_number = null;
         int age = 0, expert = 0;
 
@@ -80,9 +79,7 @@ public class MainActivity extends AppCompatActivity {
                         } else if (flag.equals("FAILURE")) {
                             showAlertDialog("ERRORE", "L'utente dichiarato non esiste!");
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
+                    } catch (IOException | JSONException e) {
                         e.printStackTrace();
                     }
                 }
@@ -120,9 +117,9 @@ public class MainActivity extends AppCompatActivity {
         pass_text     = (EditText) findViewById(R.id.PasswordText);
 
         Thread t = new Thread(() -> {
-            this.client = Client.getInstance();
-            if (!this.client.getError_Connection()) {
-                manage_start_page(this.client);
+            client = Client.getInstance();
+            if (!client.getError_Connection()) {
+                manage_start_page(client);
             } else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("ERRORE DI CONNESSIONE");

@@ -84,7 +84,6 @@ public class Client {
 
     public void send_json_register_msg(String flag, String u_id, String name, String surname, String email, String password,
                                        int age, String phone, int expert) {
-        // TODO: DATA DI NASCITA?
         Log.i("SEND_JSON_REG", " send_json_register_msg() called.");
         try {
             JSONObject json = new JSONObject()
@@ -113,6 +112,7 @@ public class Client {
         BufferedReader input = new BufferedReader(new InputStreamReader(getClientSocket().getInputStream()));
         StringBuilder jsonStr = new StringBuilder();
 
+        getClientSocket().setSoTimeout(15000);
         int cc, i = 0;
         while ((cc = input.read()) != -1) {
             char c = (char) cc;
@@ -128,7 +128,8 @@ public class Client {
         return jsn;
     }
 
-    public void close_connection() {
+    public void close_connection()
+    {
         try {
             getClientSocket().close();
         } catch(IOException e) {

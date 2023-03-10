@@ -13,12 +13,9 @@ import android.widget.EditText;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -50,7 +47,18 @@ public class Sign_up extends AppCompatActivity {
         });
     }
 
-    // TODO: SE IL NICKNAME NON E' STATO SCELTO SCRIVERE NOME E COGNOME NELLA HOME E CAMBIARE "SECONDO NOME" in "NICKNAME"
+    private void showInfoDialog(String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Sign_up.this);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setIcon(android.R.drawable.ic_dialog_info);
+        builder.setPositiveButton("OK", (dialog, id) -> dialog.dismiss());
+
+        this.handler.post(() -> {
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        });
+    }
 
     private void manage_register() {
         Log.i("SIGN_UP", "manage_register() called.");
@@ -97,7 +105,7 @@ public class Sign_up extends AppCompatActivity {
                             Date birthDate = dateFormat.parse(birth_date);
 
                             /* NON PUOI REGISTRARTI SE SEI NATO NEL GIORNO CORRENTE O ADDIRITTURA DOPO IL GIORNO CORRENTE */
-                            if (birthDate.after(maxDate)) {
+                            if (Objects.requireNonNull(birthDate).after(maxDate)) {
                                 showAlertDialog("ERRORE", "Inserire una data di nascita che sia valida!");
                             } else {
                                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -110,7 +118,7 @@ public class Sign_up extends AppCompatActivity {
                                     e.printStackTrace();
                                 }
 
-                                long ageInMillis = Math.abs(current.getTime() - birth.getTime());
+                                long ageInMillis = Math.abs(Objects.requireNonNull(current).getTime() - Objects.requireNonNull(birth).getTime());
                                 int years_age = (int) (ageInMillis / (24L * 60L * 60L * 1000L * 365L));
 
                                 CharsetGenerator generator = new CharsetGenerator(10);
@@ -118,18 +126,31 @@ public class Sign_up extends AppCompatActivity {
                                 client.send_json_register_msg("REGISTER", user_id, name, surname, email, password, years_age, phone, 0);
 
                                 try {
+                                    // TODO: L'INSERIMENTO IN DB DI UNA STRINGA CON APICE DA PROBLEMI
+                                    // TODO: PULIRE TUTTI I TEXTFIELD PRIMA DI PASSARE ALLA NUOVA ACTIVITY
+                                    // TODO: IL CALENDARIO DEVE ESSERE MIGLIORE
                                     JSONObject myjson = client.receive_json();
                                     String flag = myjson.getString("flag");
 
                                     if (flag.equals("SUCCESS")) {
-                                        // TODO: I NOMI CON APICI DANNO PROBLEMI CON LA INSERT NEL DB
-                                        // TODO: PASSARE ALLA HOME ACTIVITY
+                                        String nick = null;
+                                        if (!nickname.isEmpty()) nick = nickname;
+
+                                        JSONArray retrieved_data = myjson.getJSONArray("retrieved_data");
+                                        Utente u = MainActivity.createUser(retrieved_data);
+
+                                        Intent intent = new Intent(Sign_up.this, Home.class);
+                                        intent.putExtra("user", u);
+                                        intent.putExtra("user_nickname", nick);
+
+                                        showInfoDialog("OPERAZIONE RIUSCITA", "Registrazione avvenuta con successo!");
+                                        Log.i("REGISTER_SUCC", "L'utente è stato inserito nel database.");
+                                        startActivity(intent);
                                     } else if (flag.equals("FAILURE")) {
                                         showAlertDialog("ERRORE", "L'utente dichiarato è già registrato!");
+                                        // TODO: RIMANDARE L'UTENTE ALLA SCHERMATA DI LOGIN IN QUESTO CASO
                                     }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                } catch (IOException e) {
+                                } catch (IOException | JSONException e) {
                                     e.printStackTrace();
                                 }
                             }
