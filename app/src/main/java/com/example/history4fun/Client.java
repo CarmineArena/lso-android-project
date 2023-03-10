@@ -43,7 +43,7 @@ public class Client {
 
             Socket client_socket = new Socket();
             client_socket.connect(new InetSocketAddress(getServer_address(), server_port), timeout_ms);
-            client_socket.setSoTimeout(timeout_ms);
+            // client_socket.setSoTimeout(timeout_ms);
             setClient_socket(client_socket);
         } catch (SocketTimeoutException e) {
             Log.d("SocketTimeoutException", "Client --> connect()");
@@ -112,7 +112,7 @@ public class Client {
         BufferedReader input = new BufferedReader(new InputStreamReader(getClientSocket().getInputStream()));
         StringBuilder jsonStr = new StringBuilder();
 
-        getClientSocket().setSoTimeout(15000);
+        // getClientSocket().
         int cc, i = 0;
         while ((cc = input.read()) != -1) {
             char c = (char) cc;

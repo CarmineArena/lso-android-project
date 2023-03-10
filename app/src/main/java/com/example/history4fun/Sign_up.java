@@ -47,19 +47,6 @@ public class Sign_up extends AppCompatActivity {
         });
     }
 
-    private void showInfoDialog(String title, String message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(Sign_up.this);
-        builder.setTitle(title);
-        builder.setMessage(message);
-        builder.setIcon(android.R.drawable.ic_dialog_info);
-        builder.setPositiveButton("OK", (dialog, id) -> dialog.dismiss());
-
-        this.handler.post(() -> {
-            AlertDialog dialog = builder.create();
-            dialog.show();
-        });
-    }
-
     private void manage_register() {
         Log.i("SIGN_UP", "manage_register() called.");
         register_button.setOnClickListener(v -> {
@@ -142,12 +129,9 @@ public class Sign_up extends AppCompatActivity {
                                         Intent intent = new Intent(Sign_up.this, Home.class);
                                         intent.putExtra("user", u);
                                         intent.putExtra("user_nickname", nick);
-
-                                        showInfoDialog("OPERAZIONE RIUSCITA", "Registrazione avvenuta con successo!");
-                                        Log.i("REGISTER_SUCC", "L'utente è stato inserito nel database.");
                                         startActivity(intent);
                                     } else if (flag.equals("FAILURE")) {
-                                        showAlertDialog("ERRORE", "L'utente dichiarato è già registrato!");
+                                        showAlertDialog("ERRORE", "L'utente è già registrato nel sistema!");
                                         // TODO: RIMANDARE L'UTENTE ALLA SCHERMATA DI LOGIN IN QUESTO CASO
                                     }
                                 } catch (IOException | JSONException e) {
