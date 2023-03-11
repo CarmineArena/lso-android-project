@@ -8,7 +8,7 @@ public class Artefatto {
     private MuseumArea area = MuseumArea.FULL;
     private String comment = null;
 
-    // TODO: MODIFICARE IL TIPO QUESTO ATTRIBUTO CON UNA CLASSE "DATA"
+    // TODO: MODIFICARE IL TIPO QUESTO ATTRIBUTO CON UNA CLASSE "DATA" ?
     private String comment_date = null;
 
     /* CONSTRUCTOR */

@@ -47,6 +47,19 @@ public class Sign_up extends AppCompatActivity {
         });
     }
 
+    private void showAlertDialogForLogin(String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Sign_up.this);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setIcon(android.R.drawable.ic_dialog_alert);
+        builder.setPositiveButton("VAI AL LOGIN", (dialog, id) -> dialog.dismiss());
+
+        this.handler.post(() -> {
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        });
+    }
+
     private void manage_register() {
         Log.i("SIGN_UP", "manage_register() called.");
         register_button.setOnClickListener(v -> {
@@ -110,14 +123,23 @@ public class Sign_up extends AppCompatActivity {
 
                                 CharsetGenerator generator = new CharsetGenerator(10);
                                 String user_id = generator.get_generated_random_string();
-                                client.send_json_register_msg("REGISTER", user_id, name, surname, email, password, years_age, phone, 0);
 
+                                if (surname.contains("'"))
+                                    surname = surname.replace("'", "''");
+
+                                client.send_json_register_msg("REGISTER", user_id, name, surname, email, password, years_age, phone, 0);
                                 try {
-                                    // TODO: L'INSERIMENTO IN DB DI UNA STRINGA CON APICE DA PROBLEMI
-                                    // TODO: PULIRE TUTTI I TEXTFIELD PRIMA DI PASSARE ALLA NUOVA ACTIVITY
-                                    // TODO: IL CALENDARIO DEVE ESSERE MIGLIORE
                                     JSONObject myjson = client.receive_json();
                                     String flag = myjson.getString("flag");
+
+                                    name_text.setText("");
+                                    surname_text.setText("");
+                                    mail_text.setText("");
+                                    pass_text.setText("");
+                                    conf_pass_text.setText("");
+                                    phone_text.setText("");
+                                    nickname_text.setText("");
+                                    data_button.setText("");
 
                                     if (flag.equals("SUCCESS")) {
                                         String nick = null;
@@ -131,8 +153,15 @@ public class Sign_up extends AppCompatActivity {
                                         intent.putExtra("user_nickname", nick);
                                         startActivity(intent);
                                     } else if (flag.equals("FAILURE")) {
-                                        showAlertDialog("ERRORE", "L'utente è già registrato nel sistema!");
-                                        // TODO: RIMANDARE L'UTENTE ALLA SCHERMATA DI LOGIN IN QUESTO CASO
+                                        Intent intent = new Intent(Sign_up.this, MainActivity.class);
+                                        showAlertDialogForLogin("ERRORE", "L'utente è già registrato nel sistema!");
+
+                                        this.handler.postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                startActivity(intent);
+                                            }
+                                        }, 2500);
                                     }
                                 } catch (IOException | JSONException e) {
                                     e.printStackTrace();

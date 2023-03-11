@@ -112,7 +112,6 @@ public class Client {
         BufferedReader input = new BufferedReader(new InputStreamReader(getClientSocket().getInputStream()));
         StringBuilder jsonStr = new StringBuilder();
 
-        // getClientSocket().
         int cc, i = 0;
         while ((cc = input.read()) != -1) {
             char c = (char) cc;

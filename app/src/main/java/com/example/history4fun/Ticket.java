@@ -6,7 +6,7 @@ public class Ticket {
     private String ticket_id = null;
     private ArrayList<Utente> users = null;
 
-    // TODO: MODIFICARE IL TIPO QUESTO ATTRIBUTO CON UNA CLASSE "DATA"
+    // TODO: MODIFICARE IL TIPO QUESTO ATTRIBUTO CON UNA CLASSE "DATA" ?
     private String date = null;
 
     private int followers = 0;
