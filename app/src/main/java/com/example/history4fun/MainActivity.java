@@ -59,8 +59,13 @@ public class MainActivity extends AppCompatActivity {
                 String email    = String.valueOf(mail_text.getText());
                 String password = String.valueOf(pass_text.getText());
 
+                EmailValidator validator = new EmailValidator();
+
                 if ((email.isEmpty()) || (password.isEmpty())) {
                     showAlertDialog("ERRORE", "Attenzione, non puoi lasciare campi vuoti!");
+                } else if (!validator.validate(email)) {
+                    showAlertDialog("ERRORE", "L'email inserita non è valida.");
+                    mail_text.setText("");
                 } else {
                     client.send_json_login_msg("LOGIN", email, password);
                     try {

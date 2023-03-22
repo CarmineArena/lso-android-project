@@ -73,6 +73,8 @@ public class Sign_up extends AppCompatActivity {
                 String nickname      = String.valueOf(nickname_text.getText());
                 String birth_date    = String.valueOf(data_button.getText()); // MySQL data format: YYYY-MM-DD
 
+                EmailValidator validator = new EmailValidator();
+
                 if ((name.isEmpty()) || (surname.isEmpty()) || (email.isEmpty()) || (password.isEmpty())
                         || (conf_password.isEmpty()) || (phone.isEmpty())) {
                     showAlertDialog("ERRORE", "Attenzione, almeno un campo obbligatorio è vuoto!");
@@ -87,6 +89,8 @@ public class Sign_up extends AppCompatActivity {
                         showAlertDialog("ATTENZIONE", "Il cognome può avere massimo 30 caratteri.");
                     } else if (email.length() > 50) {
                         showAlertDialog("ATTENZIONE", "L'email può avere massimo 50 caratteri.");
+                    } else if (!validator.validate(email)) {
+                        showAlertDialog("ERRORE", "L'email inserita non è valida.");
                     } else if (password.length() > 30) {
                         showAlertDialog("ATTENZIONE", "La password può avere massimo 30 caratteri.");
                     } else if (phone.length() != 10) {
