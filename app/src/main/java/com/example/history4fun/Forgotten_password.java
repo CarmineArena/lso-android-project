@@ -14,16 +14,29 @@ public class Forgotten_password extends AppCompatActivity {
     private Button code_button     = null;
     private Button new_pass_button = null;
 
+    private void manage_password_retrieve(){
+        mail_button.setOnClickListener(v -> {
+            Thread t = new Thread(() -> {
+                EmailSender sender = new EmailSender("catapano.smn.2001@gmail.com");
+                sender.sendEmail();
+            });
+            t.start();
+        });
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgotten_password);
 
-       mail_text       = findViewById(R.id.MailField);
-       code_text       = findViewById(R.id.CodeField);
-       new_pass_text   = findViewById(R.id.PasswordField);
-       mail_button     = findViewById(R.id.MailButton);
-       code_button     = findViewById(R.id.CodeButton);
-       new_pass_button = findViewById(R.id.PassowrdButton);
+        mail_text       = findViewById(R.id.MailField);
+        code_text       = findViewById(R.id.CodeField);
+        new_pass_text   = findViewById(R.id.PasswordField);
+        mail_button     = findViewById(R.id.MailButton);
+        code_button     = findViewById(R.id.CodeButton);
+        new_pass_button = findViewById(R.id.PassowrdButton);
+
+        Thread t = new Thread(this::manage_password_retrieve);
+        t.start();
     }
 }

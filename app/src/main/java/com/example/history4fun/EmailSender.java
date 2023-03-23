@@ -1,6 +1,9 @@
 package com.example.history4fun;
 
-import javax.mail.*; // TODO: MODIFICARE IL GRADLE?
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
 import android.util.Log;
 import java.util.Properties;
 
@@ -10,10 +13,10 @@ public class EmailSender {
         Inoltre, se si utilizza Gmail, sarà necessario abilitare l'accesso alle app meno sicure per consentire l'invio di email da parte del proprio programma Java.
     * */
 
-    private String to            = null; // Indirizzo email del destinatario
-    private String from          = null; // TODO: Inserire Indirizzo email del mittente, ne creiamo uno nuovo? Per non usare la mia
-    private String password_from = null; // TODO: INSERIRE
-    private String host          = null; // TODO: INSERIRE IL NOME HOST DEL SERVER SMTP DI GMAIL (LE MAIL VERRANNO INVIATE DA QUESTO COMPUTER) --> "smtp.gmail.com"
+    private String to            = null;
+    private String from          = "catapano.smn.2001@gmail.com"; // TODO: MODIFICARE CON UNA NUOVA
+    private String password_from = "Darosiga1@_";    // TODO: MODIFICARE
+    private String host          = "smtp.gmail.com";
     private final int port       = 587;
     private String starttls      = "true";
     private String auth          = "true";
@@ -38,12 +41,16 @@ public class EmailSender {
         Session session = Session.getDefaultInstance(properties, authenticator);
 
         // TODO: COME NOTIFICO UN ERRORE ALLA SCHERMATA DI FORGOT PASSWORD?
+        // TODO: AL SUCCESSO, ALERTDIALOG ALLA ACTIVITY
         try {
+            CharsetGenerator generator = new CharsetGenerator(5);
+            String code = generator.get_generated_random_string();
+
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(from));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-            message.setSubject("Oggetto dell'email");
-            message.setText("Testo del messaggio");
+            message.setSubject("Codice di verifica per recupero password");
+            message.setText("Il codice da verificare è il seguente: " + code);
 
             Transport.send(message);
             Log.i("EMAIL_SNDR: ", "Email sent correctly!");
