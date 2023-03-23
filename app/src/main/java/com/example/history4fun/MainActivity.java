@@ -20,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText mail_text   = null;
     private EditText pass_text   = null;
 
+    //commento
+
     private void showAlertDialog(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle(title);
