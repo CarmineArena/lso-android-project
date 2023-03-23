@@ -13,12 +13,13 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
     String MailString;
-    static Client client         = null;
-    private Handler handler      = null;
-    private Button login_button  = null;
-    private Button signup_button = null;
-    private EditText mail_text   = null;
-    private EditText pass_text   = null;
+    static Client client              = null;
+    private Handler handler           = null;
+    private Button login_button       = null;
+    private Button signup_button      = null;
+    private Button forgot_pass_button = null;
+    private EditText mail_text        = null;
+    private EditText pass_text        = null;
 
     private void showAlertDialog(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -96,8 +97,17 @@ public class MainActivity extends AppCompatActivity {
     private void handle_signup_button() {
         signup_button.setOnClickListener(view -> {
             Thread t = new Thread(() -> {
-                /* It creates a new intent to get access to SecondActivity from MainActivity */
                 Intent intent = new Intent(MainActivity.this, Sign_up.class);
+                startActivity(intent);
+            });
+            t.start();
+        });
+    }
+
+    private void handle_forgot_password_button() {
+        forgot_pass_button.setOnClickListener(view -> {
+            Thread t = new Thread(() -> {
+                Intent intent = new Intent(MainActivity.this, Forgotten_password.class);
                 startActivity(intent);
             });
             t.start();
@@ -107,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
     private void manage_start_page(Client client) {
         handle_login_button(client);
         handle_signup_button();
+        handle_forgot_password_button();
     }
 
     @Override
@@ -116,8 +127,9 @@ public class MainActivity extends AppCompatActivity {
 
         this.handler = new Handler();
 
-        login_button  = (Button)   findViewById(R.id.button);
-        signup_button = (Button)   findViewById(R.id.signup);
+        login_button       = (Button)   findViewById(R.id.button);
+        signup_button      = (Button)   findViewById(R.id.signup);
+        forgot_pass_button = (Button) findViewById(R.id.passwordforgetten);
         mail_text     = (EditText) findViewById(R.id.MailText);
         pass_text     = (EditText) findViewById(R.id.PasswordText);
 

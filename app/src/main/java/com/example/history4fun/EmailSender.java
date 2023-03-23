@@ -58,7 +58,6 @@ public class EmailSender {
         } catch (MessagingException ex) {
             Log.i("EMAIL_SNDR: ", "Failed to send email.");
         }
-*/
-        Log.i("EMAIL_SNDR: ", "Email sent correctly!");
+        */
     }
 }
