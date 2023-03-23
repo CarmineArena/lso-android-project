@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText pass_text   = null;
 
     //commento
+    //commento 2
 
     private void showAlertDialog(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
