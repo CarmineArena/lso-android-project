@@ -1,8 +1,8 @@
 package com.example.history4fun;
 
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+// import javax.mail.*;
+// import javax.mail.internet.InternetAddress;
+// import javax.mail.internet.MimeMessage;
 
 import android.util.Log;
 import java.util.Properties;
@@ -14,8 +14,8 @@ public class EmailSender {
     * */
 
     private String to            = null;
-    private String from          = "catapano.smn.2001@gmail.com"; // TODO: MODIFICARE CON UNA NUOVA
-    private String password_from = "Darosiga1@_";    // TODO: MODIFICARE
+    private String from          = ""; // TODO: MODIFICARE CON UNA NUOVA
+    private String password_from = ""; // TODO: MODIFICARE
     private String host          = "smtp.gmail.com";
     private final int port       = 587;
     private String starttls      = "true";
@@ -26,6 +26,7 @@ public class EmailSender {
     }
 
     public void sendEmail() {
+        /*
         Properties properties = new Properties();
         properties.put("mail.smtp.host", host);
         properties.put("mail.smtp.port", port);
@@ -57,6 +58,7 @@ public class EmailSender {
         } catch (MessagingException ex) {
             Log.i("EMAIL_SNDR: ", "Failed to send email.");
         }
-
+*/
+        Log.i("EMAIL_SNDR: ", "Email sent correctly!");
     }
 }

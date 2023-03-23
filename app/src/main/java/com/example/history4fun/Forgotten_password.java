@@ -2,6 +2,7 @@ package com.example.history4fun;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -16,11 +17,11 @@ public class Forgotten_password extends AppCompatActivity {
 
     private void manage_password_retrieve(){
         mail_button.setOnClickListener(v -> {
-            Thread t = new Thread(() -> {
-                EmailSender sender = new EmailSender("catapano.smn.2001@gmail.com");
-                sender.sendEmail();
-            });
-            t.start();
+            // Thread t = new Thread(() -> {
+                // EmailSender sender = new EmailSender("catapano.smn.2001@gmail.com");
+                // sender.sendEmail();
+            // }); t.start();
+            Log.i("DHAJKD", "FKJADKLDHKJAHFKA");
         });
     }
 
