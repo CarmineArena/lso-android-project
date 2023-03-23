@@ -1,9 +1,8 @@
 package com.example.history4fun;
 
-// import javax.mail.*;
-// import javax.mail.internet.InternetAddress;
-// import javax.mail.internet.MimeMessage;
-
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import android.util.Log;
 import java.util.Properties;
 
@@ -20,13 +19,17 @@ public class EmailSender {
     private final int port       = 587;
     private String starttls      = "true";
     private String auth          = "true";
+    private boolean error        = false;
 
     public EmailSender(String email_dest) {
         this.to = email_dest;
     }
 
+    private void setError(boolean error) { this.error = error; }
+
+    public boolean getError() { return this.error; }
+
     public void sendEmail() {
-        /*
         Properties properties = new Properties();
         properties.put("mail.smtp.host", host);
         properties.put("mail.smtp.port", port);
@@ -41,8 +44,6 @@ public class EmailSender {
 
         Session session = Session.getDefaultInstance(properties, authenticator);
 
-        // TODO: COME NOTIFICO UN ERRORE ALLA SCHERMATA DI FORGOT PASSWORD?
-        // TODO: AL SUCCESSO, ALERTDIALOG ALLA ACTIVITY
         try {
             CharsetGenerator generator = new CharsetGenerator(5);
             String code = generator.get_generated_random_string();
@@ -56,8 +57,8 @@ public class EmailSender {
             Transport.send(message);
             Log.i("EMAIL_SNDR: ", "Email sent correctly!");
         } catch (MessagingException ex) {
+            setError(true);
             Log.i("EMAIL_SNDR: ", "Failed to send email.");
         }
-        */
     }
 }

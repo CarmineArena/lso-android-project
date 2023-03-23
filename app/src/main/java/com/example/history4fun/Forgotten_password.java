@@ -1,11 +1,9 @@
 package com.example.history4fun;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -42,6 +40,11 @@ public class Forgotten_password extends AppCompatActivity {
                     if (validator.validate(email)) {
                         EmailSender sender = new EmailSender("catapano.smn.2001@gmail.com");
                         sender.sendEmail();
+                        if (!sender.getError()) {
+                            // TODO: do some stuff (NOTIFICARE DI CONTROLLARE IL CODICE INVIATO ALLA MAIL ETC...)
+                        } else {
+                            // TODO: COSA FACCIAMO SE FALLISCE L'INVIO DELLA EMAIL?
+                        }
                     } else {
                         showAlertDialog("ERRORE", "L'email inserita non è valida");
                     }
