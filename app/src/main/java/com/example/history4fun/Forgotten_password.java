@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -42,6 +43,7 @@ public class Forgotten_password extends AppCompatActivity {
                         sender.sendEmail();
                         if (!sender.getError()) {
                             // TODO: do some stuff (NOTIFICARE DI CONTROLLARE IL CODICE INVIATO ALLA MAIL ETC...)
+                            Log.i("ADGA", "DGAHDGAJHD");
                         } else {
                             // TODO: COSA FACCIAMO SE FALLISCE L'INVIO DELLA EMAIL?
                         }
