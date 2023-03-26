@@ -7,9 +7,14 @@ import android.os.Handler;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 
 public class Forgotten_password extends AppCompatActivity {
-    // private static Client client   = MainActivity.client;
+    private static Client client;
     private Handler handler        = null;
     private EditText mail_text     = null;
     private EditText code_text     = null;
@@ -31,7 +36,15 @@ public class Forgotten_password extends AppCompatActivity {
         });
     }
 
-    private void manage_password_retrieve(){
+    private void changePassword() {
+        // TODO: REINDIRIZZARE AL LOGIN
+    }
+
+    private void checkCode() {
+        // TODO: ABILITARE IL BOTTONE PER CONTROLLARE IL CODICE
+    }
+
+    private void checkEmail() {
         mail_button.setOnClickListener(v -> {
             Thread t = new Thread(() -> {
                 String email = String.valueOf(mail_text.getText());
@@ -39,13 +52,27 @@ public class Forgotten_password extends AppCompatActivity {
                 if (!email.isEmpty()) {
                     EmailValidator validator = new EmailValidator();
                     if (validator.validate(email)) {
-                        EmailSender sender = new EmailSender("catapano.smn.2001@gmail.com");
-                        sender.sendEmail();
-                        if (!sender.getError()) {
-                            // TODO: do some stuff (NOTIFICARE DI CONTROLLARE IL CODICE INVIATO ALLA MAIL ETC...)
-                            Log.i("ADGA", "DGAHDGAJHD");
-                        } else {
-                            // TODO: COSA FACCIAMO SE FALLISCE L'INVIO DELLA EMAIL?
+                        client.send_json_forgot_password_msg("FRGTPASS", email);
+
+                        // 1. LEGGERE SULLA CLIENT SOCKET IL JSON RICEVUTO DAL SERVER
+                        JSONObject myjson = null;
+                        try {
+                            myjson = client.receive_json();
+                            String flag = myjson.getString("flag");
+
+                            if (flag.equals("SUCCESS")) {
+                                // 2. SE "SUCCESS" LEGGERE IL CODICE NEL JSON E EFFETTUARE I RELATIVI CONTROLLI
+                                String code = myjson.getJSONObject("retrieved_data").getJSONArray("code").getString(0);
+                                Log.i("CODE RECEIVED: ", code);
+
+                                // TODO: 3. checkCode()
+                                // TODO: 4. SE IL CODICE E' CORRETTO, PUOI MANDARE AL SERVER UNA FLAG "ALTER PASSWORD" PER ALTERARE IL DB.
+                            } else {
+                                // 2. SE "FAILURE MOSTRARE UN ALERTDIALOG
+                                showAlertDialog("ERRORE", "Operazione fallita... Riprovare.");
+                            }
+                        } catch (IOException | JSONException e) {
+                            e.printStackTrace();
                         }
                     } else {
                         showAlertDialog("ERRORE", "L'email inserita non è valida");
@@ -59,7 +86,7 @@ public class Forgotten_password extends AppCompatActivity {
     }
 
     private void manage_page() {
-        manage_password_retrieve();
+        checkEmail();
     }
 
     @Override
@@ -67,12 +94,17 @@ public class Forgotten_password extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgotten_password);
 
+        client = MainActivity.client;
+
         mail_text       = findViewById(R.id.MailField);
         code_text       = findViewById(R.id.CodeField);
         new_pass_text   = findViewById(R.id.PasswordField);
         mail_button     = findViewById(R.id.MailButton);
         code_button     = findViewById(R.id.CodeButton);
         new_pass_button = findViewById(R.id.PassowrdButton);
+
+        code_button.setEnabled(false);
+        new_pass_button.setEnabled(false);
 
         this.handler = new Handler();
 

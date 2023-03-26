@@ -1,30 +1,28 @@
 package com.example.history4fun;
 
-import java.util.Properties;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Message;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import android.util.Log;
+// import java.util.Properties;
+// import javax.mail.MessagingException;
+// import javax.mail.Session;
+// import javax.mail.Message;
+// import javax.mail.Transport;
+// import javax.mail.internet.InternetAddress;
+// import javax.mail.internet.MimeMessage;
+// import android.util.Log;
 
+// TODO: HA SENSO MANTENERE QUESTA CLASSE?
 public class EmailSender {
-    /* TODO
-        È importante notare che per utilizzare JavaMail API è necessario configurare le impostazioni SMTP del proprio provider di posta elettronica.
-        Inoltre, se si utilizza Gmail, sarà necessario abilitare l'accesso alle app meno sicure per consentire l'invio di email da parte del proprio programma Java.
-    * */
     private boolean error = false;
-    private String to     = null;
+    private String dest     = null;
 
     public EmailSender(String email_dest) {
-        this.to = email_dest;
+        this.dest = email_dest;
     }
 
     private void setError(boolean error) { this.error = error; }
 
     public boolean getError() { return this.error; }
 
+    /*
     public void sendEmail() {
         Properties properties = new Properties();
         properties.put("mail.smtp.host", "smtp.gmail.com");
@@ -34,7 +32,7 @@ public class EmailSender {
 
         Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
             protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
-                return new javax.mail.PasswordAuthentication("killuag09@gmail.com", ""); // TODO: inserire email, password
+                return new javax.mail.PasswordAuthentication("help.history4fun@gmail.com", "noreply_");
             }
         });
 
@@ -43,7 +41,7 @@ public class EmailSender {
         CharsetGenerator generator = new CharsetGenerator(5);
         String code = generator.get_generated_random_string();
         try {
-            message.setFrom(new InternetAddress("killuag09@gmail.com"));
+            message.setFrom(new InternetAddress("help.history4fun@gmail.com"));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
             message.setSubject("Codice di verifica per recupero password");
             message.setText("Il codice da verificare è il seguente: " + code);
@@ -53,5 +51,5 @@ public class EmailSender {
             setError(true);
             Log.i("EMAIL_SNDR: ", "Failed to send email.");
         }
-    }
+    } */
 }

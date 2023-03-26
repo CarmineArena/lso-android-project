@@ -107,6 +107,23 @@ public class Client {
         }
     }
 
+    public void send_json_forgot_password_msg(String flag, String email) {
+        Log.i("SEND_JSON_FRGT", " send_json_forgot_password_msg() called.");
+        try {
+            JSONObject json = new JSONObject()
+                    .put("flag", flag)
+                    .put("email", email);
+
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(getClientSocket().getOutputStream()));
+            String myjson = json.toString();
+            writer.write(myjson);
+            writer.flush();
+            Log.i("SEND_JSON_FRGT", myjson + " sent to server.");
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     public JSONObject receive_json() throws IOException, JSONException {
         Log.i("REC_JSON_ARRAY", "receive_json_array() called.");
         BufferedReader input = new BufferedReader(new InputStreamReader(getClientSocket().getInputStream()));
