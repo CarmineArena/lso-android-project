@@ -47,12 +47,35 @@ public class Sign_up extends AppCompatActivity {
         });
     }
 
-    private void showAlertDialogForLogin(String title, String message) {
+    private void goToHome(Utente u, String nick) {
         AlertDialog.Builder builder = new AlertDialog.Builder(Sign_up.this);
-        builder.setTitle(title);
-        builder.setMessage(message);
+        builder.setTitle("REGISTRAZIONE EFFETTUATA");
+        builder.setMessage("Ora avrai accesso alla Home del Museo.");
         builder.setIcon(android.R.drawable.ic_dialog_alert);
-        builder.setPositiveButton("VAI AL LOGIN", (dialog, id) -> dialog.dismiss());
+        builder.setPositiveButton("VAI", (dialog, id) -> {
+            dialog.dismiss();
+            Intent intent = new Intent(Sign_up.this, Home.class);
+            intent.putExtra("user", u);
+            intent.putExtra("user_nickname", nick);
+            startActivity(intent);
+        });
+
+        this.handler.post(() -> {
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        });
+    }
+
+    private void goBackLogin() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Sign_up.this);
+        builder.setTitle("UTENTE GIA' REGISTRATO");
+        builder.setMessage("Ora verrai riportato al Login.");
+        builder.setIcon(android.R.drawable.ic_dialog_info);
+        builder.setPositiveButton("VAI", (dialog, id) -> {
+            dialog.dismiss();
+            Intent intent = new Intent(Sign_up.this, MainActivity.class);
+            startActivity(intent);
+        });
 
         this.handler.post(() -> {
             AlertDialog dialog = builder.create();
@@ -151,21 +174,9 @@ public class Sign_up extends AppCompatActivity {
 
                                         JSONArray retrieved_data = myjson.getJSONArray("retrieved_data");
                                         Utente u = MainActivity.createUser(retrieved_data);
-
-                                        Intent intent = new Intent(Sign_up.this, Home.class);
-                                        intent.putExtra("user", u);
-                                        intent.putExtra("user_nickname", nick);
-                                        startActivity(intent);
+                                        goToHome(u, nick);
                                     } else if (flag.equals("FAILURE")) {
-                                        Intent intent = new Intent(Sign_up.this, MainActivity.class);
-                                        showAlertDialogForLogin("ERRORE", "L'utente è già registrato nel sistema!");
-
-                                        this.handler.postDelayed(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                startActivity(intent);
-                                            }
-                                        }, 2500);
+                                        goBackLogin();
                                     }
                                 } catch (IOException | JSONException e) {
                                     e.printStackTrace();
