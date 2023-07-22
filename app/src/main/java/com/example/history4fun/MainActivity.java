@@ -120,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
         handle_forgot_password_button();
     }
 
+    // ------------------------------- APP'S LIFECYCLE ----------------------------------------------- //
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -157,6 +158,44 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onRestart(){
+        super.onRestart();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Thread t = new Thread(() -> {
+            client.send_json_close_connection("STOP_CONNECTION");
+            client.close_connection();
+        });
+        t.start();
+    }
+
+    // ------------------------------------------------------------------------------//
+
+    /*
+    @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         MailString = String.valueOf(mail_text.getText());
@@ -172,4 +211,5 @@ public class MainActivity extends AppCompatActivity {
         mail_text.setText(savedInstanceState.getString("MailKey"));
         //password.setText(savedInstanceState.getString("PwdKey"));
     }
+    */
 }

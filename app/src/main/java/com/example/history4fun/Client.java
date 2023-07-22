@@ -142,6 +142,22 @@ public class Client {
         }
     }
 
+    public void send_json_close_connection(String flag) {
+        Log.i("SEND_JSON_CLOSE_CONN", " send_json_close_connection() called.");
+        try {
+            JSONObject json = new JSONObject()
+                    .put("flag", flag);
+
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(getClientSocket().getOutputStream()));
+            String myjson = json.toString();
+            writer.write(myjson);
+            writer.flush();
+            Log.i("REQUEST_TO_CLOSE_CONN", myjson + " sent to server.");
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     public JSONObject receive_json() throws IOException, JSONException {
         Log.i("REC_JSON_ARRAY", "receive_json_array() called.");
         BufferedReader input = new BufferedReader(new InputStreamReader(getClientSocket().getInputStream()));
