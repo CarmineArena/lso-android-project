@@ -151,6 +151,8 @@ public class Forgotten_password extends AppCompatActivity {
         });
     }
 
+    // ------------------------------------------------------------------------------ //
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -166,4 +168,41 @@ public class Forgotten_password extends AppCompatActivity {
         Thread t = new Thread(this::manage_page);
         t.start();
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onRestart(){
+        super.onRestart();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Thread t = new Thread(() -> {
+            client.send_json_close_connection("STOP_CONNECTION");
+            client.close_connection();
+        });
+        t.start();
+    }
+
+    // ------------------------------------------------------------------------------ //
 }
