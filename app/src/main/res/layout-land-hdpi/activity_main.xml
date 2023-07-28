@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_background_horizzontal"
+    tools:context=".MainActivity">
+
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="1078dp"
+        android:layout_height="223dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.036"
+        app:srcCompat="@drawable/logohistory4fun" />
+
+    <EditText
+        android:id="@+id/MailText"
+        android:layout_width="500dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="396dp"
+        android:background="@drawable/inputbg"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="E-Mail"
+        android:inputType="textPersonName"
+        android:textColor="#723B06"
+        android:textColorHint="#723B06"
+        android:textCursorDrawable="@drawable/cursorcolor"
+        android:textSize="60sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/passwordforgetten"
+        android:layout_width="461dp"
+        android:layout_height="64dp"
+        android:layout_centerInParent="true"
+        android:background="@android:color/transparent"
+        android:outlineAmbientShadowColor="#DBA775"
+        android:outlineSpotShadowColor="#DBA775"
+        android:text="Password dimenticata?"
+        android:textColor="#8A4D12"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signup" />
+
+    <EditText
+        android:id="@+id/editTextTextPassword"
+        android:layout_width="500dp"
+        android:layout_height="80dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/inputbg"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:textColor="#723B06"
+        android:textColorHint="#723B06"
+        android:textCursorDrawable="@drawable/cursorcolor"
+        android:textSize="60sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/MailText" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button"
+        android:layout_width="248dp"
+        android:layout_height="85dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/buttonbg"
+        android:text="Accedi"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="#DBA775"
+        android:textSize="60sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.499"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/signup"
+        android:layout_width="277dp"
+        android:layout_height="48dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="2dp"
+        android:background="@android:color/transparent"
+        android:outlineAmbientShadowColor="#DBA775"
+        android:outlineSpotShadowColor="#DBA775"
+        android:text="Registrati"
+        android:textColor="#8A4D12"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

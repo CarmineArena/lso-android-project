@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_background_horizzontal" >
+
+    <EditText
+        android:id="@+id/PhoneField"
+        android:layout_width="250dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/inputbg"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="Cellulare*"
+        android:inputType="phone"
+        android:textColor="#723B06"
+        android:textColorHint="#723B06"
+        android:textSize="48sp"
+        app:layout_constraintEnd_toStartOf="@+id/dataButton"
+        app:layout_constraintStart_toEndOf="@+id/MailField"
+        app:layout_constraintTop_toBottomOf="@+id/PwdField" />
+
+    <EditText
+        android:id="@+id/PwdField"
+        android:layout_width="250dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="240dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/inputbg"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="Password*"
+        android:inputType="textPassword"
+        android:textColor="#723B06"
+        android:textColorHint="#723B06"
+        android:textSize="48sp"
+        app:layout_constraintEnd_toStartOf="@+id/ConfPwdField"
+        app:layout_constraintStart_toEndOf="@+id/SecondNameField"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/NameField"
+        android:layout_width="250dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="240dp"
+        android:background="@drawable/inputbg"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="Nome*"
+        android:inputType="textPersonName"
+        android:textColor="#723B06"
+        android:textColorHint="#723B06"
+        android:textSize="48sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/ConfPwdField"
+        android:layout_width="250dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="240dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/inputbg"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="Conferma Password*"
+        android:inputType="textPassword"
+        android:textColor="#723B06"
+        android:textColorHint="#723B06"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/SurnameField"
+        android:layout_width="250dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/inputbg"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="Cognome*"
+        android:inputType="textPersonName"
+        android:textColor="#723B06"
+        android:textColorHint="#723B06"
+        android:textSize="48sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/NameField" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button3"
+        android:layout_width="270dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/buttonbg"
+        android:text="Registrati ora"
+        android:textColor="#DDAD7F"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.499"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PhoneField" />
+
+    <EditText
+        android:id="@+id/SecondNameField"
+        android:layout_width="250dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="240dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/inputbg"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="Secondo Nome"
+        android:inputType="textPersonName"
+        android:textColor="#723B06"
+        android:textColorHint="#723B06"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toStartOf="@+id/PwdField"
+        app:layout_constraintStart_toEndOf="@+id/NameField"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/MailField"
+        android:layout_width="250dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/inputbg"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="E-Mail*"
+        android:inputType="textPersonName"
+        android:textColor="#723B06"
+        android:textColorHint="#723B06"
+        android:textSize="60sp"
+        app:layout_constraintEnd_toStartOf="@+id/PhoneField"
+        app:layout_constraintStart_toEndOf="@+id/SurnameField"
+        app:layout_constraintTop_toBottomOf="@+id/SecondNameField" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/dataButton"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="250dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/inputbg"
+        android:hint="Data di Nascita*"
+        android:textColor="#723B06"
+        android:textColorHint="#723B06"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ConfPwdField" />
+
+    <TextView
+        android:id="@+id/Registrazione"
+        android:layout_width="680dp"
+        android:layout_height="130dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="44dp"
+        android:gravity="center"
+        android:text="Registrazione"
+        android:textAlignment="center"
+        android:textColor="#753C05"
+        android:textSize="96sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

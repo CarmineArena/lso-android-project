@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_background_horizzontal"
+    tools:context=".Home">
+
+
+    <!--<TextView
+        android:id="@+id/GiurassicView"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/EraGiurassica"
+        android:layout_weight="1"
+        android:fontFamily="@font/karma_bold"
+        android:text="Era Giurassica"
+        android:textAlignment="center"
+        android:textColor="#753C05"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="984dp"
+        tools:layout_editor_absoluteY="26dp" />
+
+    <TextView
+        android:id="@+id/PreistoricView2"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/EraPreistorica"
+        android:layout_weight="1"
+        android:fontFamily="@font/karma_bold"
+        android:text="Era Preistorica"
+        android:textAlignment="center"
+        android:textColor="#753C05"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="730dp"
+        tools:layout_editor_absoluteY="235dp" /> -->
+
+    <ImageView
+        android:id="@+id/EraGiurassica"
+        android:layout_width="200dp"
+        android:layout_height="171dp"
+        android:layout_marginStart="117dp"
+        android:layout_marginTop="136dp"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:contentDescription="Sezione Era Giurassica"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/realrealjurassic" />
+
+
+    <ImageView
+        android:id="@+id/EraPreistorica"
+        android:layout_width="200dp"
+        android:layout_height="171dp"
+        android:layout_marginStart="240dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="240dp"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:contentDescription="Sezione Era Preistorica"
+        app:layout_constraintEnd_toStartOf="@+id/Egitto"
+        app:layout_constraintStart_toEndOf="@+id/EraGiurassica"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:srcCompat="@drawable/realpreistoria" />
+
+
+    <TextView
+        android:id="@+id/GiurassicDescriptioView"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="117dp"
+        android:layout_weight="1"
+        android:fontFamily="@font/sarabun_medium"
+        android:text="Vieni e ammira tantissimi fossili antichi vecchi di milioni e milioni di anni!"
+        android:textAlignment="center"
+        android:textColor="#F0E68C"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/EraGiurassica" />
+
+    <TextView
+        android:id="@+id/PreistoricDescriptionView"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="223dp"
+        android:layout_marginEnd="223dp"
+        android:layout_weight="1"
+        android:fontFamily="@font/sarabun_medium"
+        android:text="Guarda i reperti storici lasciati dall’uomo prima di inventare la scrittura!"
+        android:textAlignment="center"
+        android:textColor="#333333"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/EgyptDescriptionView"
+        app:layout_constraintStart_toEndOf="@+id/GiurassicDescriptioView"
+        app:layout_constraintTop_toBottomOf="@+id/EraPreistorica" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/GiurassicButton"
+        android:layout_width="144dp"
+        android:layout_height="59dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="145dp"
+        android:layout_weight="1"
+        android:background="@drawable/buttonbg"
+        android:text="Era Giurassica"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/GiurassicDescriptioView" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/PreistoricButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="334dp"
+        android:layout_marginEnd="334dp"
+        android:layout_weight="1"
+        android:background="@drawable/buttonbg"
+        android:text="Preistoria"
+        app:layout_constraintEnd_toStartOf="@+id/EgyptButton"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/GiurassicButton"
+        app:layout_constraintTop_toBottomOf="@+id/PreistoricDescriptionView" />
+
+    <!--<TextView
+        android:id="@+id/Egyptview"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@font/karma_bold"
+        android:text="Egitto"
+        android:textAlignment="center"
+        android:textColor="#753C05"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="89dp"
+        tools:layout_editor_absoluteY="44dp" />
+
+
+    <TextView
+        android:id="@+id/RomanView"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@font/karma_bold"
+        android:text="Età Romana"
+        android:textAlignment="center"
+        android:textColor="#753C05"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="730dp"
+        tools:layout_editor_absoluteY="274dp" /> -->
+
+    <ImageView
+        android:id="@+id/Egitto"
+        android:layout_width="200dp"
+        android:layout_height="171dp"
+        android:layout_marginTop="136dp"
+        android:layout_marginEnd="117dp"
+        android:layout_weight="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/egitto1" />
+
+
+    <ImageView
+        android:id="@+id/EraRomana"
+        android:layout_width="200dp"
+        android:layout_height="171dp"
+        android:layout_marginStart="223dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="223dp"
+        android:layout_weight="1"
+        app:layout_constraintEnd_toStartOf="@+id/FullPack"
+        app:layout_constraintStart_toEndOf="@+id/PeriodoGreco"
+        app:layout_constraintTop_toBottomOf="@+id/PreistoricButton"
+        app:srcCompat="@drawable/impero_romano1" />
+
+    <TextView
+        android:id="@+id/EgyptDescriptionView"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="117dp"
+        android:layout_weight="1"
+        android:fontFamily="@font/sarabun_medium"
+        android:text="Piramidi, faraoni, sarcofaghi...scopri la storia e cultura egiziana!"
+        android:textAlignment="center"
+        android:textColor="#373232"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Egitto" />
+
+    <TextView
+        android:id="@+id/RomanDescriptionView"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="223dp"
+        android:layout_marginEnd="223dp"
+        android:layout_weight="1"
+        android:fontFamily="@font/sarabun_medium"
+        android:text="Ammira la forza e il fascino nel periodo più alto dell’impero Romano!"
+        android:textAlignment="center"
+        android:textColor="#993300"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/FullPackDescriptionView"
+        app:layout_constraintStart_toEndOf="@+id/PeriodoGreco"
+        app:layout_constraintTop_toBottomOf="@+id/EraRomana" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/EgyptButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="174dp"
+        android:layout_weight="1"
+        android:background="@drawable/buttonbg"
+        android:text="Egiziano"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/EgyptDescriptionView" />
+
+    <!--<TextView
+        android:id="@+id/GreekView"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@font/karma_bold"
+        android:text="Periodo Greco"
+        android:textAlignment="center"
+        android:textColor="#753C05"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="670dp"
+        tools:layout_editor_absoluteY="515dp" />
+
+    <TextView
+        android:id="@+id/FullView"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@font/karma_bold"
+        android:text="Full Pack"
+        android:textAlignment="center"
+        android:textColor="#753C05"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="363dp"
+        tools:layout_editor_absoluteY="525dp" /> -->
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/RomanButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="338dp"
+        android:layout_marginEnd="338dp"
+        android:layout_weight="1"
+        android:background="@drawable/buttonbg"
+        android:text="Romano"
+        app:layout_constraintEnd_toStartOf="@+id/FullPackButton"
+        app:layout_constraintStart_toEndOf="@+id/GreekButton"
+        app:layout_constraintTop_toBottomOf="@+id/RomanDescriptionView" />
+
+    <ImageView
+        android:id="@+id/PeriodoGreco"
+        android:layout_width="200dp"
+        android:layout_height="171dp"
+        android:layout_marginStart="117dp"
+        android:layout_marginTop="24dp"
+        android:layout_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/GiurassicButton"
+        app:srcCompat="@drawable/periodo_greco1" />
+
+    <ImageView
+        android:id="@+id/FullPack"
+        android:layout_width="200dp"
+        android:layout_height="171dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="117dp"
+        android:layout_weight="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/EgyptButton"
+        app:srcCompat="@drawable/full_pack" />
+
+    <TextView
+        android:id="@+id/GreekDescriptionView"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="117dp"
+        android:layout_weight="1"
+        android:fontFamily="@font/sarabun_medium"
+        android:text="Scopri opere, miti, storie e cultura dell’antica Grecia!"
+        android:textAlignment="center"
+        android:textColor="#753C05"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PeriodoGreco" />
+
+    <TextView
+        android:id="@+id/FullPackDescriptionView"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="117dp"
+        android:layout_weight="1"
+        android:fontFamily="@font/sarabun_medium"
+        android:text="Sei interessato a tutte le epoche? Compra un tour completo!"
+        android:textAlignment="center"
+        android:textColor="#753C05"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/FullPack" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/GreekButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="170dp"
+        android:layout_weight="1"
+        android:background="@drawable/buttonbg"
+        android:text="Grecia"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/GreekDescriptionView" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/FullPackButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="174dp"
+        android:layout_weight="1"
+        android:background="@drawable/buttonbg"
+        android:text="Full Pack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/FullPackDescriptionView" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="618dp"
+        android:layout_height="103dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/karma_bold"
+        android:text="A che periodo sei interessato?"
+        android:textAlignment="center"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
