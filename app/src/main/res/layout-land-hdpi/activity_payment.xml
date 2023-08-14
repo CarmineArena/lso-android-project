@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_background_horizzontal">
+
+    <TextView
+        android:id="@+id/buyticket"
+        android:layout_width="524dp"
+        android:layout_height="77dp"
+        android:layout_marginStart="378dp"
+        android:layout_marginTop="58dp"
+        android:layout_marginEnd="378dp"
+        android:fontFamily="@font/karma_bold"
+        android:text="Compra il biglietto!"
+        android:textAlignment="center"
+        android:textSize="48sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/CardOwner"
+        android:layout_width="370dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="249dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="42dp"
+        android:background="@drawable/inputbg"
+        android:ems="10"
+        android:hint="Proprietario della Carta"
+        android:inputType="textPersonName"
+        android:textAlignment="center"
+        android:textColor="#723B06"
+        android:textColorHint="#723B06"
+        android:textCursorDrawable="@drawable/cursorcolor"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toStartOf="@+id/CardNumber"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buyticket" />
+
+    <EditText
+        android:id="@+id/CardNumber"
+        android:layout_width="370dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="249dp"
+        android:background="@drawable/inputbg"
+        android:ems="10"
+        android:hint="Numero di Carta"
+        android:inputType="number"
+        android:textAlignment="center"
+        android:textColor="#723B06"
+        android:textColorHint="#723B06"
+        android:textCursorDrawable="@drawable/cursorcolor"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/CardOwner"
+        app:layout_constraintTop_toBottomOf="@+id/buyticket" />
+
+    <EditText
+        android:id="@+id/editTextNumber2"
+        android:layout_width="100dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="496dp"
+        android:background="@drawable/inputbg"
+        android:ems="10"
+        android:hint="CVC"
+        android:inputType="number"
+        android:textAlignment="center"
+        android:textColor="#723B06"
+        android:textColorHint="#723B06"
+        android:textCursorDrawable="@drawable/cursorcolor"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/editTextExpiryYear"
+        app:layout_constraintTop_toBottomOf="@+id/CardNumber" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buybotton"
+        android:layout_width="143dp"
+        android:layout_height="62dp"
+        android:layout_marginStart="568dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="568dp"
+        android:background="@drawable/buttonbg"
+        android:text="Compra"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNumber2" />
+
+    <EditText
+        android:id="@+id/editTextExpiryMonth"
+        android:layout_width="79dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="419dp"
+        android:layout_marginTop="44dp"
+        android:background="@drawable/inputbg"
+        android:hint="MM"
+        android:maxLength="2"
+        android:textAlignment="center"
+        android:textColor="#723B06"
+        android:textColorHint="#723B06"
+        android:textCursorDrawable="@drawable/cursorcolor"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toStartOf="@+id/editTextExpiryYear"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/CardOwner" />
+
+    <EditText
+        android:id="@+id/editTextExpiryYear"
+        android:layout_width="100dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="42dp"
+        android:background="@drawable/inputbg"
+        android:hint="AAAA"
+        android:maxLength="4"
+        android:textAlignment="center"
+        android:textColor="#723B06"
+        android:textColorHint="#723B06"
+        android:textCursorDrawable="@drawable/cursorcolor"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toStartOf="@+id/editTextNumber2"
+        app:layout_constraintStart_toEndOf="@+id/editTextExpiryMonth"
+        app:layout_constraintTop_toBottomOf="@+id/CardOwner" />
+
+    <TextView
+        android:id="@+id/ticketTakenciew"
+        android:layout_width="631dp"
+        android:layout_height="69dp"
+        android:layout_marginStart="324dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="324dp"
+        android:fontFamily="@font/karma_bold"
+        android:text="Ne hai già uno per oggi?"
+        android:textAlignment="center"
+        android:textSize="48sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buybotton" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/enterbutton"
+        android:layout_width="143dp"
+        android:layout_height="62dp"
+        android:layout_marginStart="569dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="569dp"
+        android:background="@drawable/buttonbg"
+        android:text="ENTRA!"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ticketTakenciew" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
