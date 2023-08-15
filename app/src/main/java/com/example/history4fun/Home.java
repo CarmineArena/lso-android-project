@@ -92,7 +92,8 @@ public class Home extends AppCompatActivity {
         user     = (Utente) intent.getSerializableExtra("user");
         nickname = (String) intent.getSerializableExtra("user_nickname");
 
-        // TODO: COMPLETARE QUESTA ACTIVITY
+        // TODO: L'INTERFACCIA VA ANCORA COMPLETATA: VANNO INSERITI ANCHE I TASTI "INDIETRO" ?
+
         full_pack_area_button  = (Button) findViewById(R.id.FullPackButton);
         jurassic_area_button   = (Button) findViewById(R.id.GiurassicButton);
         prehistory_area_button = (Button) findViewById(R.id.PreistoricButton);
