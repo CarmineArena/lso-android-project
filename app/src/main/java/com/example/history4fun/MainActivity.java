@@ -131,8 +131,8 @@ public class MainActivity extends AppCompatActivity {
         login_button       = (Button)   findViewById(R.id.button);
         signup_button      = (Button)   findViewById(R.id.signup);
         forgot_pass_button = (Button) findViewById(R.id.passwordforgetten);
-        mail_text     = (EditText) findViewById(R.id.MailText);
-        pass_text     = (EditText) findViewById(R.id.PasswordText);
+        mail_text          = (EditText) findViewById(R.id.MailText);
+        pass_text          = (EditText) findViewById(R.id.PasswordText);
 
         Thread t = new Thread(() -> {
             client = Client.getInstance();

@@ -1,20 +1,13 @@
 package com.example.history4fun;
 
-import java.util.ArrayList;
-
 public class Ticket {
     private String ticket_id = null;
-    private ArrayList<Utente> users = null;
-
-    // TODO: MODIFICARE IL TIPO QUESTO ATTRIBUTO CON UNA CLASSE "DATA" ?
-    private String date = null;
-
-    private int followers = 0;
-    private float cost = 0.0f;
-    private TicketType type = TicketType.GUEST;
-    private String license = null;
+    private Utente user      = null; // Intestatario del biglietto
+    private int followers    = 0;
+    private String date      = null;
+    private TicketType type  = TicketType.GUEST;
+    private float cost       = 0.0f;
     private MuseumArea area = MuseumArea.FULL;
-    private boolean payed = false;
 
     /* CONSTRUCTOR */
     public Ticket() {
@@ -30,12 +23,12 @@ public class Ticket {
         this.ticket_id = ticket_id;
     }
 
-    public ArrayList<Utente> getUsers() {
-        return users;
+    public Utente getUser() {
+        return user;
     }
 
-    public void setUsers(ArrayList<Utente> users) {
-        this.users = users;
+    public void setUser(Utente user) {
+        this.user = user;
     }
 
     public String getDate() {
@@ -70,28 +63,12 @@ public class Ticket {
         this.type = type;
     }
 
-    public String getLicense() {
-        return license;
-    }
-
-    public void setLicense(String license) {
-        this.license = license;
-    }
-
     public MuseumArea getArea() {
         return area;
     }
 
     public void setArea(MuseumArea area) {
         this.area = area;
-    }
-
-    public boolean isPayed() {
-        return payed;
-    }
-
-    public void setPayed(boolean payed) {
-        this.payed = payed;
     }
 
     /* METHODS */
