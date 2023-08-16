@@ -4,7 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.SimpleAdapter;
+import android.widget.Spinner;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 // TODO: BISOGNA SISTEMARE L'INTERFACCIA
 
@@ -31,6 +40,9 @@ public class payment extends AppCompatActivity {
 
     // ------------------------------------------------------------------------------ //
 
+    String[] type = {"Seleziona un tipo", "Giurassico", "Preistoria", "Egiziano", "Greco", "Romano", "Full"};
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +62,34 @@ public class payment extends AppCompatActivity {
 
         Thread t = new Thread(this::manage_page);
         t.start();
+
+        Spinner spinnerType = findViewById(R.id.spinnerType);
+
+        List<Map<String, String>> data = new ArrayList<>();
+        for (String typeName : type) {
+            Map<String, String> item = new HashMap<>();
+            item.put("type", typeName);
+            data.add(item);
+        }
+
+        SimpleAdapter adapter = new SimpleAdapter(this, data, android.R.layout.simple_spinner_item, new String[]{"type"}, new int[]{android.R.id.text1});
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerType.setAdapter(adapter);
+
+        spinnerType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedType = type[position];
+                if (!selectedType.equals("Seleziona un tipo")) {
+                    // Fai qualcosa con il tipo selezionato
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Nessuna opzione selezionata
+            }
+        });
     }
 
     @Override
