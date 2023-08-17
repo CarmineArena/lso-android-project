@@ -23,10 +23,10 @@
 
     <EditText
         android:id="@+id/CardNumber"
-        android:layout_width="370dp"
+        android:layout_width="405dp"
         android:layout_height="70dp"
         android:layout_marginStart="245dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="48dp"
         android:layout_marginEnd="30dp"
         android:background="@drawable/inputbg"
         android:ems="10"
@@ -43,11 +43,11 @@
 
     <EditText
         android:id="@+id/CardOwner"
-        android:layout_width="370dp"
+        android:layout_width="405dp"
         android:layout_height="70dp"
-        android:layout_marginStart="245dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginStart="200dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="20dp"
         android:background="@drawable/inputbg"
         android:ems="10"
         android:hint="Nome Proprietario"
@@ -57,36 +57,36 @@
         android:textColorHint="#723B06"
         android:textCursorDrawable="@drawable/cursorcolor"
         android:textSize="34sp"
-        app:layout_constraintEnd_toStartOf="@+id/textView3"
+        app:layout_constraintEnd_toStartOf="@+id/editTextTextPersonName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/CardNumber" />
 
     <EditText
         android:id="@+id/editTextTextPersonName"
-        android:layout_width="370dp"
+        android:layout_width="405dp"
         android:layout_height="70dp"
-        android:layout_marginStart="245dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="200dp"
         android:background="@drawable/inputbg"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="Cognome Proprietario"
+        android:inputType="textPersonName"
         android:textAlignment="center"
         android:textColor="#723B06"
         android:textColorHint="#723B06"
         android:textCursorDrawable="@drawable/cursorcolor"
         android:textSize="34sp"
-        app:layout_constraintEnd_toStartOf="@+id/spinnerType"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/CardOwner" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/CardOwner"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNumber2" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buybotton"
         android:layout_width="211dp"
         android:layout_height="63dp"
         android:layout_marginStart="568dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="568dp"
         android:background="@drawable/buttonbg"
         android:fontFamily="sans-serif"
@@ -96,7 +96,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <EditText
         android:id="@+id/editTextNumber2"
@@ -126,6 +126,7 @@
         android:layout_marginEnd="74dp"
         android:background="@drawable/inputbg"
         android:hint="AAAA"
+        android:inputType="number"
         android:maxLength="4"
         android:textAlignment="center"
         android:textColor="#723B06"
@@ -142,6 +143,7 @@
         android:layout_height="70dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="50dp"
+        android:inputType="number"
         android:background="@drawable/inputbg"
         android:hint="MM"
         android:maxLength="2"
@@ -186,46 +188,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ticketTakenciew" />
 
-    <Spinner
-        android:id="@+id/spinnerType"
-        android:layout_width="400dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="245dp"
-        android:background="@drawable/inputbg"
-        android:textAlignment="center"
-        android:textColor="#723B06"
-        android:textColorHint="#723B06"
-        android:textCursorDrawable="@drawable/cursorcolor"
-        android:textSize="34sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/editTextTextPersonName"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="267dp"
-        android:layout_height="70dp"
-        android:layout_gravity="center"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="17dp"
-        android:fontFamily="@font/karma_bold"
-        android:gravity="center"
-        android:text="Accompagnatori"
-        android:textSize="34sp"
-        app:layout_constraintEnd_toStartOf="@+id/editTextNumber"
-        app:layout_constraintStart_toEndOf="@+id/CardOwner"
-        app:layout_constraintTop_toBottomOf="@+id/editTextExpiryYear" />
-
     <EditText
         android:id="@+id/editTextNumber"
         android:layout_width="100dp"
         android:layout_height="70dp"
-        android:layout_marginStart="17dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="245dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="206dp"
         android:background="@drawable/inputbg"
         android:ems="10"
         android:hint="N°"
@@ -237,6 +205,57 @@
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView3"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNumber2" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="267dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="36dp"
+        android:fontFamily="@font/karma_bold"
+        android:gravity="center"
+        android:text="Accompagnatori"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toStartOf="@+id/editTextNumber"
+        app:layout_constraintStart_toEndOf="@+id/spinnerType"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+
+    <Spinner
+        android:id="@+id/spinnerType"
+        android:layout_width="209dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/inputbg"
+        android:textAlignment="center"
+        android:textColor="#723B06"
+        android:textColorHint="#723B06"
+        android:textCursorDrawable="@drawable/cursorcolor"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toStartOf="@+id/textView3"
+        app:layout_constraintStart_toEndOf="@+id/DataVisita"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+
+    <EditText
+        android:id="@+id/DataVisita"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="240dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="204dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/inputbg"
+        android:ems="10"
+        android:hint="Data di Visita"
+        android:inputType="date"
+        android:textColor="#723B06"
+        android:textColorHint="#723B06"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toStartOf="@+id/spinnerType"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/CardOwner" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
