@@ -5,9 +5,9 @@ public class Ticket {
     private Utente user      = null; // Intestatario del biglietto
     private int followers    = 0;
     private String date      = null;
-    private TicketType type  = TicketType.GUEST;
+    private TicketType type  = TicketType.guest;
     private float cost       = 0.0f;
-    private MuseumArea area = MuseumArea.FULL;
+    private MuseumArea area = MuseumArea.full;
 
     /* CONSTRUCTOR */
     public Ticket() {

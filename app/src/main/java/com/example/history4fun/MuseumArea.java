@@ -1,5 +1,5 @@
 package com.example.history4fun;
 
 public enum MuseumArea {
-    FULL, JURASSIC, PREHISTORY, EGYPT, ROMAN, GREEK
+    full, jurassic, prehistory, egypt, roman, greek
 }

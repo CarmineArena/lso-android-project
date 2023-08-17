@@ -1,5 +1,5 @@
 package com.example.history4fun;
 
 public enum TicketType {
-    GUEST, FAMILY, GROUP, EXPERT, SCHOOL
+    guest, family, group, expert, school
 }

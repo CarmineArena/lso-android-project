@@ -1,7 +1,6 @@
 package com.example.history4fun;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.os.Handler;
 import android.util.Log;
@@ -23,6 +22,7 @@ import java.util.regex.Pattern;
 public class payment extends AppCompatActivity {
     private Client client;
     private Utente user;
+    private boolean invalidato               = false;
     private Handler handler                  = null;
     private Ticket ticket                    = null;
     private String museum_area               = null;
@@ -39,21 +39,15 @@ public class payment extends AppCompatActivity {
     private Spinner spinnerType              = null;
     String[] type = {"Seleziona un tipo", "Singolo", "Gruppo", "Famiglia", "Scuola", "Esperto"};
 
-    private void setSelected_area(String selected_area) {
-        this.museum_area = selected_area;
-    }
+    private void setSelected_area(String selected_area) { this.museum_area = selected_area; }
 
     private String getSelected_area() { return this.museum_area; }
 
-    private void setUser(Utente u) {
-        this.user = u;
-    }
+    private void setUser(Utente u) { this.user = u; }
 
     private Utente getUser() { return this.user; }
 
-    private void setUserTypeChoice(String choice) {
-        this.user_type_choice = choice;
-    }
+    private void setUserTypeChoice(String choice) { this.user_type_choice = choice; }
 
     private String getUserTypeChoice() { return this.user_type_choice; }
 
@@ -76,7 +70,13 @@ public class payment extends AppCompatActivity {
                 if (!selectedType.equals("Seleziona un tipo")) {
                     setUserTypeChoice(selectedType);
                     if (selectedType.equals("Singolo")) {
-                        // TODO: INVALIDARE IL CAMPO PER LA SELEZIONE DEL NUMERO DI ACCOMPAGNATORI (nel database va inserito "0")
+                        n_followers_text.setEnabled(false);
+                        invalidato = !invalidato;
+                        n_followers_text.setHint("0");
+                    } else {
+                        n_followers_text.setEnabled(true);
+                        invalidato = !invalidato;
+                        n_followers_text.setHint("N°");
                     }
                 }
             }
@@ -118,8 +118,6 @@ public class payment extends AppCompatActivity {
                 String month_exp_t  = month_expire_text.getText().toString();
                 String year_exp_t   = year_expire_text.getText().toString();
 
-                // TODO: ottenere data e fare i controlli, se si prenota un biglietto per il giorno stesso, al termine di tutte le operazioni del server, riportare alla pagina della visita guidata.
-
                 if (card_number.length() != 10) {
                     showAlertDialog("CARD NUMBER ERROR", "Controllare la validità del numero della carta di credito dichiarata.");
                 } else if (prop_name.isEmpty() || prop_surname.isEmpty() || isNumericString(prop_name) || isNumericString(prop_surname)) {
@@ -129,9 +127,66 @@ public class payment extends AppCompatActivity {
                 } else if (month_exp_t.isEmpty() || year_exp_t.isEmpty() || month_exp_t.length() != 2 || year_exp_t.length() != 4 || !isNumericString(month_exp_t) || !isNumericString(year_exp_t)) {
                     showAlertDialog("EXPIRATION DATE ERROR", "Controllare la validità del numero della carta di credito dichiarata.");
                 } else {
-                    // 1. Ottenere lo user_type_choice dallo spinenr e controllare che non sia null
-                    // 2. convertire ad intero n_f e controllare >= 30 (se il campo non è stato invalidato)
-                    // 4. creare oggetto Ticket e mandarlo al server (poi lavora alla comunicazione con il server e al codice del server)
+                    String user_type = getUserTypeChoice().toString();
+                    if (user_type.equals(null) || user_type.equals("Seleziona un tipo")) {
+                        showAlertDialog("ERROR", "Selezionare il tipo di biglietto da acquistare.");
+                    } else {
+                        int n_followers = 0;
+                        try {
+                            n_followers = Integer.parseInt(n_f);
+                        } catch (NumberFormatException e) {
+                            e.printStackTrace();
+                        }
+
+                        if (n_followers < 0 || n_followers > 30) {
+                            showAlertDialog("ERROR", "Il numero di accompagnatori deve essere un numero positivo ed al massimo 30.");
+                        } else {
+                            // TODO: Settare la data
+                            // TODO: settare costo totale del biglietto (10 euro singolo: sommare 10 per ogni avventore. Full pack 50)
+                            ticket = new Ticket();
+                            ticket.setTicket_id(new CharsetGenerator(5).get_generated_random_string());
+                            ticket.setUser(getUser());
+
+                            TicketType enum_value = null;
+                            if (getUserTypeChoice().equals("Singolo")) {
+                                enum_value = TicketType.guest;
+                            } else if (getUserTypeChoice().equals("Gruppo")) {
+                                enum_value = TicketType.group;
+                            } else if (getUserTypeChoice().equals("Famiglia")) {
+                                enum_value = TicketType.family;
+                            } else if (getUserTypeChoice().equals("Scuola")) {
+                                enum_value = TicketType.school;
+                            } else if (getUserTypeChoice().equals("Esperto")) {
+                                enum_value = TicketType.expert;
+                            }
+                            ticket.setType(enum_value);
+
+                            if (invalidato) {
+                                ticket.setFollowers(0);
+                            } else {
+                                ticket.setFollowers(n_followers);
+                            }
+
+                            MuseumArea enum_val = null;
+                            if (getSelected_area().equals("full")) {
+                                enum_val = MuseumArea.full;
+                            } else if (getSelected_area().equals("jurassic")) {
+                                enum_val = MuseumArea.jurassic;
+                            } else if (getSelected_area().equals("prehistory")) {
+                                enum_val = MuseumArea.prehistory;
+                            } else if (getSelected_area().equals("egypt")) {
+                                enum_val = MuseumArea.egypt;
+                            } else if (getSelected_area().equals("roman")) {
+                                enum_val = MuseumArea.roman;
+                            } else if (getSelected_area().equals("greek")) {
+                                enum_val = MuseumArea.greek;
+                            }
+                            ticket.setArea(enum_val);
+
+                            // TODO: Mandare al server la richiesta di acquisto (json). Salvare (il server) nel database l'acquisto e mostrare un alertDialog
+                                // se si prenota un biglietto per il giorno stesso, al termine di tutte le operazioni del server, riportare alla pagina della visita guidata.
+                        }
+                    }
                 }
             });
             t.start();
