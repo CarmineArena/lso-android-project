@@ -2,6 +2,7 @@ package com.example.history4fun;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.os.Handler;
 import android.util.Log;
 import android.content.Intent;
@@ -9,10 +10,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -234,6 +237,27 @@ public class payment extends AppCompatActivity {
 
         Thread t = new Thread(this::manage_page);
         t.start();
+
+        final Button Data = (Button) findViewById(R.id.DataVisita);
+        Data.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar c = Calendar.getInstance();
+                int mYear = c.get(Calendar.YEAR);
+                int mMonth = c.get(Calendar.MONTH);
+                int mDay = c.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(payment.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                String selectedDate = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
+                                Data.setText(selectedDate);
+                            }
+                        }, mYear, mMonth, mDay);
+                datePickerDialog.show();
+            }
+        });
     }
 
     @Override
