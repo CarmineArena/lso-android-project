@@ -71,7 +71,7 @@
         android:background="@drawable/inputbg"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Cognome Proprietario"
+        android:hint="Cognome Proprietario"
         android:textAlignment="center"
         android:textColor="#723B06"
         android:textColorHint="#723B06"
