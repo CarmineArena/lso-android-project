@@ -64,6 +64,29 @@ public class Client {
         return instance;
     }
 
+    public void send_json_get_ticket_msg(String flag, Ticket ticket) {
+        Log.i("SEND_JSON_GET_TICKET", " send_json_get_ticket_msg() called.");
+        try {
+            JSONObject json = new JSONObject()
+                    .put("flag", flag)
+                    .put("ticket_id", ticket.getTicket_id())
+                    .put("user_id", ticket.getUser().getUser_id())
+                    .put("n_followers", ticket.getFollowers())
+                    .put("ticket_date", ticket.getDate())
+                    .put("type", ticket.getType().toString())
+                    .put("cost", ticket.getCost())
+                    .put("area", ticket.getArea().toString());
+
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(getClientSocket().getOutputStream()));
+            String myjson = json.toString();
+            writer.write(myjson);
+            writer.flush();
+            Log.i("SEND_JSON_GET_TICKET", myjson + " sent to server.");
+        } catch (JSONException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void send_json_login_msg(String flag, String email, String password) {
         Log.i("SEND_JSON_LOG", " send_json_login_msg() called.");
         try {

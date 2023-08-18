@@ -5,11 +5,7 @@ public class Artefatto {
     private String n_description = null;
     private String y_description = null;
     private String e_description = null;
-    private MuseumArea area = MuseumArea.FULL;
-    private String comment = null;
-
-    // TODO: MODIFICARE IL TIPO QUESTO ATTRIBUTO CON UNA CLASSE "DATA" ?
-    private String comment_date = null;
+    private MuseumArea area = MuseumArea.full;
 
     /* CONSTRUCTOR */
     public Artefatto() {
@@ -55,22 +51,6 @@ public class Artefatto {
 
     public void setArea(MuseumArea area) {
         this.area = area;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public String getComment_date() {
-        return comment_date;
-    }
-
-    public void setComment_date(String comment_date) {
-        this.comment_date = comment_date;
     }
 
     /* METHODS */

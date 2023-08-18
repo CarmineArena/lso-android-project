@@ -8,19 +8,36 @@ import android.util.Log;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+// TODO: (DATA DI SCADENZA CARTA DI CREDITO) BOUND DAY FROM 1 TO 31 AND YEAR >= CURRENT_YEAR - VA DATTO DAVVERO?
+// TODO: AGGIUNGIAMO UN LABEL PER DIRE I PREZZI DEI BIGLIETTI? (lo si può fare anche nella schermata precedente)
 
 public class payment extends AppCompatActivity {
     private Client client;
@@ -39,6 +56,7 @@ public class payment extends AppCompatActivity {
     private EditText n_followers_text        = null;
     private Button get_ticket_button         = null;
     private Button login_visit_button        = null;
+    private Button data                      = null;
     private Spinner spinnerType              = null;
     String[] type = {"Seleziona un tipo", "Singolo", "Gruppo", "Famiglia", "Scuola", "Esperto"};
 
@@ -74,11 +92,11 @@ public class payment extends AppCompatActivity {
                     setUserTypeChoice(selectedType);
                     if (selectedType.equals("Singolo")) {
                         n_followers_text.setEnabled(false);
-                        invalidato = !invalidato;
-                        n_followers_text.setHint("0");
+                        invalidato = true;
+                        n_followers_text.setText("0");
                     } else {
                         n_followers_text.setEnabled(true);
-                        invalidato = !invalidato;
+                        invalidato = false;
                         n_followers_text.setHint("N°");
                     }
                 }
@@ -104,6 +122,19 @@ public class payment extends AppCompatActivity {
         });
     }
 
+    private void showInfoDialog(String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(payment.this);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setIcon(android.R.drawable.ic_dialog_info);
+        builder.setPositiveButton("OK", (dialog, id) -> dialog.dismiss());
+
+        this.handler.post(() -> {
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        });
+    }
+
     private boolean isNumericString(String string) {
         Pattern pattern = Pattern.compile("^[0-9]+$");
         Matcher matcher = pattern.matcher(string);
@@ -111,15 +142,33 @@ public class payment extends AppCompatActivity {
     }
 
     private void manage_get_ticket() {
+        data.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar c = Calendar.getInstance();
+                int mYear = c.get(Calendar.YEAR);
+                int mMonth = c.get(Calendar.MONTH);
+                int mDay = c.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(payment.this,
+                        (view, year, monthOfYear, dayOfMonth) -> {
+                            String selectedDate = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
+                            data.setText(selectedDate);
+                        }, mYear, mMonth, mDay);
+                datePickerDialog.show();
+            }
+        });
+
         get_ticket_button.setOnClickListener(view -> {
             Thread t = new Thread(() -> {
-                String card_number  = card_number_text.getText().toString();
-                String prop_name    = card_owner_name_text.getText().toString();
-                String prop_surname = card_owner_surname_text.getText().toString();
-                String n_f          = n_followers_text.getText().toString();
-                String cvc          = cvc_card_number_text.getText().toString();
-                String month_exp_t  = month_expire_text.getText().toString();
-                String year_exp_t   = year_expire_text.getText().toString();
+                String card_number  = String.valueOf(card_number_text.getText());
+                String prop_name    = String.valueOf(card_owner_name_text.getText());
+                String prop_surname = String.valueOf(card_owner_surname_text.getText());
+                String n_f          = String.valueOf(n_followers_text.getText());
+                String cvc          = String.valueOf(cvc_card_number_text.getText());
+                String month_exp_t  = String.valueOf(month_expire_text.getText());
+                String year_exp_t   = String.valueOf(year_expire_text.getText());
+                String ticket_date  = String.valueOf(data.getText()); // MySQL data format: YYYY-MM-DD
 
                 if (card_number.length() != 10) {
                     showAlertDialog("CARD NUMBER ERROR", "Controllare la validità del numero della carta di credito dichiarata.");
@@ -128,7 +177,9 @@ public class payment extends AppCompatActivity {
                 } else if (cvc.length() != 3) {
                     showAlertDialog("CARD SECURITY NUMBER ERROR", "Controllare la validità del codice di sicurezza inserito.");
                 } else if (month_exp_t.isEmpty() || year_exp_t.isEmpty() || month_exp_t.length() != 2 || year_exp_t.length() != 4 || !isNumericString(month_exp_t) || !isNumericString(year_exp_t)) {
-                    showAlertDialog("EXPIRATION DATE ERROR", "Controllare la validità del numero della carta di credito dichiarata.");
+                    showAlertDialog("EXPIRATION DATE ERROR", "Controllare la validità della data di scadenza della carta di credito. Formato: MM-AAAA");
+                } else if (ticket_date.isEmpty()) {
+                    showAlertDialog("BOOKING DATE ERROR", "Controllare la validità della data di prenotazione.");
                 } else {
                     String user_type = getUserTypeChoice().toString();
                     if (user_type.equals(null) || user_type.equals("Seleziona un tipo")) {
@@ -144,8 +195,8 @@ public class payment extends AppCompatActivity {
                         if (n_followers < 0 || n_followers > 30) {
                             showAlertDialog("ERROR", "Il numero di accompagnatori deve essere un numero positivo ed al massimo 30.");
                         } else {
-                            // TODO: Settare la data
-                            // TODO: settare costo totale del biglietto (10 euro singolo: sommare 10 per ogni avventore. Full pack 50)
+                            float cost = 0.0f;
+
                             ticket = new Ticket();
                             ticket.setTicket_id(new CharsetGenerator(5).get_generated_random_string());
                             ticket.setUser(getUser());
@@ -186,8 +237,66 @@ public class payment extends AppCompatActivity {
                             }
                             ticket.setArea(enum_val);
 
-                            // TODO: Mandare al server la richiesta di acquisto (json). Salvare (il server) nel database l'acquisto e mostrare un alertDialog
-                                // se si prenota un biglietto per il giorno stesso, al termine di tutte le operazioni del server, riportare alla pagina della visita guidata.
+                            if (getSelected_area().equals("full")) {
+                                cost = 50.0f;
+                                for (int i = 0; i < ticket.getFollowers(); i++) {
+                                    cost += 50.0f;
+                                }
+                            } else {
+                                for (int i = 0; i < ticket.getFollowers(); i++) {
+                                    cost += 10.0f;
+                                }
+                            }
+                            ticket.setCost(cost);
+
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                            Date currentDate = new Date();
+                            String curr_date = dateFormat.format(currentDate);
+
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.setTime(currentDate);
+                            calendar.add(Calendar.DATE, -1);
+                            Date current_Date = calendar.getTime();
+
+                            try {
+                                Date data_prenotazione_biglietto = dateFormat.parse(ticket_date);
+
+                                /* NON PUOI PRENOTARE PER UN GIORNO PASSATO */
+                                if (Objects.requireNonNull(data_prenotazione_biglietto).after(current_Date)) {
+                                    ticket.setDate(ticket_date);
+                                    client.send_json_get_ticket_msg("GET_TICKET", ticket);
+
+                                    try {
+                                        JSONObject myjson = client.receive_json();
+                                        String flag = myjson.getString("flag");
+
+                                        clearAllText();
+                                        if (flag.equals("SUCCESS")) {
+                                            JSONArray retrieved_data = myjson.getJSONArray("retrieved_data");
+                                            JSONObject retrieved = retrieved_data.getJSONObject(0);
+
+                                            String user_ticket_id  = retrieved.getString("ticket_id");
+                                            float user_ticket_cost = (float) retrieved.getDouble("cost");
+
+                                            // TODO: NON CAPISCO PERCHE' MA VIENE MOSTRATO ANCHE L'HTML
+                                            String info_message = "<html><body><p>La prenotazione è andata a buon fine. Grazie!</p><p>Hai pagato: " + user_ticket_cost
+                                                    + " euro.</p><p>Ticket ID per partecipare alla mostra: " + user_ticket_id + "</p></body></html>";
+                                            showInfoDialog("PRENOTAZIONE AVVENUTA CON SUCCESSO", info_message);
+
+                                            // TODO: AL TERMINE DELLE OPERAZIONI, IN CHE SCHERMATA DEVO RITORNARE?
+                                            // TODO: se si prenota un biglietto per il giorno corrente, riportare alla pagina della visita guidata oppure alla home del museo?
+                                        } else if (flag.equals("FAILURE")) {
+                                            showAlertDialog("FAILURE", "Qualcosa è andato storto nel processo di registrazione della prenotazione.");
+                                        }
+                                    } catch (IOException | JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                } else {
+                                    showAlertDialog("ERROR", "Inserire una data di prenotazione valida.");
+                                }
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 }
@@ -197,13 +306,23 @@ public class payment extends AppCompatActivity {
     }
 
     private void manage_login_visit() {
-        // TODO: button listener per la conferma di avere già un biglietto, creare poi un thread in cui far partire la visita guidata (dopo tutti i controlli del caso)
+        // TODO: button listener per la conferma di avere già un biglietto, creare poi un thread. Se si possiede un biglietto per il giorno corrente, far partire la visita guidata (dopo tutti i controlli del caso).
     }
 
     private void manage_page() {
         manage_spinner();
         manage_get_ticket();
         manage_login_visit();
+    }
+
+    private void clearAllText() {
+        card_number_text.setText("");
+        card_owner_name_text.setText("");
+        card_owner_surname_text.setText("");
+        month_expire_text.setText("");
+        year_expire_text.setText("");
+        cvc_card_number_text.setText("");
+        n_followers_text.setText("");
     }
 
     @Override
@@ -233,31 +352,11 @@ public class payment extends AppCompatActivity {
         n_followers_text        = (EditText) findViewById(R.id.editTextNumber);
         get_ticket_button       = (Button)   findViewById(R.id.buybotton);
         login_visit_button      = (Button)   findViewById(R.id.enterbutton);
-        spinnerType = findViewById(R.id.spinnerType);
+        data                    = (Button) findViewById(R.id.DataVisita);
+        spinnerType             = findViewById(R.id.spinnerType);
 
         Thread t = new Thread(this::manage_page);
         t.start();
-
-        final Button Data = (Button) findViewById(R.id.DataVisita);
-        Data.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Calendar c = Calendar.getInstance();
-                int mYear = c.get(Calendar.YEAR);
-                int mMonth = c.get(Calendar.MONTH);
-                int mDay = c.get(Calendar.DAY_OF_MONTH);
-
-                DatePickerDialog datePickerDialog = new DatePickerDialog(payment.this,
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                String selectedDate = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
-                                Data.setText(selectedDate);
-                            }
-                        }, mYear, mMonth, mDay);
-                datePickerDialog.show();
-            }
-        });
     }
 
     @Override
