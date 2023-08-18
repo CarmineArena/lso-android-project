@@ -36,8 +36,10 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-// TODO: (DATA DI SCADENZA CARTA DI CREDITO) BOUND DAY FROM 1 TO 31 AND YEAR >= CURRENT_YEAR - VA DATTO DAVVERO?
-// TODO: AGGIUNGIAMO UN LABEL PER DIRE I PREZZI DEI BIGLIETTI? (lo si può fare anche nella schermata precedente)
+// TODO: (DATA DI SCADENZA CARTA DI CREDITO) BOUND DAY FROM 1 TO 31 AND YEAR >= CURRENT_YEAR - VA DATTO DAVVERO? [CARMINE]
+// TODO: AGGIUNGIAMO UN LABEL PER DIRE I PREZZI DEI BIGLIETTI? (lo si può fare anche nella schermata precedente) [CARMINE]
+
+// TODO: LA SCHERMATA VA UTILIZZATA UNA SOLA VOLTA! ALTRIMENTI ABBIAMO PROBLEMI INUTILI CON I PACCHETTI JSON CHE VENGONO SCAMBIATI [SIMONE]
 
 public class payment extends AppCompatActivity {
     private Client client;
@@ -237,14 +239,22 @@ public class payment extends AppCompatActivity {
                             }
                             ticket.setArea(enum_val);
 
-                            if (getSelected_area().equals("full")) {
-                                cost = 50.0f;
-                                for (int i = 0; i < ticket.getFollowers(); i++) {
+                            if (getUserTypeChoice().equals("Singolo")) {
+                                if (getSelected_area().equals("full")) {
                                     cost += 50.0f;
+                                } else {
+                                    cost += 10.0f;
                                 }
                             } else {
-                                for (int i = 0; i < ticket.getFollowers(); i++) {
-                                    cost += 10.0f;
+                                if (getSelected_area().equals("full")) {
+                                    cost = 50.0f;
+                                    for (int i = 0; i < ticket.getFollowers(); i++) {
+                                        cost += 50.0f;
+                                    }
+                                } else {
+                                    for (int i = 0; i < ticket.getFollowers(); i++) {
+                                        cost += 10.0f;
+                                    }
                                 }
                             }
                             ticket.setCost(cost);
@@ -278,15 +288,17 @@ public class payment extends AppCompatActivity {
                                             String user_ticket_id  = retrieved.getString("ticket_id");
                                             float user_ticket_cost = (float) retrieved.getDouble("cost");
 
-                                            // TODO: NON CAPISCO PERCHE' MA VIENE MOSTRATO ANCHE L'HTML
+                                            // TODO: NON CAPISCO PERCHE' MA VIENE MOSTRATO ANCHE L'HTML [SIMONE]
                                             String info_message = "<html><body><p>La prenotazione è andata a buon fine. Grazie!</p><p>Hai pagato: " + user_ticket_cost
                                                     + " euro.</p><p>Ticket ID per partecipare alla mostra: " + user_ticket_id + "</p></body></html>";
                                             showInfoDialog("PRENOTAZIONE AVVENUTA CON SUCCESSO", info_message);
 
-                                            // TODO: AL TERMINE DELLE OPERAZIONI, IN CHE SCHERMATA DEVO RITORNARE?
-                                            // TODO: se si prenota un biglietto per il giorno corrente, riportare alla pagina della visita guidata oppure alla home del museo?
+                                            // TODO: AL TERMINE DELLE OPERAZIONI, IN CHE SCHERMATA DEVO RITORNARE? [CARMINE]
+                                            // TODO: se si prenota un biglietto per il giorno corrente, riportare alla pagina della visita guidata oppure alla home del museo? [CARMINE]
                                         } else if (flag.equals("FAILURE")) {
                                             showAlertDialog("FAILURE", "Qualcosa è andato storto nel processo di registrazione della prenotazione.");
+                                        } else if (flag.equals("ALREADY_EXISTS")) {
+                                            showAlertDialog("FAILURE", "Attenzione!. Hai già prenotato per la data selezionata.");
                                         }
                                     } catch (IOException | JSONException e) {
                                         e.printStackTrace();
