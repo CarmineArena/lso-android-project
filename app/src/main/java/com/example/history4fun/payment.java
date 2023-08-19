@@ -39,8 +39,6 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-// TODO: (DATA DI SCADENZA CARTA DI CREDITO) BOUND MONTH FROM 1 TO 12 AND CURRENT_YEAR <= YEAR <= 2050 [CONTROLLARE ANCHE SE GIA' SCADUTA]
-
 public class payment extends AppCompatActivity {
     private Client client;
     private Utente user;
@@ -192,7 +190,6 @@ public class payment extends AppCompatActivity {
                             showAlertDialog("ERROR", "Il numero di accompagnatori deve essere un numero positivo ed al massimo 30.");
                         } else {
                             if (getSelected_area().equals("full")) {
-                                label_cost = 50.0f;
                                 for (int j = 0; j < n_followers; j++) {
                                     label_cost += 50.0f;
                                 }
@@ -238,6 +235,21 @@ public class payment extends AppCompatActivity {
                 String month_exp_t  = String.valueOf(month_expire_text.getText());
                 String year_exp_t   = String.valueOf(year_expire_text.getText());
                 String ticket_date  = String.valueOf(data.getText()); // MySQL data format: YYYY-MM-DD
+                int mese = 0;
+                int anno = 0;
+
+                Date currentDate = new Date();
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(currentDate);
+                calendar.add(Calendar.DATE, -1);
+                Date current_Date = calendar.getTime();
+
+                try {
+                    mese = Integer.parseInt(month_exp_t);
+                    anno = Integer.parseInt(year_exp_t);
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
 
                 if (card_number.length() != 10) {
                     showAlertDialog("CARD NUMBER ERROR", "Controllare la validità del numero della carta di credito dichiarata.");
@@ -245,8 +257,11 @@ public class payment extends AppCompatActivity {
                     showAlertDialog("ERROR", "Controllare la validità del nome e cognome inseriti. Non sono ammessi numeri.");
                 } else if (cvc.length() != 3) {
                     showAlertDialog("CARD SECURITY NUMBER ERROR", "Controllare la validità del codice di sicurezza inserito.");
-                } else if (month_exp_t.isEmpty() || year_exp_t.isEmpty() || month_exp_t.length() != 2 || year_exp_t.length() != 4 || !isNumericString(month_exp_t) || !isNumericString(year_exp_t)) {
+                } else if (month_exp_t.isEmpty() || year_exp_t.isEmpty() || month_exp_t.length() != 2 || year_exp_t.length() != 4 || !isNumericString(month_exp_t) || !isNumericString(year_exp_t)
+                    || !(mese >= 1 && mese <= 12) || !(anno >= 2023 && anno <= 2050)) {
                     showAlertDialog("EXPIRATION DATE ERROR", "Controllare la validità della data di scadenza della carta di credito. Formato: MM-AAAA");
+                } else if ((current_Date.getMonth() >= mese+1  && current_Date.getYear() > anno)) {
+                    showAlertDialog("EXPIRATION DATE ERROR", "la carta di credito non è più valida.");
                 } else if (ticket_date.isEmpty()) {
                     showAlertDialog("BOOKING DATE ERROR", "Controllare la validità della data di prenotazione.");
                 } else {
@@ -314,7 +329,7 @@ public class payment extends AppCompatActivity {
                                 }
                             } else {
                                 if (getSelected_area().equals("full")) {
-                                    cost = 50.0f;
+                                    // cost = 50.0f;
                                     for (int i = 0; i < ticket.getFollowers(); i++) {
                                         cost += 50.0f;
                                     }
@@ -327,13 +342,6 @@ public class payment extends AppCompatActivity {
                             ticket.setCost(cost);
 
                             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                            Date currentDate = new Date();
-                            String curr_date = dateFormat.format(currentDate);
-
-                            Calendar calendar = Calendar.getInstance();
-                            calendar.setTime(currentDate);
-                            calendar.add(Calendar.DATE, -1);
-                            Date current_Date = calendar.getTime();
 
                             try {
                                 Date data_prenotazione_biglietto = dateFormat.parse(ticket_date);
@@ -393,6 +401,7 @@ public class payment extends AppCompatActivity {
         year_expire_text.setText("");
         cvc_card_number_text.setText("");
         n_followers_text.setText("");
+        buy_label_text.setText("Prezzo totale: € " + 0.0f);
     }
 
     @Override
