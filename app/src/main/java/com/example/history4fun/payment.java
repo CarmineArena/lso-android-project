@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -58,6 +61,7 @@ public class payment extends AppCompatActivity {
     private Button login_visit_button        = null;
     private Button data                      = null;
     private Spinner spinnerType              = null;
+    private TextView buy_label_text          = null;
     String[] type = {"Seleziona un tipo", "Singolo", "Gruppo", "Famiglia", "Scuola", "Esperto"};
 
     private void setSelected_area(String selected_area) { this.museum_area = selected_area; }
@@ -160,6 +164,53 @@ public class payment extends AppCompatActivity {
     }
 
     private void manage_get_ticket() {
+        n_followers_text.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (!getUserTypeChoice().equals("Seleziona un tipo")) {
+                    float label_cost = 0.0f;
+                    if (getUserTypeChoice().equals("Singolo")) {
+                        if (getSelected_area().equals("full")) {
+                            label_cost += 50.0f;
+                        } else {
+                            label_cost += 10.0f;
+                        }
+                    } else {
+                        String n_f = String.valueOf(n_followers_text.getText());
+                        int n_followers = 0;
+
+                        try {
+                            n_followers = Integer.parseInt(n_f);
+                        } catch (NumberFormatException e) {
+                            e.printStackTrace();
+                        }
+
+                        if (n_followers < 0 || n_followers > 30) {
+                            showAlertDialog("ERROR", "Il numero di accompagnatori deve essere un numero positivo ed al massimo 30.");
+                        } else {
+                            if (getSelected_area().equals("full")) {
+                                label_cost = 50.0f;
+                                for (int j = 0; j < n_followers; j++) {
+                                    label_cost += 50.0f;
+                                }
+                            } else {
+                                for (int j = 0; j < n_followers; j++) {
+                                    label_cost += 10.0f;
+                                }
+                            }
+                        }
+                    }
+                    buy_label_text.setText("Prezzo totale: € " + label_cost);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
+
         data.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -373,6 +424,7 @@ public class payment extends AppCompatActivity {
         get_ticket_button       = (Button)   findViewById(R.id.buybotton);
         login_visit_button      = (Button)   findViewById(R.id.enterbutton);
         data                    = (Button) findViewById(R.id.DataVisita);
+        buy_label_text          = (TextView) findViewById(R.id.textView2);
         spinnerType             = findViewById(R.id.spinnerType);
 
         Thread t = new Thread(this::manage_page);
