@@ -24,6 +24,7 @@ public class Home extends AppCompatActivity {
             Thread t = new Thread(() -> {
                 Intent intent = new Intent(Home.this, payment.class);
                 intent.putExtra("user", user);
+                intent.putExtra("user_nickname", nickname);
                 intent.putExtra("museum_area", "full");
                 startActivity(intent);
             });
@@ -34,6 +35,7 @@ public class Home extends AppCompatActivity {
             Thread t = new Thread(() -> {
                 Intent intent = new Intent(Home.this, payment.class);
                 intent.putExtra("user", user);
+                intent.putExtra("user_nickname", nickname);
                 intent.putExtra("museum_area", "jurassic");
                 startActivity(intent);
             });
@@ -44,6 +46,7 @@ public class Home extends AppCompatActivity {
             Thread t = new Thread(() -> {
                 Intent intent = new Intent(Home.this, payment.class);
                 intent.putExtra("user", user);
+                intent.putExtra("user_nickname", nickname);
                 intent.putExtra("museum_area", "prehistory");
                 startActivity(intent);
             });
@@ -54,6 +57,7 @@ public class Home extends AppCompatActivity {
             Thread t = new Thread(() -> {
                 Intent intent = new Intent(Home.this, payment.class);
                 intent.putExtra("user", user);
+                intent.putExtra("user_nickname", nickname);
                 intent.putExtra("museum_area", "egypt");
                 startActivity(intent);
             });
@@ -64,6 +68,7 @@ public class Home extends AppCompatActivity {
             Thread t = new Thread(() -> {
                 Intent intent = new Intent(Home.this, payment.class);
                 intent.putExtra("user", user);
+                intent.putExtra("user_nickname", nickname);
                 intent.putExtra("museum_area", "roman");
                 startActivity(intent);
             });
@@ -74,6 +79,7 @@ public class Home extends AppCompatActivity {
             Thread t = new Thread(() -> {
                 Intent intent = new Intent(Home.this, payment.class);
                 intent.putExtra("user", user);
+                intent.putExtra("user_nickname", nickname);
                 intent.putExtra("museum_area", "greek");
                 startActivity(intent);
             });

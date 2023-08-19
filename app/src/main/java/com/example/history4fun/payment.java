@@ -36,14 +36,12 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-// TODO: (DATA DI SCADENZA CARTA DI CREDITO) BOUND DAY FROM 1 TO 31 AND YEAR >= CURRENT_YEAR - VA DATTO DAVVERO? [CARMINE]
-// TODO: AGGIUNGIAMO UN LABEL PER DIRE I PREZZI DEI BIGLIETTI? (lo si può fare anche nella schermata precedente) [CARMINE]
-
-// TODO: LA SCHERMATA VA UTILIZZATA UNA SOLA VOLTA! ALTRIMENTI ABBIAMO PROBLEMI INUTILI CON I PACCHETTI JSON CHE VENGONO SCAMBIATI [SIMONE]
+// TODO: (DATA DI SCADENZA CARTA DI CREDITO) BOUND MONTH FROM 1 TO 12 AND CURRENT_YEAR <= YEAR <= 2050 [CONTROLLARE ANCHE SE GIA' SCADUTA]
 
 public class payment extends AppCompatActivity {
     private Client client;
     private Utente user;
+    private String nickname                  = null;
     private boolean invalidato               = false;
     private Handler handler                  = null;
     private Ticket ticket                    = null;
@@ -130,6 +128,24 @@ public class payment extends AppCompatActivity {
         builder.setMessage(message);
         builder.setIcon(android.R.drawable.ic_dialog_info);
         builder.setPositiveButton("OK", (dialog, id) -> dialog.dismiss());
+
+        this.handler.post(() -> {
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        });
+    }
+
+    private void showSuccessDialog(String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(payment.this);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setIcon(android.R.drawable.ic_dialog_info);
+        builder.setPositiveButton("OK", (dialog, id) -> {
+            Intent intent = new Intent(payment.this, Home.class);
+            intent.putExtra("user", ticket.getUser());
+            intent.putExtra("user_nickname", nickname);
+            startActivity(intent);
+        });
 
         this.handler.post(() -> {
             AlertDialog dialog = builder.create();
@@ -274,31 +290,22 @@ public class payment extends AppCompatActivity {
                                 /* NON PUOI PRENOTARE PER UN GIORNO PASSATO */
                                 if (Objects.requireNonNull(data_prenotazione_biglietto).after(current_Date)) {
                                     ticket.setDate(ticket_date);
-                                    client.send_json_get_ticket_msg("GET_TICKET", ticket);
 
+                                    clearAllText();
+                                    client.send_json_get_ticket_msg("GET_TICKET", ticket);
                                     try {
                                         JSONObject myjson = client.receive_json();
                                         String flag = myjson.getString("flag");
 
-                                        clearAllText();
                                         if (flag.equals("SUCCESS")) {
                                             JSONArray retrieved_data = myjson.getJSONArray("retrieved_data");
                                             JSONObject retrieved = retrieved_data.getJSONObject(0);
-
                                             String user_ticket_id  = retrieved.getString("ticket_id");
-                                            float user_ticket_cost = (float) retrieved.getDouble("cost");
-
-                                            // TODO: NON CAPISCO PERCHE' MA VIENE MOSTRATO ANCHE L'HTML [SIMONE]
-                                            String info_message = "<html><body><p>La prenotazione è andata a buon fine. Grazie!</p><p>Hai pagato: " + user_ticket_cost
-                                                    + " euro.</p><p>Ticket ID per partecipare alla mostra: " + user_ticket_id + "</p></body></html>";
-                                            showInfoDialog("PRENOTAZIONE AVVENUTA CON SUCCESSO", info_message);
-
-                                            // TODO: AL TERMINE DELLE OPERAZIONI, IN CHE SCHERMATA DEVO RITORNARE? [CARMINE]
-                                            // TODO: se si prenota un biglietto per il giorno corrente, riportare alla pagina della visita guidata oppure alla home del museo? [CARMINE]
+                                            showSuccessDialog("PURCHASE SUCCESSFUL", "Pagamento di " + ticket.getCost() + " euro riuscito. Segnarsi il Ticket ID: " + user_ticket_id);
                                         } else if (flag.equals("FAILURE")) {
-                                            showAlertDialog("FAILURE", "Qualcosa è andato storto nel processo di registrazione della prenotazione.");
+                                            showInfoDialog("FAILURE", "Qualcosa è andato storto nel processo di registrazione della prenotazione.");
                                         } else if (flag.equals("ALREADY_EXISTS")) {
-                                            showAlertDialog("FAILURE", "Attenzione!. Hai già prenotato per la data selezionata.");
+                                            showInfoDialog("FAILURE", "Attenzione!. Hai già prenotato per la data selezionata.");
                                         }
                                     } catch (IOException | JSONException e) {
                                         e.printStackTrace();
@@ -347,6 +354,7 @@ public class payment extends AppCompatActivity {
         Intent intent = getIntent();
         user        = (Utente) intent.getSerializableExtra("user");
         museum_area = (String) intent.getSerializableExtra("museum_area");
+        nickname    = (String) intent.getSerializableExtra("user_nickname");
         setSelected_area(museum_area);
         setUser(user);
 
