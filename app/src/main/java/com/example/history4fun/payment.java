@@ -22,8 +22,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -413,7 +411,22 @@ public class payment extends AppCompatActivity {
 
                     switch (flag) {
                         case "SUCCESS":
-                            // TODO: OTTENERE DAL SERVER TUTTI I DATI NECESSARI (IMMAGINI E TESTI) E FAR PARTIRE LA VISITA GUIDATA.
+                            // TODO: OTTENERE DAL SERVER TUTTI I DATI NECESSARI (IMMAGINI E TESTI): PER ORA SOLO IMMAGINI
+                            /*
+                            JSONArray imageArray = myjson.getJSONArray("images");
+                            List<ImageInfo> imageList = new ArrayList<>();
+
+                            for (int i = 0; i < imageArray.length(); i++) {
+                                JSONObject imageObject = imageArray.getJSONObject(i);
+                                String imageName = imageObject.getString("image_name");
+                                String imageBase64Data = imageObject.getString("image_data");
+
+                                ImageInfo imageInfo = new ImageInfo(imageName, imageBase64Data);
+                                imageList.add(imageInfo);
+                            }
+
+                            // TODO: MANDARE LE IMMAGINI ALLA PAGINA DELLA VISITA GUIDATA
+                            */
                             Log.i("CHECK_TICKET_ACUIRED: ", "SUCCESSFUL");
                             break;
                         case "FAILURE":
