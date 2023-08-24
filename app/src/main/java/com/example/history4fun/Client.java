@@ -64,6 +64,25 @@ public class Client {
         return instance;
     }
 
+    public void send_json_check_ticket_acquired(String flag, String user_id, String current_date, String selected_area) {
+        Log.i("SEND_JSON_CHK_ACQRD_TKT", " send_json_check_ticket_acquired() called.");
+        try {
+            JSONObject json = new JSONObject()
+                    .put("flag", flag)
+                    .put("user_id", user_id)
+                    .put("ticket_date", current_date)
+                    .put("area", selected_area);
+
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(getClientSocket().getOutputStream()));
+            String myjson = json.toString();
+            writer.write(myjson);
+            writer.flush();
+            Log.i("SEND_JSON_CHK_ACQRD_TKT", myjson + " sent to server.");
+        } catch (JSONException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void send_json_get_ticket_msg(String flag, Ticket ticket) {
         Log.i("SEND_JSON_GET_TICKET", " send_json_get_ticket_msg() called.");
         try {
@@ -201,8 +220,7 @@ public class Client {
         return jsn;
     }
 
-    public void close_connection()
-    {
+    public void close_connection() {
         try {
             getClientSocket().close();
         } catch(IOException e) {

@@ -10,19 +10,15 @@ import android.util.Log;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -47,7 +43,7 @@ public class payment extends AppCompatActivity {
     private Handler handler                  = null;
     private Ticket ticket                    = null;
     private String museum_area               = null;
-    private String user_type_choice          = null;
+    private String user_type_choice          = "Seleziona un tipo";
     private EditText card_number_text        = null;
     private EditText card_owner_name_text    = null;
     private EditText card_owner_surname_text = null;
@@ -105,9 +101,7 @@ public class payment extends AppCompatActivity {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                setUserTypeChoice(null);
-            }
+            public void onNothingSelected(AdapterView<?> parent) { }
         });
     }
 
@@ -137,7 +131,7 @@ public class payment extends AppCompatActivity {
         });
     }
 
-    private void showSuccessDialog(String title, String message) {
+    private void showRedirectHomeDialog(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(payment.this);
         builder.setTitle(title);
         builder.setMessage(message);
@@ -201,6 +195,8 @@ public class payment extends AppCompatActivity {
                         }
                     }
                     buy_label_text.setText("Prezzo totale: € " + label_cost);
+                } else {
+                    buy_label_text.setText("Prezzo totale: € " + 0.0f);
                 }
             }
 
@@ -208,21 +204,18 @@ public class payment extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {}
         });
 
-        data.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Calendar c = Calendar.getInstance();
-                int mYear = c.get(Calendar.YEAR);
-                int mMonth = c.get(Calendar.MONTH);
-                int mDay = c.get(Calendar.DAY_OF_MONTH);
+        data.setOnClickListener(v -> {
+            final Calendar c = Calendar.getInstance();
+            int mYear = c.get(Calendar.YEAR);
+            int mMonth = c.get(Calendar.MONTH);
+            int mDay = c.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(payment.this,
-                        (view, year, monthOfYear, dayOfMonth) -> {
-                            String selectedDate = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
-                            data.setText(selectedDate);
-                        }, mYear, mMonth, mDay);
-                datePickerDialog.show();
-            }
+            DatePickerDialog datePickerDialog = new DatePickerDialog(payment.this,
+                    (view, year, monthOfYear, dayOfMonth) -> {
+                        String selectedDate = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
+                        data.setText(selectedDate);
+                    }, mYear, mMonth, mDay);
+            datePickerDialog.show();
         });
 
         get_ticket_button.setOnClickListener(view -> {
@@ -265,8 +258,8 @@ public class payment extends AppCompatActivity {
                 } else if (ticket_date.isEmpty()) {
                     showAlertDialog("BOOKING DATE ERROR", "Controllare la validità della data di prenotazione.");
                 } else {
-                    String user_type = getUserTypeChoice().toString();
-                    if (user_type.equals(null) || user_type.equals("Seleziona un tipo")) {
+                    String user_type = getUserTypeChoice();
+                    if (user_type.equals("Seleziona un tipo")) {
                         showAlertDialog("ERROR", "Selezionare il tipo di biglietto da acquistare.");
                     } else {
                         int n_followers = 0;
@@ -286,16 +279,22 @@ public class payment extends AppCompatActivity {
                             ticket.setUser(getUser());
 
                             TicketType enum_value = null;
-                            if (getUserTypeChoice().equals("Singolo")) {
-                                enum_value = TicketType.guest;
-                            } else if (getUserTypeChoice().equals("Gruppo")) {
-                                enum_value = TicketType.group;
-                            } else if (getUserTypeChoice().equals("Famiglia")) {
-                                enum_value = TicketType.family;
-                            } else if (getUserTypeChoice().equals("Scuola")) {
-                                enum_value = TicketType.school;
-                            } else if (getUserTypeChoice().equals("Esperto")) {
-                                enum_value = TicketType.expert;
+                            switch (getUserTypeChoice()) {
+                                case "Singolo":
+                                    enum_value = TicketType.guest;
+                                    break;
+                                case "Gruppo":
+                                    enum_value = TicketType.group;
+                                    break;
+                                case "Famiglia":
+                                    enum_value = TicketType.family;
+                                    break;
+                                case "Scuola":
+                                    enum_value = TicketType.school;
+                                    break;
+                                case "Esperto":
+                                    enum_value = TicketType.expert;
+                                    break;
                             }
                             ticket.setType(enum_value);
 
@@ -306,18 +305,25 @@ public class payment extends AppCompatActivity {
                             }
 
                             MuseumArea enum_val = null;
-                            if (getSelected_area().equals("full")) {
-                                enum_val = MuseumArea.full;
-                            } else if (getSelected_area().equals("jurassic")) {
-                                enum_val = MuseumArea.jurassic;
-                            } else if (getSelected_area().equals("prehistory")) {
-                                enum_val = MuseumArea.prehistory;
-                            } else if (getSelected_area().equals("egypt")) {
-                                enum_val = MuseumArea.egypt;
-                            } else if (getSelected_area().equals("roman")) {
-                                enum_val = MuseumArea.roman;
-                            } else if (getSelected_area().equals("greek")) {
-                                enum_val = MuseumArea.greek;
+                            switch (getSelected_area()) {
+                                case "full":
+                                    enum_val = MuseumArea.full;
+                                    break;
+                                case "jurassic":
+                                    enum_val = MuseumArea.jurassic;
+                                    break;
+                                case "prehistory":
+                                    enum_val = MuseumArea.prehistory;
+                                    break;
+                                case "egypt":
+                                    enum_val = MuseumArea.egypt;
+                                    break;
+                                case "roman":
+                                    enum_val = MuseumArea.roman;
+                                    break;
+                                case "greek":
+                                    enum_val = MuseumArea.greek;
+                                    break;
                             }
                             ticket.setArea(enum_val);
 
@@ -356,15 +362,19 @@ public class payment extends AppCompatActivity {
                                         JSONObject myjson = client.receive_json();
                                         String flag = myjson.getString("flag");
 
-                                        if (flag.equals("SUCCESS")) {
-                                            JSONArray retrieved_data = myjson.getJSONArray("retrieved_data");
-                                            JSONObject retrieved = retrieved_data.getJSONObject(0);
-                                            String user_ticket_id  = retrieved.getString("ticket_id");
-                                            showSuccessDialog("PURCHASE SUCCESSFUL", "Pagamento di " + ticket.getCost() + " euro riuscito. Segnarsi il Ticket ID: " + user_ticket_id);
-                                        } else if (flag.equals("FAILURE")) {
-                                            showInfoDialog("FAILURE", "Qualcosa è andato storto nel processo di registrazione della prenotazione.");
-                                        } else if (flag.equals("ALREADY_EXISTS")) {
-                                            showInfoDialog("FAILURE", "Attenzione!. Hai già prenotato per la data selezionata.");
+                                        switch (flag) {
+                                            case "SUCCESS":
+                                                JSONArray retrieved_data = myjson.getJSONArray("retrieved_data");
+                                                JSONObject retrieved = retrieved_data.getJSONObject(0);
+                                                String user_ticket_id = retrieved.getString("ticket_id");
+                                                showRedirectHomeDialog("PURCHASE SUCCESSFUL", "Pagamento di " + ticket.getCost() + " euro riuscito. Segnarsi il Ticket ID: " + user_ticket_id);
+                                                break;
+                                            case "FAILURE":
+                                                showInfoDialog("FAILURE", "Qualcosa è andato storto nel processo di registrazione della prenotazione.");
+                                                break;
+                                            case "ALREADY_EXISTS":
+                                                showInfoDialog("FAILURE", "Attenzione!. Hai già prenotato per la data selezionata.");
+                                                break;
                                         }
                                     } catch (IOException | JSONException e) {
                                         e.printStackTrace();
@@ -384,7 +394,38 @@ public class payment extends AppCompatActivity {
     }
 
     private void manage_login_visit() {
-        // TODO: button listener per la conferma di avere già un biglietto, creare poi un thread. Se si possiede un biglietto per il giorno corrente, far partire la visita guidata (dopo tutti i controlli del caso).
+        login_visit_button.setOnClickListener(view -> {
+            Thread t = new Thread(() -> {
+                clearAllText();
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                Date currentDate = new Date();
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(currentDate);
+                calendar.add(Calendar.DATE, 0);
+                Date today = calendar.getTime();
+                String current_date = dateFormat.format(today);
+
+                client.send_json_check_ticket_acquired("CHK_ACQRD_TICKET", user.getUser_id(), current_date, getSelected_area());
+                try {
+                    JSONObject myjson = client.receive_json();
+                    String flag = myjson.getString("flag");
+
+                    switch (flag) {
+                        case "SUCCESS":
+                            // TODO: OTTENERE DAL SERVER TUTTI I DATI NECESSARI (IMMAGINI E TESTI) E FAR PARTIRE LA VISITA GUIDATA.
+                            Log.i("CHECK_TICKET_ACUIRED: ", "SUCCESSFUL");
+                            break;
+                        case "FAILURE":
+                            showRedirectHomeDialog("ERROR", "Assicurarsi di avere un biglietto per il giorno corrente!");
+                            break;
+                    }
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
+                }
+            });
+            t.start();
+        });
     }
 
     private void manage_page() {
@@ -423,17 +464,17 @@ public class payment extends AppCompatActivity {
 
         client = MainActivity.client;
 
-        card_number_text        = (EditText) findViewById(R.id.CardNumber);
-        card_owner_name_text    = (EditText) findViewById(R.id.CardOwner);
-        card_owner_surname_text = (EditText) findViewById(R.id.editTextTextPersonName);
-        month_expire_text       = (EditText) findViewById(R.id.editTextExpiryMonth);
-        year_expire_text        = (EditText) findViewById(R.id.editTextExpiryYear);
-        cvc_card_number_text    = (EditText) findViewById(R.id.editTextNumber2);
-        n_followers_text        = (EditText) findViewById(R.id.editTextNumber);
-        get_ticket_button       = (Button)   findViewById(R.id.buybotton);
-        login_visit_button      = (Button)   findViewById(R.id.enterbutton);
-        data                    = (Button) findViewById(R.id.DataVisita);
-        buy_label_text          = (TextView) findViewById(R.id.textView2);
+        card_number_text        = findViewById(R.id.CardNumber);
+        card_owner_name_text    = findViewById(R.id.CardOwner);
+        card_owner_surname_text = findViewById(R.id.editTextTextPersonName);
+        month_expire_text       = findViewById(R.id.editTextExpiryMonth);
+        year_expire_text        = findViewById(R.id.editTextExpiryYear);
+        cvc_card_number_text    = findViewById(R.id.editTextNumber2);
+        n_followers_text        = findViewById(R.id.editTextNumber);
+        get_ticket_button       = findViewById(R.id.buybotton);
+        login_visit_button      = findViewById(R.id.enterbutton);
+        data                    = findViewById(R.id.DataVisita);
+        buy_label_text          = findViewById(R.id.textView2);
         spinnerType             = findViewById(R.id.spinnerType);
 
         Thread t = new Thread(this::manage_page);
