@@ -3,6 +3,7 @@ package com.example.history4fun;
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -409,24 +410,52 @@ public class payment extends AppCompatActivity {
                     JSONObject myjson = client.receive_json();
                     String flag = myjson.getString("flag");
 
+                    JSONArray retrieved_data = myjson.getJSONArray("retrieved_data");
+                    JSONObject retrieved = retrieved_data.getJSONObject(0);
+                    String user_selected_area = retrieved.getString("area");
+
                     switch (flag) {
                         case "SUCCESS":
-                            // TODO: OTTENERE DAL SERVER TUTTI I DATI NECESSARI (IMMAGINI E TESTI): PER ORA SOLO IMMAGINI
-                            /*
-                            JSONArray imageArray = myjson.getJSONArray("images");
-                            List<ImageInfo> imageList = new ArrayList<>();
+                            // TODO: OTTENERE DAL SERVER TUTTI LE DESCRIZIONI DELLE OPERE
+                            // TODO: MANDARE LE IMMAGINI ALLA PAGINA DELLA VISITA GUIDATA
+                            // TODO: LISTARE LE IMMAGINI NELL'ARRAY IN ORDINE DI CODICE
+                            // TODO: IMPLEMENTARE IL FULL_PACK
 
-                            for (int i = 0; i < imageArray.length(); i++) {
-                                JSONObject imageObject = imageArray.getJSONObject(i);
-                                String imageName = imageObject.getString("image_name");
-                                String imageBase64Data = imageObject.getString("image_data");
+                            String[] image_paths = new String[3];
 
-                                ImageInfo imageInfo = new ImageInfo(imageName, imageBase64Data);
-                                imageList.add(imageInfo);
+                            // TODO: SE NON FUNZIONA SOSTITUIRE CON I PATH DEL PC
+                            switch (user_selected_area) {
+                                case "jurassic":
+                                    image_paths[0] = "res/Opera/Jurassic/tyrannosaurus_rex.jpg";
+                                    image_paths[1] = "res/Opera/Jurassic/sauropoda.jpg";
+                                    image_paths[2] = "res/Opera/Jurassic/hadrosauridae.jpg";
+                                    break;
+                                case "prehistory":
+                                    image_paths[0] = "res/Opera/Jurassic/stonehenge.jpg";
+                                    image_paths[1] = "res/Opera/Jurassic/microlito.jpg";
+                                    image_paths[2] = "res/Opera/Jurassic/homo_neanderthalensis.jpg";
+                                    break;
+                                case "egypt":
+                                    image_paths[0] = "res/Opera/Jurassic/sfinge.jpg";
+                                    image_paths[1] = "res/Opera/Jurassic/piramidi.jpg";
+                                    image_paths[2] = "res/Opera/Jurassic/pyramidsofgiza_at_night.jpg";
+                                    break;
+                                case "roman":
+                                    image_paths[0] = "res/Opera/Jurassic/augusto.jpg";
+                                    image_paths[1] = "res/Opera/Jurassic/gaio_mario.jpg";
+                                    image_paths[2] = "res/Opera/Jurassic/romolo_e_remo.jpg";
+                                    break;
+                                case "greek":
+                                    image_paths[0] = "res/Opera/Jurassic/partenone.jpg";
+                                    image_paths[1] = "res/Opera/Jurassic/cratere.jpg";
+                                    image_paths[2] = "res/Opera/Jurassic/hermes_con_dioniso.jpg";
+                                    break;
+                                case "full":
+                                    Log.i("REQUEST_IMAGES_FULL: ", "TO BE IMPLEMENTED");
+                                    break;
                             }
 
-                            // TODO: MANDARE LE IMMAGINI ALLA PAGINA DELLA VISITA GUIDATA
-                            */
+                            // TODO: PASSARE ALLA NUOVA ACTIVITY TUTTO IL NECESSARIO
                             Log.i("CHECK_TICKET_ACUIRED: ", "SUCCESSFUL");
                             break;
                         case "FAILURE":
