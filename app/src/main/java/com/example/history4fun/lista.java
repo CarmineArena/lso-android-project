@@ -17,7 +17,7 @@ public class lista extends AppCompatActivity {
     private String area = null;
 
     private void fillLinearLayout() {
-        LinearLayout imageContainer = findViewById(R.id.activity_lista_container);
+        LinearLayout imageContainer = findViewById(R.id.imageContainer);
 
         for (String imagePath : imagePaths) {
             ImageView imageView = new ImageView(this);
