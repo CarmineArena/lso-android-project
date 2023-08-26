@@ -416,6 +416,8 @@ public class payment extends AppCompatActivity {
                     JSONObject retrieved = retrieved_data.getJSONObject(0);
                     String user_selected_area = retrieved.getString("area");
 
+                    // TODO: RECUPERARE TYPE DEL BIGLIETTO
+
                     switch (flag) {
                         case "SUCCESS":
                             Log.i("CHECK_TICKET_ACUIRED: ", "SUCCESSFUL");
