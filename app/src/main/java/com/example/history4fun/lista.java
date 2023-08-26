@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
@@ -26,15 +27,22 @@ public class lista extends AppCompatActivity {
 
         client = MainActivity.client;
 
-        ImageView first = findViewById(R.id.firstopera);
-        first.setImageResource(R.drawable.tyrannosaurus_rex);
-
+        ImageView first  = findViewById(R.id.firstopera);
         ImageView second = findViewById(R.id.secondopera);
-        second.setImageResource(R.drawable.sauropoda);
+        ImageView third  = findViewById(R.id.thirdopera);
 
-        ImageView third = findViewById(R.id.thirdopera);
-        third.setImageResource(R.drawable.hadrosauridae);
+        // first.setImageResource(R.drawable.tyrannosaurus_rex);
+        // second.setImageResource(R.drawable.sauropoda);
+        // third.setImageResource(R.drawable.hadrosauridae);
 
+        Drawable drawable1 = getResources().getDrawable(R.drawable.tyrannosaurus_rex);
+        first.setImageDrawable(drawable1);
+
+        Drawable drawable2 = getResources().getDrawable(R.drawable.sauropoda);
+        second.setImageDrawable(drawable2);
+
+        Drawable drawable3 = getResources().getDrawable(R.drawable.hadrosauridae);
+        third.setImageDrawable(drawable3);
 
         /* LinearLayout imageContainer = findViewById(R.id.image_container);
 

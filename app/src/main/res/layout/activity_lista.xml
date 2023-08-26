@@ -4,6 +4,91 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".lista">
+    android:background="#CA8848">
+
+    <ImageView
+        android:id="@+id/secondopera"
+        android:layout_width="250dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="300dp"
+        android:layout_marginTop="30dp"
+        android:scaleType="centerInside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/firstOperaView" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/secondOperaView"
+        android:layout_width="250dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="300dp"
+        android:layout_marginTop="20dp"
+        android:background="@android:color/transparent"
+        android:text="TextView"
+        android:textColor="#723B06"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/secondopera" />
+
+    <ImageView
+        android:id="@+id/thirdopera"
+        android:layout_width="250dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="300dp"
+        android:scaleType="centerInside"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scegli" />
+
+    <ImageView
+        android:id="@+id/firstopera"
+        android:layout_width="250dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="300dp"
+        android:layout_marginTop="25dp"
+        android:scaleType="centerInside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scegli" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/firstOperaView"
+        android:layout_width="250dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="300dp"
+        android:layout_marginTop="20dp"
+        android:background="@android:color/transparent"
+        android:text="TextView"
+        android:textColor="#723B06"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/firstopera" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/thirdOperaView"
+        android:layout_width="250dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="300dp"
+        android:background="@android:color/transparent"
+        android:text="TextView"
+        android:textColor="#723B06"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/thirdopera" />
+
+    <TextView
+        android:id="@+id/scegli"
+        android:layout_width="658dp"
+        android:layout_height="69dp"
+        android:layout_marginStart="124dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="124dp"
+        android:text="A che opera sei interessato?"
+        android:textAlignment="center"
+        android:textColor="#723B06"
+        android:textSize="48sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
