@@ -1,20 +1,18 @@
 package com.example.history4fun;
 
 import androidx.appcompat.app.AppCompatActivity;
-import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 public class lista extends AppCompatActivity {
     private Client client;
-    // private String[] imagePaths;
-    private String area = null;
+    private String chosen_area   = null;
+    private ImageView first_img  = null;
+    private ImageView second_img = null;
+    private ImageView third_img  = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,40 +20,40 @@ public class lista extends AppCompatActivity {
         setContentView(R.layout.activity_lista);
 
         Intent intent = getIntent();
-        area        = (String) intent.getSerializableExtra("area");
-        // magePaths  = (String[]) intent.getSerializableExtra("image_paths");
+        chosen_area   = (String) intent.getSerializableExtra("area");
 
         client = MainActivity.client;
 
-        ImageView first  = findViewById(R.id.firstopera);
-        ImageView second = findViewById(R.id.secondopera);
-        ImageView third  = findViewById(R.id.thirdopera);
+        first_img  = findViewById(R.id.firstopera);
+        second_img = findViewById(R.id.secondopera);
+        third_img  = findViewById(R.id.thirdopera);
 
-        // first.setImageResource(R.drawable.tyrannosaurus_rex);
-        // second.setImageResource(R.drawable.sauropoda);
-        // third.setImageResource(R.drawable.hadrosauridae);
+        Drawable drawable1 = null;
+        Drawable drawable2 = null;
+        Drawable drawable3 = null;
 
-        Drawable drawable1 = getResources().getDrawable(R.drawable.tyrannosaurus_rex);
-        first.setImageDrawable(drawable1);
+        switch (chosen_area) {
+            case "jurassic":
+                drawable1 = getResources().getDrawable(R.drawable.tyrannosaurus_rex);
+                drawable2 = getResources().getDrawable(R.drawable.sauropoda);
+                drawable3 = getResources().getDrawable(R.drawable.hadrosauridae);
+                break;
+            case "prehistory":
+                break;
+            case "egypt":
+                break;
+            case "roman":
+                break;
+            case "greek":
+                break;
+            case "full":
+                Log.i("FULL OPERAS IMAGES: ", "TO BE IMPLEMENTED.");
+                break;
+        }
 
-        Drawable drawable2 = getResources().getDrawable(R.drawable.sauropoda);
-        second.setImageDrawable(drawable2);
-
-        Drawable drawable3 = getResources().getDrawable(R.drawable.hadrosauridae);
-        third.setImageDrawable(drawable3);
-
-        /* LinearLayout imageContainer = findViewById(R.id.image_container);
-
-        for (String imagePath : imagePaths) {
-            ImageView imageView = new ImageView(this);
-            Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
-            imageView.setImageBitmap(bitmap);
-
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            layoutParams.setMargins(0, 0, 0, 16);
-            imageView.setLayoutParams(layoutParams);
-            imageContainer.addView(imageView);
-        } */
+        first_img.setImageDrawable(drawable1);
+        second_img.setImageDrawable(drawable2);
+        third_img.setImageDrawable(drawable3);
     }
 
     @Override

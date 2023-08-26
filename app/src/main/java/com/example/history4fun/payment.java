@@ -407,7 +407,7 @@ public class payment extends AppCompatActivity {
 
                 client.send_json_check_ticket_acquired("CHK_ACQRD_TICKET", user.getUser_id(), current_date, getSelected_area());
                 try {
-                    // TODO: OTTENERE DAL SERVER TUTTI LE DESCRIZIONI DELLE OPERE E AGGIUNGERLE PER MANDARLE ALLA NUOVA ACTIVITY
+                    // TODO: SCRIVERE LOGICA OTTENERE DAL SERVER TUTTI LE DESCRIZIONI DELLE OPERE E AGGIUNGERLE PER MANDARLE ALLA NUOVA ACTIVITY
                     // TODO: IMPLEMENTARE IL FULL_PACK
                     JSONObject myjson = client.receive_json();
                     String flag = myjson.getString("flag");
@@ -418,46 +418,9 @@ public class payment extends AppCompatActivity {
 
                     switch (flag) {
                         case "SUCCESS":
-                            // String[] image_paths = new String[3];
-                            // image_paths[0] = "res/drawable/tyrannosaurus_rex.jpg";
-                            // image_paths[1] = "res/drawable/hadrosauridae.jpg";
-                            // image_paths[2] = "res/drawable/sauropoda.jpg";
-
-                            /* switch (user_selected_area) {
-                                case "jurassic":
-                                    image_paths[0] = "res/Opera/Jurassic/tyrannosaurus_rex.jpg";
-                                    image_paths[1] = "res/Opera/Jurassic/hadrosauridae.jpg";
-                                    image_paths[2] = "res/Opera/Jurassic/sauropoda.jpg";
-                                    break;
-                                case "prehistory":
-                                    image_paths[0] = "res/Opera/Prehistory/microlito.jpg";
-                                    image_paths[1] = "res/Opera/Prehistory/stonehenge.jpg";
-                                    image_paths[2] = "res/Opera/Prehistory/homo_neanderthalensis.jpg";
-                                    break;
-                                case "egypt":
-                                    image_paths[0] = "res/Opera/Egypt/pyramidsofgiza_at_night.jpg";
-                                    image_paths[1] = "res/Opera/Egypt/sfinge.jpg";
-                                    image_paths[2] = "res/Opera/Egypt/piramidi.jpg";
-                                    break;
-                                case "roman":
-                                    image_paths[0] = "res/Opera/Roman/gaio_mario.jpg";
-                                    image_paths[1] = "res/Opera/Roman/romolo_e_remo.jpg";
-                                    image_paths[2] = "res/Opera/Roman/augusto.jpg";
-                                    break;
-                                case "greek":
-                                    image_paths[0] = "res/Opera/Greek/partenone.jpg";
-                                    image_paths[1] = "res/Opera/Greek/hermes_con_dioniso.jpg";
-                                    image_paths[2] = "res/Opera/Greek/cratere.jpg";
-                                    break;
-                                case "full":
-                                    Log.i("REQUEST_IMAGES_FULL: ", "TO BE IMPLEMENTED");
-                                    break;
-                            } */
-
                             Log.i("CHECK_TICKET_ACUIRED: ", "SUCCESSFUL");
                             Intent intent = new Intent(payment.this, lista.class);
                             intent.putExtra("area", user_selected_area);
-                            // intent.putExtra("image_paths", image_paths);
                             startActivity(intent);
                             break;
                         case "FAILURE":
