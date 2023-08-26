@@ -16,6 +16,14 @@
         android:theme="@style/Theme.History4Fun"
         tools:targetApi="31">
         <activity
+            android:name=".info_opera"
+            android:exported="false"
+            android:screenOrientation="landscape">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".lista"
             android:exported="false"
             android:screenOrientation="landscape">
