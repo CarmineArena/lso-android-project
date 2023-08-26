@@ -16,16 +16,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:id="@+id/imageContainer"
+            android:id="@+id/image_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-
-
-
         </LinearLayout>
-
     </ScrollView>
 
     <TextView

@@ -427,24 +427,24 @@ public class payment extends AppCompatActivity {
                                     image_paths[2] = "res/Opera/Jurassic/sauropoda.jpg";
                                     break;
                                 case "prehistory":
-                                    image_paths[0] = "res/Opera/Jurassic/microlito.jpg";
-                                    image_paths[1] = "res/Opera/Jurassic/stonehenge.jpg";
-                                    image_paths[2] = "res/Opera/Jurassic/homo_neanderthalensis.jpg";
+                                    image_paths[0] = "res/Opera/Prehistory/microlito.jpg";
+                                    image_paths[1] = "res/Opera/Prehistory/stonehenge.jpg";
+                                    image_paths[2] = "res/Opera/Prehistory/homo_neanderthalensis.jpg";
                                     break;
                                 case "egypt":
-                                    image_paths[0] = "res/Opera/Jurassic/pyramidsofgiza_at_night.jpg";
-                                    image_paths[1] = "res/Opera/Jurassic/sfinge.jpg";
-                                    image_paths[2] = "res/Opera/Jurassic/piramidi.jpg";
+                                    image_paths[0] = "res/Opera/Egypt/pyramidsofgiza_at_night.jpg";
+                                    image_paths[1] = "res/Opera/Egypt/sfinge.jpg";
+                                    image_paths[2] = "res/Opera/Egypt/piramidi.jpg";
                                     break;
                                 case "roman":
-                                    image_paths[0] = "res/Opera/Jurassic/gaio_mario.jpg";
-                                    image_paths[1] = "res/Opera/Jurassic/romolo_e_remo.jpg";
-                                    image_paths[2] = "res/Opera/Jurassic/augusto.jpg";
+                                    image_paths[0] = "res/Opera/Roman/gaio_mario.jpg";
+                                    image_paths[1] = "res/Opera/Roman/romolo_e_remo.jpg";
+                                    image_paths[2] = "res/Opera/Roman/augusto.jpg";
                                     break;
                                 case "greek":
-                                    image_paths[0] = "res/Opera/Jurassic/partenone.jpg";
-                                    image_paths[1] = "res/Opera/Jurassic/hermes_con_dioniso.jpg";
-                                    image_paths[2] = "res/Opera/Jurassic/cratere.jpg";
+                                    image_paths[0] = "res/Opera/Greek/partenone.jpg";
+                                    image_paths[1] = "res/Opera/Greek/hermes_con_dioniso.jpg";
+                                    image_paths[2] = "res/Opera/Greek/cratere.jpg";
                                     break;
                                 case "full":
                                     Log.i("REQUEST_IMAGES_FULL: ", "TO BE IMPLEMENTED");

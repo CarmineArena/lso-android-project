@@ -9,43 +9,33 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-// TODO: SE NON FUNZIONA SOSTITUIRE CON I PATH DEL PC
-
 public class lista extends AppCompatActivity {
     private Client client;
     private String[] imagePaths;
     private String area = null;
-
-    private void fillLinearLayout() {
-        LinearLayout imageContainer = findViewById(R.id.imageContainer);
-
-        for (String imagePath : imagePaths) {
-            ImageView imageView = new ImageView(this);
-            Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
-            imageView.setImageBitmap(bitmap);
-
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-            );
-            layoutParams.setMargins(0, 0, 0, 16);
-            imageView.setLayoutParams(layoutParams);
-            imageContainer.addView(imageView);
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista);
 
-        client = MainActivity.client;
-
         Intent intent = getIntent();
         area        = (String) intent.getSerializableExtra("area");
         imagePaths  = (String[]) intent.getSerializableExtra("image_paths");
 
-        fillLinearLayout();
+        client = MainActivity.client;
+        LinearLayout imageContainer = findViewById(R.id.image_container);
+
+        for (String imagePath : imagePaths) {
+            ImageView imageView = new ImageView(this);
+            Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+            imageView.setImageBitmap(bitmap);
+
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            layoutParams.setMargins(0, 0, 0, 16);
+            imageView.setLayoutParams(layoutParams);
+            imageContainer.addView(imageView);
+        }
     }
 
     @Override
