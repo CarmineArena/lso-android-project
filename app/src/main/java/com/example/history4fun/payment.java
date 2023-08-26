@@ -418,9 +418,12 @@ public class payment extends AppCompatActivity {
 
                     switch (flag) {
                         case "SUCCESS":
-                            String[] image_paths = new String[3];
+                            // String[] image_paths = new String[3];
+                            // image_paths[0] = "res/drawable/tyrannosaurus_rex.jpg";
+                            // image_paths[1] = "res/drawable/hadrosauridae.jpg";
+                            // image_paths[2] = "res/drawable/sauropoda.jpg";
 
-                            switch (user_selected_area) {
+                            /* switch (user_selected_area) {
                                 case "jurassic":
                                     image_paths[0] = "res/Opera/Jurassic/tyrannosaurus_rex.jpg";
                                     image_paths[1] = "res/Opera/Jurassic/hadrosauridae.jpg";
@@ -449,12 +452,12 @@ public class payment extends AppCompatActivity {
                                 case "full":
                                     Log.i("REQUEST_IMAGES_FULL: ", "TO BE IMPLEMENTED");
                                     break;
-                            }
+                            } */
 
                             Log.i("CHECK_TICKET_ACUIRED: ", "SUCCESSFUL");
                             Intent intent = new Intent(payment.this, lista.class);
                             intent.putExtra("area", user_selected_area);
-                            intent.putExtra("image_paths", image_paths);
+                            // intent.putExtra("image_paths", image_paths);
                             startActivity(intent);
                             break;
                         case "FAILURE":

@@ -6,12 +6,13 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 public class lista extends AppCompatActivity {
     private Client client;
-    private String[] imagePaths;
+    // private String[] imagePaths;
     private String area = null;
 
     @Override
@@ -21,7 +22,7 @@ public class lista extends AppCompatActivity {
 
         Intent intent = getIntent();
         area        = (String) intent.getSerializableExtra("area");
-        imagePaths  = (String[]) intent.getSerializableExtra("image_paths");
+        // magePaths  = (String[]) intent.getSerializableExtra("image_paths");
 
         client = MainActivity.client;
         LinearLayout imageContainer = findViewById(R.id.image_container);
