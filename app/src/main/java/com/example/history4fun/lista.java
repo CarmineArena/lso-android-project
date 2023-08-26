@@ -25,7 +25,18 @@ public class lista extends AppCompatActivity {
         // magePaths  = (String[]) intent.getSerializableExtra("image_paths");
 
         client = MainActivity.client;
-        LinearLayout imageContainer = findViewById(R.id.image_container);
+
+        ImageView first = findViewById(R.id.firstopera);
+        first.setImageResource(R.drawable.tyrannosaurus_rex);
+
+        ImageView second = findViewById(R.id.secondopera);
+        second.setImageResource(R.drawable.sauropoda);
+
+        ImageView third = findViewById(R.id.thirdopera);
+        third.setImageResource(R.drawable.hadrosauridae);
+
+
+        /* LinearLayout imageContainer = findViewById(R.id.image_container);
 
         for (String imagePath : imagePaths) {
             ImageView imageView = new ImageView(this);
@@ -36,7 +47,7 @@ public class lista extends AppCompatActivity {
             layoutParams.setMargins(0, 0, 0, 16);
             imageView.setLayoutParams(layoutParams);
             imageContainer.addView(imageView);
-        }
+        } */
     }
 
     @Override
