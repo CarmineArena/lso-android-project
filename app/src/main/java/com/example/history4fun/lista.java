@@ -35,18 +35,31 @@ public class lista extends AppCompatActivity {
         switch (chosen_area) {
             case "jurassic":
                 drawable1 = getResources().getDrawable(R.drawable.tyrannosaurus_rex);
-                drawable2 = getResources().getDrawable(R.drawable.sauropoda);
-                drawable3 = getResources().getDrawable(R.drawable.hadrosauridae);
+                drawable2 = getResources().getDrawable(R.drawable.hadrosauridae);
+                drawable3 = getResources().getDrawable(R.drawable.sauropoda);
                 break;
             case "prehistory":
+                drawable1 = getResources().getDrawable(R.drawable.microlito);
+                drawable2 = getResources().getDrawable(R.drawable.stonehenge);
+                drawable3 = getResources().getDrawable(R.drawable.homo_neanderthalensis);
                 break;
             case "egypt":
+                drawable1 = getResources().getDrawable(R.drawable.pyramidsofgiza_at_night);
+                drawable2 = getResources().getDrawable(R.drawable.sfinge);
+                drawable3 = getResources().getDrawable(R.drawable.piramidi);
                 break;
             case "roman":
+                drawable1 = getResources().getDrawable(R.drawable.gaio_mario);
+                drawable2 = getResources().getDrawable(R.drawable.romolo_e_remo);
+                drawable3 = getResources().getDrawable(R.drawable.augusto);
                 break;
             case "greek":
+                drawable1 = getResources().getDrawable(R.drawable.partenone);
+                drawable2 = getResources().getDrawable(R.drawable.hermes_con_dioniso);
+                drawable3 = getResources().getDrawable(R.drawable.cratere);
                 break;
             case "full":
+                // TODO: DA FARE IL FULLPACK
                 Log.i("FULL OPERAS IMAGES: ", "TO BE IMPLEMENTED.");
                 break;
         }
