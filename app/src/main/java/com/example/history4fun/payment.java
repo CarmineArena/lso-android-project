@@ -407,6 +407,8 @@ public class payment extends AppCompatActivity {
 
                 client.send_json_check_ticket_acquired("CHK_ACQRD_TICKET", user.getUser_id(), current_date, getSelected_area());
                 try {
+                    // TODO: OTTENERE DAL SERVER TUTTI LE DESCRIZIONI DELLE OPERE E AGGIUNGERLE PER MANDARLE ALLA NUOVA ACTIVITY
+                    // TODO: IMPLEMENTARE IL FULL_PACK
                     JSONObject myjson = client.receive_json();
                     String flag = myjson.getString("flag");
 
@@ -416,47 +418,44 @@ public class payment extends AppCompatActivity {
 
                     switch (flag) {
                         case "SUCCESS":
-                            // TODO: OTTENERE DAL SERVER TUTTI LE DESCRIZIONI DELLE OPERE
-                            // TODO: MANDARE LE IMMAGINI ALLA PAGINA DELLA VISITA GUIDATA
-                            // TODO: LISTARE LE IMMAGINI NELL'ARRAY IN ORDINE DI CODICE
-                            // TODO: IMPLEMENTARE IL FULL_PACK
-
                             String[] image_paths = new String[3];
 
-                            // TODO: SE NON FUNZIONA SOSTITUIRE CON I PATH DEL PC
                             switch (user_selected_area) {
                                 case "jurassic":
                                     image_paths[0] = "res/Opera/Jurassic/tyrannosaurus_rex.jpg";
-                                    image_paths[1] = "res/Opera/Jurassic/sauropoda.jpg";
-                                    image_paths[2] = "res/Opera/Jurassic/hadrosauridae.jpg";
+                                    image_paths[1] = "res/Opera/Jurassic/hadrosauridae.jpg";
+                                    image_paths[2] = "res/Opera/Jurassic/sauropoda.jpg";
                                     break;
                                 case "prehistory":
-                                    image_paths[0] = "res/Opera/Jurassic/stonehenge.jpg";
-                                    image_paths[1] = "res/Opera/Jurassic/microlito.jpg";
+                                    image_paths[0] = "res/Opera/Jurassic/microlito.jpg";
+                                    image_paths[1] = "res/Opera/Jurassic/stonehenge.jpg";
                                     image_paths[2] = "res/Opera/Jurassic/homo_neanderthalensis.jpg";
                                     break;
                                 case "egypt":
-                                    image_paths[0] = "res/Opera/Jurassic/sfinge.jpg";
-                                    image_paths[1] = "res/Opera/Jurassic/piramidi.jpg";
-                                    image_paths[2] = "res/Opera/Jurassic/pyramidsofgiza_at_night.jpg";
+                                    image_paths[0] = "res/Opera/Jurassic/pyramidsofgiza_at_night.jpg";
+                                    image_paths[1] = "res/Opera/Jurassic/sfinge.jpg";
+                                    image_paths[2] = "res/Opera/Jurassic/piramidi.jpg";
                                     break;
                                 case "roman":
-                                    image_paths[0] = "res/Opera/Jurassic/augusto.jpg";
-                                    image_paths[1] = "res/Opera/Jurassic/gaio_mario.jpg";
-                                    image_paths[2] = "res/Opera/Jurassic/romolo_e_remo.jpg";
+                                    image_paths[0] = "res/Opera/Jurassic/gaio_mario.jpg";
+                                    image_paths[1] = "res/Opera/Jurassic/romolo_e_remo.jpg";
+                                    image_paths[2] = "res/Opera/Jurassic/augusto.jpg";
                                     break;
                                 case "greek":
                                     image_paths[0] = "res/Opera/Jurassic/partenone.jpg";
-                                    image_paths[1] = "res/Opera/Jurassic/cratere.jpg";
-                                    image_paths[2] = "res/Opera/Jurassic/hermes_con_dioniso.jpg";
+                                    image_paths[1] = "res/Opera/Jurassic/hermes_con_dioniso.jpg";
+                                    image_paths[2] = "res/Opera/Jurassic/cratere.jpg";
                                     break;
                                 case "full":
                                     Log.i("REQUEST_IMAGES_FULL: ", "TO BE IMPLEMENTED");
                                     break;
                             }
 
-                            // TODO: PASSARE ALLA NUOVA ACTIVITY TUTTO IL NECESSARIO
                             Log.i("CHECK_TICKET_ACUIRED: ", "SUCCESSFUL");
+                            Intent intent = new Intent(payment.this, lista.class);
+                            intent.putExtra("area", user_selected_area);
+                            intent.putExtra("image_paths", image_paths);
+                            startActivity(intent);
                             break;
                         case "FAILURE":
                             showRedirectHomeDialog("ERROR", "Assicurarsi di avere un biglietto per il giorno corrente!");
