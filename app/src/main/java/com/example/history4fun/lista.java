@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.ImageView;
 
 public class lista extends AppCompatActivity {
@@ -17,6 +18,48 @@ public class lista extends AppCompatActivity {
     private ImageView first_img     = null;
     private ImageView second_img    = null;
     private ImageView third_img     = null;
+    private Button first_opera_button  = null;
+    private Button second_opera_button = null;
+    private Button third_opera_button  = null;
+
+    private void manage_full_page() {
+
+    }
+
+    private void manage_page_single_area() {
+        first_opera_button.setOnClickListener(view -> {
+            Thread t = new Thread(() -> {
+                Intent intent = new Intent(lista.this, info_opera.class);
+                intent.putExtra("descrizione", opera_descriptions[0]);
+                intent.putExtra("area", chosen_area);
+                intent.putExtra("art_id", "0");
+                startActivity(intent);
+            });
+            t.start();
+        });
+
+        second_opera_button.setOnClickListener(view -> {
+            Thread t = new Thread(() -> {
+                Intent intent = new Intent(lista.this, info_opera.class);
+                intent.putExtra("descrizione", opera_descriptions[1]);
+                intent.putExtra("area", chosen_area);
+                intent.putExtra("art_id", "1");
+                startActivity(intent);
+            });
+            t.start();
+        });
+
+        third_opera_button.setOnClickListener(view -> {
+            Thread t = new Thread(() -> {
+                Intent intent = new Intent(lista.this, info_opera.class);
+                intent.putExtra("descrizione", opera_descriptions[2]);
+                intent.putExtra("area", chosen_area);
+                intent.putExtra("art_id", "2");
+                startActivity(intent);
+            });
+            t.start();
+        });
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,10 +119,12 @@ public class lista extends AppCompatActivity {
         second_img.setImageDrawable(drawable2);
         third_img.setImageDrawable(drawable3);
 
-        // for (int i = 0; i < opera_descriptions.length; i++) {
-            // Log.i("DESCRIZIONE: ", opera_descriptions[i]);
-        // }
-        // TODO: LE IMAGEVIEW E I TEXTVIEW SONO LISTATI IN ORDINE DI IDENTIFICATIVO?
+        first_opera_button  = findViewById(R.id.firstOperaView);
+        second_opera_button = findViewById(R.id.secondOperaView);
+        third_opera_button  = findViewById(R.id.thirdOperaView);
+
+        Thread t = new Thread(this::manage_page_single_area);
+        t.start();
     }
 
     @Override
