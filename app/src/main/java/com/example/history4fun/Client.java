@@ -83,6 +83,42 @@ public class Client {
         }
     }
 
+    void send_json_get_opera_descriptions(String flag, String user_selected_area, String type_description) {
+        Log.i("SEND_JSON_GET_TT_TYPE", " send_json_get_ticket_type() called.");
+        try {
+            JSONObject json = new JSONObject()
+                    .put("flag", flag)
+                    .put("area", user_selected_area)
+                    .put("description", type_description);
+
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(getClientSocket().getOutputStream()));
+            String myjson = json.toString();
+            writer.write(myjson);
+            writer.flush();
+            Log.i("SEND_JSON_GET_TT_TYPE", myjson + " sent to server.");
+        } catch (JSONException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void send_json_get_ticket_type(String flag, String user_id, String current_date) {
+        Log.i("SEND_JSON_GET_TT_TYPE", " send_json_get_ticket_type() called.");
+        try {
+            JSONObject json = new JSONObject()
+                    .put("flag", flag)
+                    .put("user_id", user_id)
+                    .put("ticket_date", current_date);
+
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(getClientSocket().getOutputStream()));
+            String myjson = json.toString();
+            writer.write(myjson);
+            writer.flush();
+            Log.i("SEND_JSON_GET_TT_TYPE", myjson + " sent to server.");
+        } catch (JSONException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void send_json_get_ticket_msg(String flag, Ticket ticket) {
         Log.i("SEND_JSON_GET_TICKET", " send_json_get_ticket_msg() called.");
         try {
@@ -198,6 +234,32 @@ public class Client {
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public JSONObject receive_json_opera_descriptions() throws IOException, JSONException {
+        // Log.i("REC_JSON_ARRAY", "receive_json_opera_descriptions() called.");
+        BufferedReader input = new BufferedReader(new InputStreamReader(getClientSocket().getInputStream()));
+        StringBuilder jsonStr = new StringBuilder();
+
+        int cc, i = 0;
+        int curlyBraceCount = 0;
+        while ((cc = input.read()) != -1) {
+            char c = (char) cc;
+            jsonStr.append(c);
+
+            if (c == '{') {
+                curlyBraceCount++;
+            } else if (c == '}') {
+                curlyBraceCount--;
+                if (curlyBraceCount == 0) {
+                    break;
+                }
+            }
+        }
+
+        JSONObject jsn = new JSONObject(jsonStr.toString());
+        Log.i("REC_JSON_ARRAY", jsn + " received from server.");
+        return jsn;
     }
 
     public JSONObject receive_json() throws IOException, JSONException {

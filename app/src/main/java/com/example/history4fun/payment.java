@@ -393,6 +393,7 @@ public class payment extends AppCompatActivity {
     }
 
     private void manage_login_visit() {
+        // TODO: IMPLEMENTARE IL FULL_PACK
         login_visit_button.setOnClickListener(view -> {
             Thread t = new Thread(() -> {
                 clearAllText();
@@ -407,8 +408,6 @@ public class payment extends AppCompatActivity {
 
                 client.send_json_check_ticket_acquired("CHK_ACQRD_TICKET", user.getUser_id(), current_date, getSelected_area());
                 try {
-                    // TODO: SCRIVERE LOGICA OTTENERE DAL SERVER TUTTI LE DESCRIZIONI DELLE OPERE E AGGIUNGERLE PER MANDARLE ALLA NUOVA ACTIVITY
-                    // TODO: IMPLEMENTARE IL FULL_PACK
                     JSONObject myjson = client.receive_json();
                     String flag = myjson.getString("flag");
 
@@ -416,14 +415,53 @@ public class payment extends AppCompatActivity {
                     JSONObject retrieved = retrieved_data.getJSONObject(0);
                     String user_selected_area = retrieved.getString("area");
 
-                    // TODO: RECUPERARE TYPE DEL BIGLIETTO
-
                     switch (flag) {
                         case "SUCCESS":
-                            Log.i("CHECK_TICKET_ACUIRED: ", "SUCCESSFUL");
-                            Intent intent = new Intent(payment.this, lista.class);
-                            intent.putExtra("area", user_selected_area);
-                            startActivity(intent);
+                            client.send_json_get_ticket_type("GET_TCKT_TYPE", user.getUser_id(), current_date);
+
+                            JSONObject myjson2 = client.receive_json();
+                            String flag2 = myjson2.getString("flag");
+
+                            if (flag2.equals("SUCCESS")) {
+                                Log.i("CHECK_TICKET_ACUIRED: ", "SUCCESSFUL");
+
+                                JSONArray retrieved_data2 = myjson2.getJSONArray("retrieved_data");
+                                JSONObject retrieved2 = retrieved_data2.getJSONObject(0);
+                                String user_ticket_type = retrieved2.getString("type");
+                                String description = null;
+
+                                if (user_ticket_type.equals("guest") || user_ticket_type.equals("group")) {
+                                    description = "n_description";
+                                } else if (user_ticket_type.equals("family") || user_ticket_type.equals("school")) {
+                                    description = "y_description";
+                                } else {
+                                    description = "e_description";
+                                }
+
+                                client.send_json_get_opera_descriptions("GET_OP_DESC", user_selected_area, description);
+
+                                JSONObject myjson3 = client.receive_json_opera_descriptions();
+                                String flag3 = myjson3.getString("flag");
+
+                                if (flag3.equals("SUCCESS")) {
+                                    String[] opera_descriptions = new String[3];
+                                    opera_descriptions[0] = myjson3.getJSONArray("retrieved_data").getJSONObject(0).getString(description);
+                                    opera_descriptions[1] = myjson3.getJSONArray("retrieved_data").getJSONObject(1).getString(description);
+                                    opera_descriptions[2] = myjson3.getJSONArray("retrieved_data").getJSONObject(2).getString(description);
+
+                                    Intent intent = new Intent(payment.this, lista.class);
+                                    intent.putExtra("user", user);
+                                    intent.putExtra("user_nickname", nickname);
+                                    intent.putExtra("area", user_selected_area);
+                                    intent.putExtra("ticket_type", user_ticket_type);
+                                    intent.putExtra("opera_descriptions", opera_descriptions);
+                                    startActivity(intent);
+                                } else {
+                                    showRedirectHomeDialog("SERVER ERROR (2)", "Le operazioni del server non sono avvenute correttamente.");
+                                }
+                            } else {
+                                showRedirectHomeDialog("SERVER ERROR (1)", "Le operazioni del server non sono avvenute correttamente.");
+                            }
                             break;
                         case "FAILURE":
                             showRedirectHomeDialog("ERROR", "Assicurarsi di avere un biglietto per il giorno corrente!");

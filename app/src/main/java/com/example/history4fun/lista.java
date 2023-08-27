@@ -9,10 +9,14 @@ import android.widget.ImageView;
 
 public class lista extends AppCompatActivity {
     private Client client;
-    private String chosen_area   = null;
-    private ImageView first_img  = null;
-    private ImageView second_img = null;
-    private ImageView third_img  = null;
+    private Utente user;
+    private String[] opera_descriptions; // LE DESCRIZIONI SONO IN ORDINE DI IDENFITICATIVO
+    private String nickname         = null;
+    private String chosen_area      = null;
+    private String user_ticket_type = null;
+    private ImageView first_img     = null;
+    private ImageView second_img    = null;
+    private ImageView third_img     = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +24,11 @@ public class lista extends AppCompatActivity {
         setContentView(R.layout.activity_lista);
 
         Intent intent = getIntent();
-        chosen_area   = (String) intent.getSerializableExtra("area");
+        user               = (Utente) intent.getSerializableExtra("user");
+        nickname           = (String) intent.getSerializableExtra("user_nickname");
+        chosen_area        = (String) intent.getSerializableExtra("area");
+        user_ticket_type   = (String) intent.getSerializableExtra("ticket_type");
+        opera_descriptions = (String[]) intent.getSerializableExtra("opera_descriptions");
 
         client = MainActivity.client;
 
@@ -67,6 +75,11 @@ public class lista extends AppCompatActivity {
         first_img.setImageDrawable(drawable1);
         second_img.setImageDrawable(drawable2);
         third_img.setImageDrawable(drawable3);
+
+        // for (int i = 0; i < opera_descriptions.length; i++) {
+            // Log.i("DESCRIZIONE: ", opera_descriptions[i]);
+        // }
+        // TODO: LE IMAGEVIEW E I TEXTVIEW SONO LISTATI IN ORDINE DI IDENTIFICATIVO?
     }
 
     @Override
