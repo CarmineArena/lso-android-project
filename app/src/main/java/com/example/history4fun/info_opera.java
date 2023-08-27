@@ -92,7 +92,7 @@ public class info_opera extends AppCompatActivity {
                 }
                 break;
             case "full":
-                // TODO: DA FARE IL FULLPACK
+                // TODO: DA IMPLEMENTARE IL FULLPACK
                 Log.i("FULL OPERAS IMAGES: ", "TO BE IMPLEMENTED.");
                 break;
         }

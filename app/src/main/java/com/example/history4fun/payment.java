@@ -137,7 +137,7 @@ public class payment extends AppCompatActivity {
         builder.setIcon(android.R.drawable.ic_dialog_info);
         builder.setPositiveButton("OK", (dialog, id) -> {
             Intent intent = new Intent(payment.this, Home.class);
-            intent.putExtra("user", ticket.getUser());
+            intent.putExtra("user", user);
             intent.putExtra("user_nickname", nickname);
             startActivity(intent);
         });
@@ -408,15 +408,16 @@ public class payment extends AppCompatActivity {
 
                 client.send_json_check_ticket_acquired("CHK_ACQRD_TICKET", user.getUser_id(), current_date, getSelected_area());
                 try {
+                    boolean valid = true;
                     JSONObject myjson = client.receive_json();
                     String flag = myjson.getString("flag");
 
-                    JSONArray retrieved_data = myjson.getJSONArray("retrieved_data");
-                    JSONObject retrieved = retrieved_data.getJSONObject(0);
-                    String user_selected_area = retrieved.getString("area");
-
                     switch (flag) {
                         case "SUCCESS":
+                            JSONArray retrieved_data = myjson.getJSONArray("retrieved_data");
+                            JSONObject retrieved = retrieved_data.getJSONObject(0);
+                            String user_selected_area = retrieved.getString("area");
+
                             client.send_json_get_ticket_type("GET_TCKT_TYPE", user.getUser_id(), current_date);
 
                             JSONObject myjson2 = client.receive_json();
@@ -444,10 +445,53 @@ public class payment extends AppCompatActivity {
                                 String flag3 = myjson3.getString("flag");
 
                                 if (flag3.equals("SUCCESS")) {
-                                    String[] opera_descriptions = new String[3];
-                                    opera_descriptions[0] = myjson3.getJSONArray("retrieved_data").getJSONObject(0).getString(description);
-                                    opera_descriptions[1] = myjson3.getJSONArray("retrieved_data").getJSONObject(1).getString(description);
-                                    opera_descriptions[2] = myjson3.getJSONArray("retrieved_data").getJSONObject(2).getString(description);
+                                    String[] opera_descriptions = null;
+                                    if (user_selected_area.equals("full")) {
+                                        switch (getSelected_area()) {
+                                            case "jurassic":
+                                                opera_descriptions = new String[3];
+                                                opera_descriptions[0] = myjson3.getJSONArray("retrieved_data").getJSONObject(0).getString(description);
+                                                opera_descriptions[1] = myjson3.getJSONArray("retrieved_data").getJSONObject(1).getString(description);
+                                                opera_descriptions[2] = myjson3.getJSONArray("retrieved_data").getJSONObject(2).getString(description);
+                                                break;
+                                            case "prehistory":
+                                                opera_descriptions = new String[3];
+                                                opera_descriptions[0] = myjson3.getJSONArray("retrieved_data").getJSONObject(3).getString(description);
+                                                opera_descriptions[1] = myjson3.getJSONArray("retrieved_data").getJSONObject(4).getString(description);
+                                                opera_descriptions[2] = myjson3.getJSONArray("retrieved_data").getJSONObject(5).getString(description);
+                                                break;
+                                            case "egypt":
+                                                opera_descriptions = new String[3];
+                                                opera_descriptions[0] = myjson3.getJSONArray("retrieved_data").getJSONObject(6).getString(description);
+                                                opera_descriptions[1] = myjson3.getJSONArray("retrieved_data").getJSONObject(7).getString(description);
+                                                opera_descriptions[2] = myjson3.getJSONArray("retrieved_data").getJSONObject(8).getString(description);
+                                                break;
+                                            case "roman":
+                                                opera_descriptions = new String[3];
+                                                opera_descriptions[0] = myjson3.getJSONArray("retrieved_data").getJSONObject(9).getString(description);
+                                                opera_descriptions[1] = myjson3.getJSONArray("retrieved_data").getJSONObject(10).getString(description);
+                                                opera_descriptions[2] = myjson3.getJSONArray("retrieved_data").getJSONObject(11).getString(description);
+                                                break;
+                                            case "greek":
+                                                opera_descriptions = new String[3];
+                                                opera_descriptions[0] = myjson3.getJSONArray("retrieved_data").getJSONObject(12).getString(description);
+                                                opera_descriptions[1] = myjson3.getJSONArray("retrieved_data").getJSONObject(13).getString(description);
+                                                opera_descriptions[2] = myjson3.getJSONArray("retrieved_data").getJSONObject(14).getString(description);
+                                                break;
+                                            case "full":
+                                                // TODO: ALLOCARE L'ARRAY DI 15 ELEMENTI E INSERIRE TUTTE LE DESCRIZIONI (ORA MI SCOCCIO)
+                                                break;
+                                        }
+                                    } else {
+                                        opera_descriptions = new String[3];
+                                        opera_descriptions[0] = myjson3.getJSONArray("retrieved_data").getJSONObject(0).getString(description);
+                                        opera_descriptions[1] = myjson3.getJSONArray("retrieved_data").getJSONObject(1).getString(description);
+                                        opera_descriptions[2] = myjson3.getJSONArray("retrieved_data").getJSONObject(2).getString(description);
+                                    }
+
+                                    // for (int i = 0; i < opera_descriptions.length; i++) {
+                                        // Log.i("Opera: ", opera_descriptions[i]);
+                                    // }
 
                                     Intent intent = new Intent(payment.this, lista.class);
                                     intent.putExtra("user", user);

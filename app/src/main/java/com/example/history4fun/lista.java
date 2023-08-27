@@ -22,9 +22,7 @@ public class lista extends AppCompatActivity {
     private Button second_opera_button = null;
     private Button third_opera_button  = null;
 
-    private void manage_full_page() {
-
-    }
+    private void manage_full_page() { } // TODO: QUESTA FUNZIONE SERVE?
 
     private void manage_page_single_area() {
         first_opera_button.setOnClickListener(view -> {
@@ -110,7 +108,7 @@ public class lista extends AppCompatActivity {
                 drawable3 = getResources().getDrawable(R.drawable.cratere);
                 break;
             case "full":
-                // TODO: DA FARE IL FULLPACK
+                // TODO: DA GESTIRE IL FULLPACK (COME MOSTRIAMO TUTTE LE IMMAGINI CON TUTTE LE DESCRIZIONI?)
                 Log.i("FULL OPERAS IMAGES: ", "TO BE IMPLEMENTED.");
                 break;
         }
