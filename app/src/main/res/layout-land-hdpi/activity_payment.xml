@@ -271,4 +271,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="110dp"
+        android:layout_height="116dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="Indietro"
+        android:src="@drawable/ic_baseline_arrow_back_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

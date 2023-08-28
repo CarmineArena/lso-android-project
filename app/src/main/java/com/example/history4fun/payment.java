@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -405,6 +406,14 @@ public class payment extends AppCompatActivity {
                 calendar.add(Calendar.DATE, 0);
                 Date today = calendar.getTime();
                 String current_date = dateFormat.format(today);
+
+                ImageButton backButton = findViewById(R.id.backButton);
+                backButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onBackPressed();
+                    }
+                });
 
                 client.send_json_check_ticket_acquired("CHK_ACQRD_TICKET", user.getUser_id(), current_date, getSelected_area());
                 try {

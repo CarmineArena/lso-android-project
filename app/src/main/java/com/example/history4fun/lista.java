@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 public class lista extends AppCompatActivity {
@@ -80,6 +82,14 @@ public class lista extends AppCompatActivity {
         Drawable drawable1 = null;
         Drawable drawable2 = null;
         Drawable drawable3 = null;
+
+        ImageButton backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         switch (chosen_area) {
             case "jurassic":

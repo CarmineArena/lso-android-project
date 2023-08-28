@@ -7,8 +7,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -211,6 +213,14 @@ public class Sign_up extends AppCompatActivity {
 
         client  = MainActivity.client;
         this.handler = new Handler();
+
+        ImageButton backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         data_button.setOnClickListener(v -> {
             final Calendar c = Calendar.getInstance();

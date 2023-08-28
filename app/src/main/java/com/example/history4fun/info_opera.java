@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -44,6 +46,14 @@ public class info_opera extends AppCompatActivity {
         immagine = findViewById(R.id.opera);
 
         Drawable drawable = null;
+
+        ImageButton backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         switch (chosen_area) {
             case "jurassic":
