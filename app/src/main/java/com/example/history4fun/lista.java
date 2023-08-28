@@ -14,17 +14,22 @@ public class lista extends AppCompatActivity {
     private Client client;
     private Utente user;
     private String[] opera_descriptions; // LE DESCRIZIONI SONO IN ORDINE DI IDENFITICATIVO
-    private String nickname         = null;
-    private String chosen_area      = null;
-    private String user_ticket_type = null;
-    private ImageView first_img     = null;
-    private ImageView second_img    = null;
-    private ImageView third_img     = null;
+    private String nickname            = null;
+    private String chosen_area         = null;
+    private String user_ticket_type    = null;
+    private ImageView first_img        = null;
+    private ImageView second_img       = null;
+    private ImageView third_img        = null;
     private Button first_opera_button  = null;
     private Button second_opera_button = null;
     private Button third_opera_button  = null;
+    private boolean should_call_on_destroy = true;
 
-    private void manage_full_page() { } // TODO: QUESTA FUNZIONE SERVE?
+    private void manage_full_page() {
+        // CON TUTTA PROBABILITA' ANDRA' IMPLEMENTATO UN QUALCOSA DI SIMILE A manage_page_single_area()
+        // La logica sarà la stessa, basterà passare le singole corrette area e descrizione dell'opera [info_opera.java deve continuare a mostrare solo una sola opera]
+        // In questo modo non c'è bisogno dello switch case "full": in info_opera.java [VA RIMOSSO]
+    }
 
     private void manage_page_single_area() {
         first_opera_button.setOnClickListener(view -> {
@@ -84,12 +89,7 @@ public class lista extends AppCompatActivity {
         Drawable drawable3 = null;
 
         ImageButton backButton = findViewById(R.id.backButton);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        backButton.setOnClickListener(v -> onBackPressed());
 
         switch (chosen_area) {
             case "jurassic":
@@ -118,7 +118,9 @@ public class lista extends AppCompatActivity {
                 drawable3 = getResources().getDrawable(R.drawable.cratere);
                 break;
             case "full":
-                // TODO: DA GESTIRE IL FULLPACK (COME MOSTRIAMO TUTTE LE IMMAGINI CON TUTTE LE DESCRIZIONI?)
+                // TODO: COME GESTIAMO LA VISUALIZZAZIONE DI TUTTE LE IMMAGINI?
+                // QUESTO DERIVA DAL FATTO CHE L'UTENTE PU0' AVER FATTO ACCESSO ALLA VISITA GUIDATA CLICCANDO DIRETTAMENTE SUL BUTTON DEL FULL PACK
+                // RICHIAMARE manage_full_page()
                 Log.i("FULL OPERAS IMAGES: ", "TO BE IMPLEMENTED.");
                 break;
         }
@@ -136,27 +138,44 @@ public class lista extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() { super.onStart(); }
+    protected void onStart() {
+        super.onStart();
+        should_call_on_destroy = true;
+    }
 
     @Override
-    protected void onResume() { super.onResume(); }
+    protected void onResume() {
+        super.onResume();
+        should_call_on_destroy = true;
+    }
 
     @Override
-    protected void onPause() { super.onPause(); }
+    protected void onPause() {
+        super.onPause();
+        should_call_on_destroy = false;
+    }
 
     @Override
-    protected void onStop() { super.onStop(); }
+    protected void onStop() {
+        super.onStop();
+        should_call_on_destroy = false;
+    }
 
     @Override
-    protected void onRestart(){ super.onRestart(); }
+    protected void onRestart() {
+        super.onRestart();
+        should_call_on_destroy = true;
+    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Thread t = new Thread(() -> {
-            client.send_json_close_connection("STOP_CONNECTION");
-            client.close_connection();
-        });
-        t.start();
+        if (should_call_on_destroy) {
+            Thread t = new Thread(() -> {
+                client.send_json_close_connection("STOP_CONNECTION");
+                client.close_connection();
+            });
+            t.start();
+        }
     }
 }

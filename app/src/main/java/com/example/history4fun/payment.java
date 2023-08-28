@@ -56,6 +56,7 @@ public class payment extends AppCompatActivity {
     private Button data                      = null;
     private Spinner spinnerType              = null;
     private TextView buy_label_text          = null;
+    private boolean should_call_on_destroy = true;
     String[] type = {"Seleziona un tipo", "Singolo", "Gruppo", "Famiglia", "Scuola", "Esperto"};
 
     private void setSelected_area(String selected_area) { this.museum_area = selected_area; }
@@ -394,7 +395,6 @@ public class payment extends AppCompatActivity {
     }
 
     private void manage_login_visit() {
-        // TODO: IMPLEMENTARE IL FULL_PACK
         login_visit_button.setOnClickListener(view -> {
             Thread t = new Thread(() -> {
                 clearAllText();
@@ -406,14 +406,6 @@ public class payment extends AppCompatActivity {
                 calendar.add(Calendar.DATE, 0);
                 Date today = calendar.getTime();
                 String current_date = dateFormat.format(today);
-
-                ImageButton backButton = findViewById(R.id.backButton);
-                backButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        onBackPressed();
-                    }
-                });
 
                 client.send_json_check_ticket_acquired("CHK_ACQRD_TICKET", user.getUser_id(), current_date, getSelected_area());
                 try {
@@ -488,7 +480,23 @@ public class payment extends AppCompatActivity {
                                                 opera_descriptions[2] = myjson3.getJSONArray("retrieved_data").getJSONObject(14).getString(description);
                                                 break;
                                             case "full":
-                                                // TODO: ALLOCARE L'ARRAY DI 15 ELEMENTI E INSERIRE TUTTE LE DESCRIZIONI (ORA MI SCOCCIO)
+                                                // THIS IS BECAUSE THE USER CAN ALSO ACCESS THE VISTI BY CLICKING ON THE FULL_PACK BUTTON
+                                                opera_descriptions = new String[15];
+                                                opera_descriptions[0] = myjson3.getJSONArray("retrieved_data").getJSONObject(0).getString(description);
+                                                opera_descriptions[1] = myjson3.getJSONArray("retrieved_data").getJSONObject(1).getString(description);
+                                                opera_descriptions[2] = myjson3.getJSONArray("retrieved_data").getJSONObject(2).getString(description);
+                                                opera_descriptions[3] = myjson3.getJSONArray("retrieved_data").getJSONObject(3).getString(description);
+                                                opera_descriptions[4] = myjson3.getJSONArray("retrieved_data").getJSONObject(4).getString(description);
+                                                opera_descriptions[5] = myjson3.getJSONArray("retrieved_data").getJSONObject(5).getString(description);
+                                                opera_descriptions[6] = myjson3.getJSONArray("retrieved_data").getJSONObject(6).getString(description);
+                                                opera_descriptions[7] = myjson3.getJSONArray("retrieved_data").getJSONObject(7).getString(description);
+                                                opera_descriptions[8] = myjson3.getJSONArray("retrieved_data").getJSONObject(8).getString(description);
+                                                opera_descriptions[9] = myjson3.getJSONArray("retrieved_data").getJSONObject(9).getString(description);
+                                                opera_descriptions[10] = myjson3.getJSONArray("retrieved_data").getJSONObject(10).getString(description);
+                                                opera_descriptions[11] = myjson3.getJSONArray("retrieved_data").getJSONObject(11).getString(description);
+                                                opera_descriptions[12] = myjson3.getJSONArray("retrieved_data").getJSONObject(12).getString(description);
+                                                opera_descriptions[13] = myjson3.getJSONArray("retrieved_data").getJSONObject(13).getString(description);
+                                                opera_descriptions[14] = myjson3.getJSONArray("retrieved_data").getJSONObject(14).getString(description);
                                                 break;
                                         }
                                     } else {
@@ -577,32 +585,52 @@ public class payment extends AppCompatActivity {
         buy_label_text          = findViewById(R.id.textView2);
         spinnerType             = findViewById(R.id.spinnerType);
 
+        ImageButton backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(v -> onBackPressed());
+
         Thread t = new Thread(this::manage_page);
         t.start();
     }
 
     @Override
-    protected void onStart() { super.onStart(); }
+    protected void onStart() {
+        super.onStart();
+        should_call_on_destroy = true;
+    }
 
     @Override
-    protected void onResume() { super.onResume(); }
+    protected void onResume() {
+        super.onResume();
+        should_call_on_destroy = true;
+    }
 
     @Override
-    protected void onPause() { super.onPause(); }
+    protected void onPause() {
+        super.onPause();
+        should_call_on_destroy = false;
+    }
 
     @Override
-    protected void onStop() { super.onStop(); }
+    protected void onStop() {
+        super.onStop();
+        should_call_on_destroy = false;
+    }
 
     @Override
-    protected void onRestart(){ super.onRestart(); }
+    protected void onRestart(){
+        super.onRestart();
+        should_call_on_destroy = true;
+    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Thread t = new Thread(() -> {
-            client.send_json_close_connection("STOP_CONNECTION");
-            client.close_connection();
-        });
-        t.start();
+        if (should_call_on_destroy) {
+            Thread t = new Thread(() -> {
+                client.send_json_close_connection("STOP_CONNECTION");
+                client.close_connection();
+            });
+            t.start();
+        }
     }
 }

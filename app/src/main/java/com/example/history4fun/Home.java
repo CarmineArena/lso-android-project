@@ -2,6 +2,7 @@ package com.example.history4fun;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -18,6 +19,7 @@ public class Home extends AppCompatActivity {
     private Button roman_area_button      = null;
     private Button greek_area_button      = null;
     private Button full_pack_area_button  = null;
+    private boolean should_call_on_destroy = true;
 
     // ------------------------------------------------------------------------------ //
 
@@ -89,12 +91,7 @@ public class Home extends AppCompatActivity {
         });
 
         ImageButton backButton = findViewById(R.id.backButton);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        backButton.setOnClickListener(v -> onBackPressed());
     }
 
     // ------------------------------------------------------------------------------ //
@@ -122,29 +119,45 @@ public class Home extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() { super.onStart(); }
+    protected void onStart() {
+        super.onStart();
+        should_call_on_destroy = true;
+    }
 
     @Override
-    protected void onResume() { super.onResume(); }
+    protected void onResume() {
+        super.onResume();
+        should_call_on_destroy = true;
+    }
 
     @Override
-    protected void onPause() { super.onPause(); }
+    protected void onPause() {
+        super.onPause();
+        should_call_on_destroy = false;
+    }
 
     @Override
-    protected void onStop() { super.onStop(); }
+    protected void onStop() {
+        super.onStop();
+        should_call_on_destroy = false;
+    }
 
     @Override
-    protected void onRestart(){ super.onRestart(); }
+    protected void onRestart(){
+        super.onRestart();
+        should_call_on_destroy = true;
+    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Thread t = new Thread(() -> {
-            client.send_json_close_connection("STOP_CONNECTION");
-            client.close_connection();
-        });
-        t.start();
+        if (should_call_on_destroy) {
+            Thread t = new Thread(() -> {
+                client.send_json_close_connection("STOP_CONNECTION");
+                client.close_connection();
+            });
+            t.start();
+        }
     }
-
     // ------------------------------------------------------------------------------ //
 }

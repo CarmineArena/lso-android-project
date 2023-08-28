@@ -35,6 +35,7 @@ public class Sign_up extends AppCompatActivity {
     private EditText conf_pass_text   = null;
     private Button register_button    = null;
     private Button data_button        = null;
+    private boolean should_call_on_destroy = true;
 
     private void showAlertDialog(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(Sign_up.this);
@@ -215,12 +216,7 @@ public class Sign_up extends AppCompatActivity {
         this.handler = new Handler();
 
         ImageButton backButton = findViewById(R.id.backButton);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        backButton.setOnClickListener(v -> onBackPressed());
 
         data_button.setOnClickListener(v -> {
             final Calendar c = Calendar.getInstance();
@@ -243,36 +239,43 @@ public class Sign_up extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        should_call_on_destroy = true;
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        should_call_on_destroy = true;
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        should_call_on_destroy = false;
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        should_call_on_destroy = false;
     }
 
     @Override
     protected void onRestart(){
         super.onRestart();
+        should_call_on_destroy = true;
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Thread t = new Thread(() -> {
-            client.send_json_close_connection("STOP_CONNECTION");
-            client.close_connection();
-        });
-        t.start();
+        if (should_call_on_destroy) {
+            Thread t = new Thread(() -> {
+                client.send_json_close_connection("STOP_CONNECTION");
+                client.close_connection();
+            });
+            t.start();
+        }
     }
 
     // ------------------------------------------------------------------------------ //

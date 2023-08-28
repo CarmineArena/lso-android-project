@@ -19,6 +19,7 @@ public class info_opera extends AppCompatActivity {
     private ImageView immagine     = null;
     private String chosen_area;
     private int art_id;
+    private boolean should_call_on_destroy = true;
 
     @SuppressLint("UseCompatLoadingForDrawables")
     @Override
@@ -48,12 +49,7 @@ public class info_opera extends AppCompatActivity {
         Drawable drawable = null;
 
         ImageButton backButton = findViewById(R.id.backButton);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        backButton.setOnClickListener(v -> onBackPressed());
 
         switch (chosen_area) {
             case "jurassic":
@@ -102,7 +98,7 @@ public class info_opera extends AppCompatActivity {
                 }
                 break;
             case "full":
-                // TODO: DA IMPLEMENTARE IL FULLPACK
+                // TODO: QUESTA SEZIONE VA RIMOSSA
                 Log.i("FULL OPERAS IMAGES: ", "TO BE IMPLEMENTED.");
                 break;
         }
@@ -111,27 +107,44 @@ public class info_opera extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() { super.onStart(); }
+    protected void onStart() {
+        super.onStart();
+        should_call_on_destroy = true;
+    }
 
     @Override
-    protected void onResume() { super.onResume(); }
+    protected void onResume() {
+        super.onResume();
+        should_call_on_destroy = true;
+    }
 
     @Override
-    protected void onPause() { super.onPause(); }
+    protected void onPause() {
+        super.onPause();
+        should_call_on_destroy = false;
+    }
 
     @Override
-    protected void onStop() { super.onStop(); }
+    protected void onStop() {
+        super.onStop();
+        should_call_on_destroy = false;
+    }
 
     @Override
-    protected void onRestart(){ super.onRestart(); }
+    protected void onRestart(){
+        super.onRestart();
+        should_call_on_destroy = true;
+    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Thread t = new Thread(() -> {
-            client.send_json_close_connection("STOP_CONNECTION");
-            client.close_connection();
-        });
-        t.start();
+        if (should_call_on_destroy) {
+            Thread t = new Thread(() -> {
+                client.send_json_close_connection("STOP_CONNECTION");
+                client.close_connection();
+            });
+            t.start();
+        }
     }
 }
