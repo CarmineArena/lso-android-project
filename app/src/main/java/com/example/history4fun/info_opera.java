@@ -1,13 +1,10 @@
 package com.example.history4fun;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -52,6 +49,7 @@ public class info_opera extends AppCompatActivity {
         backButton.setOnClickListener(v -> onBackPressed());
 
         switch (chosen_area) {
+            case "full":
             case "jurassic":
                 if (art_id == 0) {
                     drawable = getResources().getDrawable(R.drawable.tyrannosaurus_rex);
@@ -96,10 +94,6 @@ public class info_opera extends AppCompatActivity {
                 } else {
                     drawable = getResources().getDrawable(R.drawable.cratere);
                 }
-                break;
-            case "full":
-                // TODO: QUESTA SEZIONE VA RIMOSSA
-                Log.i("FULL OPERAS IMAGES: ", "TO BE IMPLEMENTED.");
                 break;
         }
 

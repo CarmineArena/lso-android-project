@@ -57,6 +57,7 @@ public class payment extends AppCompatActivity {
     private Spinner spinnerType              = null;
     private TextView buy_label_text          = null;
     private boolean should_call_on_destroy = true;
+    private boolean go                     = true;
     String[] type = {"Seleziona un tipo", "Singolo", "Gruppo", "Famiglia", "Scuola", "Esperto"};
 
     private void setSelected_area(String selected_area) { this.museum_area = selected_area; }
@@ -447,8 +448,8 @@ public class payment extends AppCompatActivity {
 
                                 if (flag3.equals("SUCCESS")) {
                                     String[] opera_descriptions = null;
-                                    if (user_selected_area.equals("full")) {
-                                        switch (getSelected_area()) {
+                                    if (user_selected_area.equals("full")) { // user_selected_area: L'area del museo per cui l'utente ha comprato i biglietti (può essere 'full')
+                                        switch (getSelected_area()) { // getSelected_area() ritorna l'area del museo cliccata dall'utente
                                             case "jurassic":
                                                 opera_descriptions = new String[3];
                                                 opera_descriptions[0] = myjson3.getJSONArray("retrieved_data").getJSONObject(0).getString(description);
@@ -480,23 +481,8 @@ public class payment extends AppCompatActivity {
                                                 opera_descriptions[2] = myjson3.getJSONArray("retrieved_data").getJSONObject(14).getString(description);
                                                 break;
                                             case "full":
-                                                // THIS IS BECAUSE THE USER CAN ALSO ACCESS THE VISTI BY CLICKING ON THE FULL_PACK BUTTON
-                                                opera_descriptions = new String[15];
-                                                opera_descriptions[0] = myjson3.getJSONArray("retrieved_data").getJSONObject(0).getString(description);
-                                                opera_descriptions[1] = myjson3.getJSONArray("retrieved_data").getJSONObject(1).getString(description);
-                                                opera_descriptions[2] = myjson3.getJSONArray("retrieved_data").getJSONObject(2).getString(description);
-                                                opera_descriptions[3] = myjson3.getJSONArray("retrieved_data").getJSONObject(3).getString(description);
-                                                opera_descriptions[4] = myjson3.getJSONArray("retrieved_data").getJSONObject(4).getString(description);
-                                                opera_descriptions[5] = myjson3.getJSONArray("retrieved_data").getJSONObject(5).getString(description);
-                                                opera_descriptions[6] = myjson3.getJSONArray("retrieved_data").getJSONObject(6).getString(description);
-                                                opera_descriptions[7] = myjson3.getJSONArray("retrieved_data").getJSONObject(7).getString(description);
-                                                opera_descriptions[8] = myjson3.getJSONArray("retrieved_data").getJSONObject(8).getString(description);
-                                                opera_descriptions[9] = myjson3.getJSONArray("retrieved_data").getJSONObject(9).getString(description);
-                                                opera_descriptions[10] = myjson3.getJSONArray("retrieved_data").getJSONObject(10).getString(description);
-                                                opera_descriptions[11] = myjson3.getJSONArray("retrieved_data").getJSONObject(11).getString(description);
-                                                opera_descriptions[12] = myjson3.getJSONArray("retrieved_data").getJSONObject(12).getString(description);
-                                                opera_descriptions[13] = myjson3.getJSONArray("retrieved_data").getJSONObject(13).getString(description);
-                                                opera_descriptions[14] = myjson3.getJSONArray("retrieved_data").getJSONObject(14).getString(description);
+                                                go = false;
+                                                showRedirectHomeDialog("HOME REDIRECT", "Tutte le aree sono sbloccate! Scegli quale vuoi visitare dalla Home.");
                                                 break;
                                         }
                                     } else {
@@ -506,17 +492,16 @@ public class payment extends AppCompatActivity {
                                         opera_descriptions[2] = myjson3.getJSONArray("retrieved_data").getJSONObject(2).getString(description);
                                     }
 
-                                    // for (int i = 0; i < opera_descriptions.length; i++) {
-                                        // Log.i("Opera: ", opera_descriptions[i]);
-                                    // }
-
-                                    Intent intent = new Intent(payment.this, lista.class);
-                                    intent.putExtra("user", user);
-                                    intent.putExtra("user_nickname", nickname);
-                                    intent.putExtra("area", user_selected_area);
-                                    intent.putExtra("ticket_type", user_ticket_type);
-                                    intent.putExtra("opera_descriptions", opera_descriptions);
-                                    startActivity(intent);
+                                    if (go) {
+                                        Intent intent = new Intent(payment.this, lista.class);
+                                        intent.putExtra("user", user);
+                                        intent.putExtra("user_nickname", nickname);
+                                        intent.putExtra("area_chosen_ticket", user_selected_area);
+                                        intent.putExtra("area_clicked_on_gui", getSelected_area()); // NON PUO' MAI ESSERE "full"
+                                        intent.putExtra("ticket_type", user_ticket_type);
+                                        intent.putExtra("opera_descriptions", opera_descriptions);
+                                        startActivity(intent);
+                                    }
                                 } else {
                                     showRedirectHomeDialog("SERVER ERROR (2)", "Le operazioni del server non sono avvenute correttamente.");
                                 }

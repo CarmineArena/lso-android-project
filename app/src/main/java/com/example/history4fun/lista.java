@@ -15,7 +15,8 @@ public class lista extends AppCompatActivity {
     private Utente user;
     private String[] opera_descriptions; // LE DESCRIZIONI SONO IN ORDINE DI IDENFITICATIVO
     private String nickname            = null;
-    private String chosen_area         = null;
+    private String user_selected_area  = null;
+    private String area_clicked_gui    = null;
     private String user_ticket_type    = null;
     private ImageView first_img        = null;
     private ImageView second_img       = null;
@@ -25,18 +26,12 @@ public class lista extends AppCompatActivity {
     private Button third_opera_button  = null;
     private boolean should_call_on_destroy = true;
 
-    private void manage_full_page() {
-        // CON TUTTA PROBABILITA' ANDRA' IMPLEMENTATO UN QUALCOSA DI SIMILE A manage_page_single_area()
-        // La logica sarà la stessa, basterà passare le singole corrette area e descrizione dell'opera [info_opera.java deve continuare a mostrare solo una sola opera]
-        // In questo modo non c'è bisogno dello switch case "full": in info_opera.java [VA RIMOSSO]
-    }
-
     private void manage_page_single_area() {
         first_opera_button.setOnClickListener(view -> {
             Thread t = new Thread(() -> {
                 Intent intent = new Intent(lista.this, info_opera.class);
                 intent.putExtra("descrizione", opera_descriptions[0]);
-                intent.putExtra("area", chosen_area);
+                intent.putExtra("area", area_clicked_gui);
                 intent.putExtra("art_id", "0");
                 startActivity(intent);
             });
@@ -47,7 +42,7 @@ public class lista extends AppCompatActivity {
             Thread t = new Thread(() -> {
                 Intent intent = new Intent(lista.this, info_opera.class);
                 intent.putExtra("descrizione", opera_descriptions[1]);
-                intent.putExtra("area", chosen_area);
+                intent.putExtra("area", area_clicked_gui);
                 intent.putExtra("art_id", "1");
                 startActivity(intent);
             });
@@ -58,7 +53,7 @@ public class lista extends AppCompatActivity {
             Thread t = new Thread(() -> {
                 Intent intent = new Intent(lista.this, info_opera.class);
                 intent.putExtra("descrizione", opera_descriptions[2]);
-                intent.putExtra("area", chosen_area);
+                intent.putExtra("area", area_clicked_gui);
                 intent.putExtra("art_id", "2");
                 startActivity(intent);
             });
@@ -74,7 +69,8 @@ public class lista extends AppCompatActivity {
         Intent intent = getIntent();
         user               = (Utente) intent.getSerializableExtra("user");
         nickname           = (String) intent.getSerializableExtra("user_nickname");
-        chosen_area        = (String) intent.getSerializableExtra("area");
+        user_selected_area = (String) intent.getSerializableExtra("area_chosen_ticket");
+        area_clicked_gui   = (String) intent.getSerializableExtra("area_clicked_on_gui");
         user_ticket_type   = (String) intent.getSerializableExtra("ticket_type");
         opera_descriptions = (String[]) intent.getSerializableExtra("opera_descriptions");
 
@@ -91,7 +87,7 @@ public class lista extends AppCompatActivity {
         ImageButton backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> onBackPressed());
 
-        switch (chosen_area) {
+        switch (area_clicked_gui) {
             case "jurassic":
                 drawable1 = getResources().getDrawable(R.drawable.tyrannosaurus_rex);
                 drawable2 = getResources().getDrawable(R.drawable.hadrosauridae);
@@ -116,12 +112,6 @@ public class lista extends AppCompatActivity {
                 drawable1 = getResources().getDrawable(R.drawable.partenone);
                 drawable2 = getResources().getDrawable(R.drawable.hermes_con_dioniso);
                 drawable3 = getResources().getDrawable(R.drawable.cratere);
-                break;
-            case "full":
-                // TODO: COME GESTIAMO LA VISUALIZZAZIONE DI TUTTE LE IMMAGINI?
-                // QUESTO DERIVA DAL FATTO CHE L'UTENTE PU0' AVER FATTO ACCESSO ALLA VISITA GUIDATA CLICCANDO DIRETTAMENTE SUL BUTTON DEL FULL PACK
-                // RICHIAMARE manage_full_page()
-                Log.i("FULL OPERAS IMAGES: ", "TO BE IMPLEMENTED.");
                 break;
         }
 
