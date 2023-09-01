@@ -3,9 +3,11 @@ package com.example.history4fun;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.PopupMenu;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -115,7 +117,36 @@ public class Home extends AppCompatActivity {
         client = MainActivity.client;
 
         Thread t = new Thread(this::manage_page);
+
+        ImageButton imageButton = findViewById(R.id.settingsButton);
+        imageButton.setOnClickListener(v -> {
+            PopupMenu popupMenu = new PopupMenu(this, v);
+            MenuInflater inflater = popupMenu.getMenuInflater();
+            inflater.inflate(R.menu.menu_popup, popupMenu.getMenu());
+
+            popupMenu.setOnMenuItemClickListener(item -> {
+                switch (item.getItemId()) {
+                    case R.id.menu_item_1:
+                        // Azione per l'elemento 1
+                        return true;
+                    case R.id.menu_item_2:
+                        // Azione per l'elemento 2
+                        return true;
+                    case R.id.menu_item_3:
+                        // Azione per l'elemento 3
+                        return true;
+                    default:
+                        return false;
+                }
+            });
+
+            popupMenu.show();
+        });
+
         t.start();
+
+
+
     }
 
     @Override
