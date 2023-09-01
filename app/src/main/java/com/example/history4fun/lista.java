@@ -84,8 +84,14 @@ public class lista extends AppCompatActivity {
         Drawable drawable2 = null;
         Drawable drawable3 = null;
 
+        // ImageButton backButton = findViewById(R.id.backButton);
+        // backButton.setOnClickListener(v -> onBackPressed());
         ImageButton backButton = findViewById(R.id.backButton);
-        backButton.setOnClickListener(v -> onBackPressed());
+        backButton.setOnClickListener(v -> {
+            Intent intent2 = new Intent(this, Home.class);
+            intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent2);
+        });
 
         switch (area_clicked_gui) {
             case "jurassic":

@@ -120,12 +120,15 @@ public class payment extends AppCompatActivity {
         });
     }
 
-    private void showInfoDialog(String title, String message) {
+    private void endPayment(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(payment.this);
         builder.setTitle(title);
         builder.setMessage(message);
         builder.setIcon(android.R.drawable.ic_dialog_info);
-        builder.setPositiveButton("OK", (dialog, id) -> dialog.dismiss());
+        builder.setPositiveButton("OK", (dialog, id) -> {
+            dialog.dismiss();
+            finish();
+        });
 
         this.handler.post(() -> {
             AlertDialog dialog = builder.create();
@@ -369,13 +372,14 @@ public class payment extends AppCompatActivity {
                                                 JSONArray retrieved_data = myjson.getJSONArray("retrieved_data");
                                                 JSONObject retrieved = retrieved_data.getJSONObject(0);
                                                 String user_ticket_id = retrieved.getString("ticket_id");
-                                                showRedirectHomeDialog("PURCHASE SUCCESSFUL", "Pagamento di " + ticket.getCost() + " euro riuscito. Segnarsi il Ticket ID: " + user_ticket_id);
+                                                // showRedirectHomeDialog("PURCHASE SUCCESSFUL", "Pagamento di " + ticket.getCost() + " euro riuscito. Segnarsi il Ticket ID: " + user_ticket_id);
+                                                endPayment("PURCHASE SUCCESSFUL", "Pagamento di " + ticket.getCost() + " euro riuscito. Segnarsi il Ticket ID: " + user_ticket_id);
                                                 break;
                                             case "FAILURE":
-                                                showInfoDialog("FAILURE", "Qualcosa è andato storto nel processo di registrazione della prenotazione.");
+                                                showAlertDialog("FAILURE", "Qualcosa è andato storto nel processo di registrazione della prenotazione.");
                                                 break;
                                             case "ALREADY_EXISTS":
-                                                showInfoDialog("FAILURE", "Attenzione!. Hai già prenotato per la data selezionata.");
+                                                showAlertDialog("FAILURE", "Attenzione!. Hai già prenotato per la data selezionata.");
                                                 break;
                                         }
                                     } catch (IOException | JSONException e) {
@@ -510,7 +514,8 @@ public class payment extends AppCompatActivity {
                             }
                             break;
                         case "FAILURE":
-                            showRedirectHomeDialog("ERROR", "Assicurarsi di avere un biglietto per il giorno corrente!");
+                            // showRedirectHomeDialog("ERROR", "Assicurarsi di avere un biglietto per il giorno corrente!");
+                            showAlertDialog("ERROR", "Assicurarsi di avere un biglietto per il giorno corrente!");
                             break;
                     }
                 } catch (IOException | JSONException e) {
