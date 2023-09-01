@@ -3,6 +3,7 @@ package com.example.history4fun;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
@@ -15,12 +16,13 @@ public class Home extends AppCompatActivity {
     private Utente user;
     private String nickname;
     private static Client client;
-    private Button jurassic_area_button   = null;
-    private Button prehistory_area_button = null;
-    private Button egypt_area_button      = null;
-    private Button roman_area_button      = null;
-    private Button greek_area_button      = null;
-    private Button full_pack_area_button  = null;
+    private Button jurassic_area_button    = null;
+    private Button prehistory_area_button  = null;
+    private Button egypt_area_button       = null;
+    private Button roman_area_button       = null;
+    private Button greek_area_button       = null;
+    private Button full_pack_area_button   = null;
+    private ImageButton settingsButton     = null;
     private boolean should_call_on_destroy = true;
 
     // ------------------------------------------------------------------------------ //
@@ -32,6 +34,7 @@ public class Home extends AppCompatActivity {
                 intent.putExtra("user", user);
                 intent.putExtra("user_nickname", nickname);
                 intent.putExtra("museum_area", "full");
+                intent.putExtra("isExpert", user.isExpert());
                 startActivity(intent);
             });
             t.start();
@@ -43,6 +46,7 @@ public class Home extends AppCompatActivity {
                 intent.putExtra("user", user);
                 intent.putExtra("user_nickname", nickname);
                 intent.putExtra("museum_area", "jurassic");
+                intent.putExtra("isExpert", user.isExpert());
                 startActivity(intent);
             });
             t.start();
@@ -54,6 +58,7 @@ public class Home extends AppCompatActivity {
                 intent.putExtra("user", user);
                 intent.putExtra("user_nickname", nickname);
                 intent.putExtra("museum_area", "prehistory");
+                intent.putExtra("isExpert", user.isExpert());
                 startActivity(intent);
             });
             t.start();
@@ -65,6 +70,7 @@ public class Home extends AppCompatActivity {
                 intent.putExtra("user", user);
                 intent.putExtra("user_nickname", nickname);
                 intent.putExtra("museum_area", "egypt");
+                intent.putExtra("isExpert", user.isExpert());
                 startActivity(intent);
             });
             t.start();
@@ -76,6 +82,7 @@ public class Home extends AppCompatActivity {
                 intent.putExtra("user", user);
                 intent.putExtra("user_nickname", nickname);
                 intent.putExtra("museum_area", "roman");
+                intent.putExtra("isExpert", user.isExpert());
                 startActivity(intent);
             });
             t.start();
@@ -87,6 +94,7 @@ public class Home extends AppCompatActivity {
                 intent.putExtra("user", user);
                 intent.putExtra("user_nickname", nickname);
                 intent.putExtra("museum_area", "greek");
+                intent.putExtra("isExpert", user.isExpert());
                 startActivity(intent);
             });
             t.start();
@@ -116,37 +124,23 @@ public class Home extends AppCompatActivity {
 
         client = MainActivity.client;
 
-        Thread t = new Thread(this::manage_page);
-
-        ImageButton imageButton = findViewById(R.id.settingsButton);
-        imageButton.setOnClickListener(v -> {
+        settingsButton = findViewById(R.id.settingsButton);
+        settingsButton.setOnClickListener(v -> {
             PopupMenu popupMenu = new PopupMenu(this, v);
             MenuInflater inflater = popupMenu.getMenuInflater();
             inflater.inflate(R.menu.menu_popup, popupMenu.getMenu());
+            Menu menu = popupMenu.getMenu();
 
-            popupMenu.setOnMenuItemClickListener(item -> {
-                switch (item.getItemId()) {
-                    case R.id.menu_item_1:
-                        // Azione per l'elemento 1
-                        return true;
-                    case R.id.menu_item_2:
-                        // Azione per l'elemento 2
-                        return true;
-                    case R.id.menu_item_3:
-                        // Azione per l'elemento 3
-                        return true;
-                    default:
-                        return false;
-                }
-            });
-
+            menu.clear();
+            menu.add(Menu.NONE, 1, Menu.NONE, "Nome utente: " + user.getName());
+            menu.add(Menu.NONE, 2, Menu.NONE, "Età: " + user.getAge());
+            menu.add(Menu.NONE, 3, Menu.NONE, "Email: " + user.getEmail());
+            menu.add(Menu.NONE, 4, Menu.NONE, (user.isExpert() == 0) ? "Esperto: No" : "Esperto: Si");
             popupMenu.show();
         });
 
+        Thread t = new Thread(this::manage_page);
         t.start();
-
-
-
     }
 
     @Override

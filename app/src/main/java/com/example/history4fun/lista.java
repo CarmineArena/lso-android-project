@@ -25,6 +25,7 @@ public class lista extends AppCompatActivity {
     private Button second_opera_button = null;
     private Button third_opera_button  = null;
     private boolean should_call_on_destroy = true;
+    private int isExpert;
 
     private void manage_page_single_area() {
         first_opera_button.setOnClickListener(view -> {
@@ -32,6 +33,7 @@ public class lista extends AppCompatActivity {
                 Intent intent = new Intent(lista.this, info_opera.class);
                 intent.putExtra("descrizione", opera_descriptions[0]);
                 intent.putExtra("area", area_clicked_gui);
+                intent.putExtra("isExpert", isExpert);
                 intent.putExtra("art_id", "0");
                 startActivity(intent);
             });
@@ -43,6 +45,7 @@ public class lista extends AppCompatActivity {
                 Intent intent = new Intent(lista.this, info_opera.class);
                 intent.putExtra("descrizione", opera_descriptions[1]);
                 intent.putExtra("area", area_clicked_gui);
+                intent.putExtra("isExpert", isExpert);
                 intent.putExtra("art_id", "1");
                 startActivity(intent);
             });
@@ -54,6 +57,7 @@ public class lista extends AppCompatActivity {
                 Intent intent = new Intent(lista.this, info_opera.class);
                 intent.putExtra("descrizione", opera_descriptions[2]);
                 intent.putExtra("area", area_clicked_gui);
+                intent.putExtra("isExpert", isExpert);
                 intent.putExtra("art_id", "2");
                 startActivity(intent);
             });
@@ -67,12 +71,13 @@ public class lista extends AppCompatActivity {
         setContentView(R.layout.activity_lista);
 
         Intent intent = getIntent();
-        user               = (Utente) intent.getSerializableExtra("user");
-        nickname           = (String) intent.getSerializableExtra("user_nickname");
-        user_selected_area = (String) intent.getSerializableExtra("area_chosen_ticket");
-        area_clicked_gui   = (String) intent.getSerializableExtra("area_clicked_on_gui");
-        user_ticket_type   = (String) intent.getSerializableExtra("ticket_type");
+        user               = (Utente)   intent.getSerializableExtra("user");
+        nickname           = (String)   intent.getSerializableExtra("user_nickname");
+        user_selected_area = (String)   intent.getSerializableExtra("area_chosen_ticket");
+        area_clicked_gui   = (String)   intent.getSerializableExtra("area_clicked_on_gui");
+        user_ticket_type   = (String)   intent.getSerializableExtra("ticket_type");
         opera_descriptions = (String[]) intent.getSerializableExtra("opera_descriptions");
+        isExpert           = (int)      intent.getSerializableExtra("isExpert");
 
         client = MainActivity.client;
 

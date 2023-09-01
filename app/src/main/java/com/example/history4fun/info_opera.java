@@ -7,6 +7,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class info_opera extends AppCompatActivity {
@@ -15,7 +17,7 @@ public class info_opera extends AppCompatActivity {
     private TextView specific_text = null;
     private ImageView immagine     = null;
     private String chosen_area;
-    private int art_id;
+    private int art_id, isExpert;
     private boolean should_call_on_destroy = true;
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -29,9 +31,9 @@ public class info_opera extends AppCompatActivity {
         Intent intent = getIntent();
         descrizione = (String) intent.getSerializableExtra("descrizione");
         chosen_area = (String) intent.getSerializableExtra("area");
+        isExpert    = (int)    intent.getSerializableExtra("isExpert");
 
         String id = (String) intent.getSerializableExtra("art_id");
-
         try {
             art_id = Integer.parseInt(id);
         } catch (NumberFormatException e) {
@@ -41,6 +43,19 @@ public class info_opera extends AppCompatActivity {
         specific_text = findViewById(R.id.SpecificDescription);
         specific_text.setText(descrizione);
 
+        // TODO: MOSTRARE NEL LINEAR LAYOUT I TOP 1 o 2 COMMENTI + POSSIBILITA' DI COMMENTARE SE SEI ESPERTO
+/* IT WORKS: FOLLOW THIS CODE
+        LinearLayout linearLayout = findViewById(R.id.imageContainer);
+        TextView nuovoTextView1 = new TextView(this);
+        nuovoTextView1.setText("Nuovo TextView 1");
+
+        TextView nuovoTextView2 = new TextView(this);
+        nuovoTextView2.setText("Nuovo TextView 2");
+
+        // Aggiungi i nuovi TextView al LinearLayout
+        linearLayout.addView(nuovoTextView1);
+        linearLayout.addView(nuovoTextView2);
+*/
         immagine = findViewById(R.id.opera);
 
         Drawable drawable = null;

@@ -58,6 +58,7 @@ public class payment extends AppCompatActivity {
     private TextView buy_label_text          = null;
     private boolean should_call_on_destroy = true;
     private boolean go                     = true;
+    private int isExpert;
     String[] type = {"Seleziona un tipo", "Singolo", "Gruppo", "Famiglia", "Scuola", "Esperto"};
 
     private void setSelected_area(String selected_area) { this.museum_area = selected_area; }
@@ -504,6 +505,7 @@ public class payment extends AppCompatActivity {
                                         intent.putExtra("area_clicked_on_gui", getSelected_area()); // NON PUO' MAI ESSERE "full"
                                         intent.putExtra("ticket_type", user_ticket_type);
                                         intent.putExtra("opera_descriptions", opera_descriptions);
+                                        intent.putExtra("isExpert", isExpert);
                                         startActivity(intent);
                                     }
                                 } else {
@@ -554,6 +556,7 @@ public class payment extends AppCompatActivity {
         user        = (Utente) intent.getSerializableExtra("user");
         museum_area = (String) intent.getSerializableExtra("museum_area");
         nickname    = (String) intent.getSerializableExtra("user_nickname");
+        isExpert    = (int)    intent.getSerializableExtra("isExpert"); // 0 significa No, 1 significa Si
         setSelected_area(museum_area);
         setUser(user);
 
