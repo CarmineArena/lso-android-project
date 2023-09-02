@@ -64,6 +64,26 @@ public class Client {
         return instance;
     }
 
+    public void send_json_add_comment_by_id(String flag, String userId, String operaId, String comment_text, String comment_date) {
+        Log.i("SEND_JSON_ADD_COMMENT", " send_json_add_comment_by_id() called.");
+        try {
+            JSONObject json = new JSONObject()
+                    .put("flag", flag)
+                    .put("user_id", userId)
+                    .put("artifact_id", operaId)
+                    .put("comment", comment_text)
+                    .put("comment_date", comment_date);
+
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(getClientSocket().getOutputStream()));
+            String myjson = json.toString();
+            writer.write(myjson);
+            writer.flush();
+            Log.i("SEND_JSON_ADD_COMMENT", myjson + " sent to server.");
+        } catch (JSONException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void send_json_get_comment_by_id(String flag, String operaId) {
         Log.i("SEND_JSON_GET_COMMENT", " send_json_get_comment_by_id() called.");
         try {

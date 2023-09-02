@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -16,23 +17,27 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class info_opera extends AppCompatActivity {
-    private String jurassic1   = "00001";
-    private String jurassic2   = "00002";
-    private String jurassic3   = "00003";
-    private String prehistory1 = "00004";
-    private String prehistory2 = "00005";
-    private String prehistory3 = "00006";
-    private String egypt1      = "00007";
-    private String egypt2      = "00008";
-    private String egypt3      = "00009";
-    private String roman1      = "00010";
-    private String roman2      = "00011";
-    private String roman3      = "00012";
-    private String greek1      = "00013";
-    private String greek2      = "00014";
-    private String greek3      = "00015";
+    private final String jurassic1   = "00001";
+    private final String jurassic2   = "00002";
+    private final String jurassic3   = "00003";
+    private final String prehistory1 = "00004";
+    private final String prehistory2 = "00005";
+    private final String prehistory3 = "00006";
+    private final String egypt1      = "00007";
+    private final String egypt2      = "00008";
+    private final String egypt3      = "00009";
+    private final String roman1      = "00010";
+    private final String roman2      = "00011";
+    private final String roman3      = "00012";
+    private final String greek1      = "00013";
+    private final String greek2      = "00014";
+    private final String greek3      = "00015";
 
     private Client client;
     private String descrizione        = null;
@@ -40,6 +45,7 @@ public class info_opera extends AppCompatActivity {
     private ImageView immagine        = null;
     private EditText comment_area     = null;
     private LinearLayout linearLayout = null;
+    private ImageButton sButton = null;
     private String chosen_area, userId;
     private int art_id, isExpert;
     private boolean should_call_on_destroy = true;
@@ -83,8 +89,44 @@ public class info_opera extends AppCompatActivity {
         t.start();
     }
 
-    private void manage_user_comment() {
-        // String comment_text = String.valueOf(comment_area.getText());
+    private void manage_user_comment(String artId) {
+        sButton.setOnClickListener(view -> {
+            Thread t = new Thread(() -> {
+                String comment_text = String.valueOf(comment_area.getText()); // TODO: EFFETTUARE L'ESCAPE DI CARATTERI PROBLEMATICI PER MYSQL
+
+                if (isExpert == 1) {
+                    if (!comment_text.isEmpty()) {
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                        Date currentDate = new Date();
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTime(currentDate);
+                        calendar.add(Calendar.DATE, 0);
+                        Date today = calendar.getTime();
+                        String current_date = dateFormat.format(today);
+                        client.send_json_add_comment_by_id("ADD_COMMENT", userId, artId, comment_text, current_date);
+
+                        try {
+                            JSONObject myjson = client.receive_json();
+                            String flag = myjson.getString("flag");
+
+                            switch (flag) {
+                                case "SUCCESS":
+                                    Log.i("INSERIMENTO RECORD: ", "RIUSCITO");
+                                    break;
+                                case "FAILURE":
+                                    Log.i("INSERIMENTO RECORD: ", "FALLITO");
+                                    break;
+                            }
+                        } catch (IOException | JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } else {
+                    // TODO: MOSTRARE UN ALERT DIALOG PER DIRE CHE SE NON E' ESPERTO NON PUO' PUBBLICARE COMMENTI
+                }
+            });
+            t.start();
+        });
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -108,15 +150,14 @@ public class info_opera extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        sButton      = findViewById(R.id.sendButton);
         comment_area = findViewById(R.id.commentView);
-
         linearLayout = findViewById(R.id.imageContainer);
+        immagine     = findViewById(R.id.opera);
 
         specific_text = findViewById(R.id.SpecificDescription);
         specific_text.setMovementMethod(new ScrollingMovementMethod());
         specific_text.setText(descrizione);
-
-        immagine = findViewById(R.id.opera);
 
         Drawable drawable = null;
 
@@ -129,66 +170,80 @@ public class info_opera extends AppCompatActivity {
                 if (art_id == 0) {
                     drawable = getResources().getDrawable(R.drawable.tyrannosaurus_rex);
                     show_experts_comments(jurassic1);
+                    manage_user_comment(jurassic1);
                 } else if (art_id == 1) {
                     drawable = getResources().getDrawable(R.drawable.hadrosauridae);
                     show_experts_comments(jurassic2);
+                    manage_user_comment(jurassic2);
                 } else {
                     drawable = getResources().getDrawable(R.drawable.sauropoda);
                     show_experts_comments(jurassic3);
+                    manage_user_comment(jurassic3);
                 }
                 break;
             case "prehistory":
                 if (art_id == 0) {
                     drawable = getResources().getDrawable(R.drawable.microlito);
                     show_experts_comments(prehistory1);
+                    manage_user_comment(prehistory1);
                 } else if (art_id == 1) {
                     drawable = getResources().getDrawable(R.drawable.stonehenge);
                     show_experts_comments(prehistory2);
+                    manage_user_comment(prehistory2);
                 } else {
                     drawable = getResources().getDrawable(R.drawable.homo_neanderthalensis);
                     show_experts_comments(prehistory3);
+                    manage_user_comment(prehistory3);
                 }
                 break;
             case "egypt":
                 if (art_id == 0) {
                     drawable = getResources().getDrawable(R.drawable.pyramidsofgiza_at_night);
                     show_experts_comments(egypt1);
+                    manage_user_comment(egypt1);
                 } else if (art_id == 1) {
                     drawable = getResources().getDrawable(R.drawable.sfinge);
                     show_experts_comments(egypt2);
+                    manage_user_comment(egypt2);
                 } else {
                     drawable = getResources().getDrawable(R.drawable.piramidi);
                     show_experts_comments(egypt3);
+                    manage_user_comment(egypt3);
                 }
                 break;
             case "roman":
                 if (art_id == 0) {
                     drawable = getResources().getDrawable(R.drawable.gaio_mario);
                     show_experts_comments(roman1);
+                    manage_user_comment(roman1);
                 } else if (art_id == 1) {
                     drawable = getResources().getDrawable(R.drawable.romolo_e_remo);
                     show_experts_comments(roman2);
+                    manage_user_comment(roman2);
                 } else {
                     drawable = getResources().getDrawable(R.drawable.augusto);
                     show_experts_comments(roman3);
+                    manage_user_comment(roman3);
                 }
                 break;
             case "greek":
                 if (art_id == 0) {
                     drawable = getResources().getDrawable(R.drawable.partenone);
                     show_experts_comments(greek1);
+                    manage_user_comment(greek1);
                 } else if (art_id == 1) {
                     drawable = getResources().getDrawable(R.drawable.hermes_con_dioniso);
                     show_experts_comments(greek2);
+                    manage_user_comment(greek2);
                 } else {
                     drawable = getResources().getDrawable(R.drawable.cratere);
                     show_experts_comments(greek3);
+                    manage_user_comment(greek3);
                 }
                 break;
         }
 
         immagine.setImageDrawable(drawable);
-        manage_user_comment();
     }
 
     @Override
