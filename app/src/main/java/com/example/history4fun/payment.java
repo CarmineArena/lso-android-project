@@ -448,7 +448,7 @@ public class payment extends AppCompatActivity {
 
                                 client.send_json_get_opera_descriptions("GET_OP_DESC", user_selected_area, description);
 
-                                JSONObject myjson3 = client.receive_json_opera_descriptions();
+                                JSONObject myjson3 = client.receive_json_multiple_records();
                                 String flag3 = myjson3.getString("flag");
 
                                 if (flag3.equals("SUCCESS")) {

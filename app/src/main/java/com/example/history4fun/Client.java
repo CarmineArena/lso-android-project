@@ -64,6 +64,23 @@ public class Client {
         return instance;
     }
 
+    public void send_json_get_comment_by_id(String flag, String operaId) {
+        Log.i("SEND_JSON_GET_COMMENT", " send_json_get_comment_by_id() called.");
+        try {
+            JSONObject json = new JSONObject()
+                    .put("flag", flag)
+                    .put("artifact_id", operaId);
+
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(getClientSocket().getOutputStream()));
+            String myjson = json.toString();
+            writer.write(myjson);
+            writer.flush();
+            Log.i("SEND_JSON_GET_COMMENT", myjson + " sent to server.");
+        } catch (JSONException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void send_json_check_ticket_acquired(String flag, String user_id, String current_date, String selected_area) {
         Log.i("SEND_JSON_CHK_ACQRD_TKT", " send_json_check_ticket_acquired() called.");
         try {
@@ -83,7 +100,7 @@ public class Client {
         }
     }
 
-    void send_json_get_opera_descriptions(String flag, String user_selected_area, String type_description) {
+    public void send_json_get_opera_descriptions(String flag, String user_selected_area, String type_description) {
         Log.i("SEND_JSON_GET_TT_TYPE", " send_json_get_ticket_type() called.");
         try {
             JSONObject json = new JSONObject()
@@ -236,7 +253,7 @@ public class Client {
         }
     }
 
-    public JSONObject receive_json_opera_descriptions() throws IOException, JSONException {
+    public JSONObject receive_json_multiple_records() throws IOException, JSONException {
         // Log.i("REC_JSON_ARRAY", "receive_json_opera_descriptions() called.");
         BufferedReader input = new BufferedReader(new InputStreamReader(getClientSocket().getInputStream()));
         StringBuilder jsonStr = new StringBuilder();

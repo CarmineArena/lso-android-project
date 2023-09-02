@@ -35,6 +35,7 @@ public class lista extends AppCompatActivity {
                 intent.putExtra("area", area_clicked_gui);
                 intent.putExtra("isExpert", isExpert);
                 intent.putExtra("art_id", "0");
+                intent.putExtra("user_id", user.getUser_id());
                 startActivity(intent);
             });
             t.start();
@@ -47,6 +48,7 @@ public class lista extends AppCompatActivity {
                 intent.putExtra("area", area_clicked_gui);
                 intent.putExtra("isExpert", isExpert);
                 intent.putExtra("art_id", "1");
+                intent.putExtra("user_id", user.getUser_id());
                 startActivity(intent);
             });
             t.start();
@@ -59,6 +61,7 @@ public class lista extends AppCompatActivity {
                 intent.putExtra("area", area_clicked_gui);
                 intent.putExtra("isExpert", isExpert);
                 intent.putExtra("art_id", "2");
+                intent.putExtra("user_id", user.getUser_id());
                 startActivity(intent);
             });
             t.start();
