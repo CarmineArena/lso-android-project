@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#CA8848">
+    android:background="#97581F">
 
     <TextView
         android:id="@+id/titolo"
@@ -36,13 +36,13 @@
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="626dp"
-        android:layout_height="435dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="510dp"
+        android:layout_marginTop="120dp"
+        android:background="#CA8848"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.977"
+        app:layout_constraintHorizontal_bias="0.975"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.317">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:id="@+id/imageContainer"
@@ -82,16 +82,15 @@
         android:layout_height="116dp"
         android:background="@android:color/transparent"
         android:contentDescription="Indietro"
-        android:src="@drawable/ic_baseline_arrow_back_242"
+        android:src="@drawable/ic_baseline_arrow_back_24"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" /> />
 
     <EditText
         android:id="@+id/commentView"
         android:layout_width="626dp"
         android:layout_height="48dp"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="83dp"
         android:layout_marginEnd="15dp"
         android:background="@drawable/inputbg"
         android:ems="10"
@@ -105,7 +104,7 @@
         android:id="@+id/sendButton"
         android:layout_width="41dp"
         android:layout_height="48dp"
-        android:layout_marginTop="84dp"
+        android:layout_marginTop="1dp"
         android:layout_marginEnd="20dp"
         android:background="@android:color/transparent"
         android:contentDescription="Invio"
