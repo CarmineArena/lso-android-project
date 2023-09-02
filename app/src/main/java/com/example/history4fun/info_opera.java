@@ -111,10 +111,11 @@ public class info_opera extends AppCompatActivity {
 
                             switch (flag) {
                                 case "SUCCESS":
+                                    // TODO: IL COMMENTO VA INSERITO NEL LINEAR LAYOUT DEI COMMENTI (IN TOP POSSIBILMENTE)
                                     Log.i("INSERIMENTO RECORD: ", "RIUSCITO");
                                     break;
                                 case "FAILURE":
-                                    Log.i("INSERIMENTO RECORD: ", "FALLITO");
+                                    // TODO: MOSTRARE UN ALERT DIALOG
                                     break;
                             }
                         } catch (IOException | JSONException e) {
@@ -122,6 +123,7 @@ public class info_opera extends AppCompatActivity {
                         }
                     }
                 } else {
+                    // TODO: SAREBBE MEGLIO CHE L'UTENTE NON ESPERTO NON VISUALIZZO PROPRIO LA BARRA PER COMMENTARE
                     // TODO: MOSTRARE UN ALERT DIALOG PER DIRE CHE SE NON E' ESPERTO NON PUO' PUBBLICARE COMMENTI
                 }
             });
