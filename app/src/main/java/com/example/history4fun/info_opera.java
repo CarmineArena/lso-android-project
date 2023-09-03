@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -30,7 +31,7 @@ public class info_opera extends AppCompatActivity {
     private EditText comment_area     = null;
     private LinearLayout linearLayout = null;
     private ImageButton sButton       = null;
-    private String userId;
+    private String userId, user_name, user_surname;
     private int art_id, isExpert;
     private boolean should_call_on_destroy = true;
 
@@ -87,44 +88,53 @@ public class info_opera extends AppCompatActivity {
     }
 
     private void manage_user_comment(String artId) {
-        sButton.setOnClickListener(view -> {
-            Thread t = new Thread(() -> {
-                String comment_text = String.valueOf(comment_area.getText());
+        if (isExpert == 1) {
+            sButton.setOnClickListener(view -> {
+                @SuppressLint("SetTextI18n") Thread t = new Thread(() -> {
+                    String comment_text = String.valueOf(comment_area.getText());
 
-                if (isExpert == 1) {
-                    if (!comment_text.isEmpty()) {
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                        Date currentDate = new Date();
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.setTime(currentDate);
-                        calendar.add(Calendar.DATE, 0);
-                        Date today = calendar.getTime();
-                        String current_date = dateFormat.format(today);
-                        client.send_json_add_comment_by_id("ADD_COMMENT", userId, artId, comment_text, current_date);
+                    if (isExpert == 1) {
+                        if (!comment_text.isEmpty()) {
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                            Date currentDate = new Date();
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.setTime(currentDate);
+                            calendar.add(Calendar.DATE, 0);
+                            Date today = calendar.getTime();
+                            String current_date = dateFormat.format(today);
+                            client.send_json_add_comment_by_id("ADD_COMMENT", userId, artId, comment_text, current_date);
 
-                        try {
-                            JSONObject myjson = client.receive_json();
-                            String flag = myjson.getString("flag");
+                            try {
+                                JSONObject myjson = client.receive_json();
+                                String flag = myjson.getString("flag");
 
-                            switch (flag) {
-                                case "SUCCESS":
-                                    // TODO: IL COMMENTO VA INSERITO NEL LINEAR LAYOUT DEI COMMENTI (IN TOP POSSIBILMENTE)
-                                    Log.i("INSERIMENTO RECORD: ", "RIUSCITO");
-                                    break;
-                                case "FAILURE":
-                                    showAlertDialog("COMMENT ERROR", "Qualcosa è andato storto nella pubblicazione del commento.");
-                                    break;
+                                switch (flag) {
+                                    case "SUCCESS":
+                                        comment_area.setText("");
+                                        runOnUiThread(() -> {
+                                            TextView new_comment = new TextView(this);
+                                            new_comment.setText(user_name + " " + user_surname + ": " + comment_text);
+                                            linearLayout.addView(new_comment,3); // WE ADD THE COMMENT TO THE TOP OF THE LIST
+                                        });
+                                        break;
+                                    case "FAILURE":
+                                        showAlertDialog("COMMENT ERROR", "Qualcosa è andato storto nella pubblicazione del commento.");
+                                        break;
+                                }
+                            } catch (IOException | JSONException e) {
+                                e.printStackTrace();
                             }
-                        } catch (IOException | JSONException e) {
-                            e.printStackTrace();
                         }
                     }
-                } else {
-                    // TODO: SAREBBE MEGLIO CHE L'UTENTE NON ESPERTO NON VISUALIZZO PROPRIO LA BARRA PER COMMENTARE
-                }
+                });
+                t.start();
             });
-            t.start();
-        });
+        } else {
+            sButton.setVisibility(View.GONE);
+            sButton.setEnabled(false);
+            comment_area.setVisibility(View.GONE);
+            comment_area.setEnabled(false);
+        }
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -139,8 +149,10 @@ public class info_opera extends AppCompatActivity {
         Intent intent = getIntent();
         String descrizione = (String) intent.getSerializableExtra("descrizione");
         String chosen_area = (String) intent.getSerializableExtra("area");
-        isExpert    = (int)    intent.getSerializableExtra("isExpert");
-        userId      = (String) intent.getSerializableExtra("user_id");
+        isExpert           = (int)    intent.getSerializableExtra("isExpert");
+        userId             = (String) intent.getSerializableExtra("user_id");
+        user_name          = (String) intent.getSerializableExtra("user_name");
+        user_surname       = (String) intent.getSerializableExtra("user_surname");
 
         String id = (String) intent.getSerializableExtra("art_id");
         try {
