@@ -62,10 +62,7 @@ public class info_opera extends AppCompatActivity {
                     case "SUCCESS":
                         JSONArray retrieved_data = myjson.getJSONArray("retrieved_data");
                         int len = retrieved_data.length();
-                        // se non va cancella questa riga
-                        Typeface typeface = Typeface.create(Typeface.createFromAsset(getAssets(), "Karma-Bold.ttf"), Typeface.BOLD);
 
-                        // TODO: AUMENTARE LA DIMENSIONE DEI CARATTERI E CAMBIARE IL FONT
                         for(int i = 0; i < len; i++) {
                             JSONObject retrieved = retrieved_data.getJSONObject(i);
                             String name = retrieved.getString("name");
@@ -73,17 +70,16 @@ public class info_opera extends AppCompatActivity {
                             String comment = retrieved.getString("comment");
 
                             TextView newTextView = new TextView(this);
-                            // se non va cancellare questo if
-                            if (typeface != null) {
-                                newTextView.setTypeface(typeface);
-                            }
-                            newTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+                            // TODO: HERE CHANGE newTextView TEXTVIEW FONT
+                            newTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
                             newTextView.setText(name + " " + surname + ": " + comment);
                             linearLayout.addView(newTextView);
                         }
                         break;
                     case "FAILURE":
                         TextView newTextView = new TextView(this);
+                        // TODO: HERE CHANGE newTextView TEXTVIEW FONT
+                        newTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
                         newTextView.setText("Al momento non sono presenti commenti!");
                         linearLayout.addView(newTextView);
                         Log.i("NESSUN COMMENTO", " TROVATO");
@@ -122,6 +118,8 @@ public class info_opera extends AppCompatActivity {
                                         comment_area.setText("");
                                         runOnUiThread(() -> {
                                             TextView new_comment = new TextView(this);
+                                            // TODO: HERE CHANGE new_comment TEXTVIEW FONT
+                                            new_comment.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
                                             new_comment.setText(user_name + " " + user_surname + ": " + comment_text);
                                             linearLayout.addView(new_comment,3); // WE ADD THE COMMENT TO THE TOP OF THE LIST
                                         });
