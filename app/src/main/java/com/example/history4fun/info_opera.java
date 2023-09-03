@@ -4,11 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -60,6 +62,8 @@ public class info_opera extends AppCompatActivity {
                     case "SUCCESS":
                         JSONArray retrieved_data = myjson.getJSONArray("retrieved_data");
                         int len = retrieved_data.length();
+                        // se non va cancella questa riga
+                        Typeface typeface = Typeface.create(Typeface.createFromAsset(getAssets(), "Karma-Bold.ttf"), Typeface.BOLD);
 
                         // TODO: AUMENTARE LA DIMENSIONE DEI CARATTERI E CAMBIARE IL FONT
                         for(int i = 0; i < len; i++) {
@@ -69,6 +73,11 @@ public class info_opera extends AppCompatActivity {
                             String comment = retrieved.getString("comment");
 
                             TextView newTextView = new TextView(this);
+                            // se non va cancellare questo if
+                            if (typeface != null) {
+                                newTextView.setTypeface(typeface);
+                            }
+                            newTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
                             newTextView.setText(name + " " + surname + ": " + comment);
                             linearLayout.addView(newTextView);
                         }
