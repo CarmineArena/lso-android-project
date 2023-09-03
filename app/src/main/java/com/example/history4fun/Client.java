@@ -278,7 +278,7 @@ public class Client {
         BufferedReader input = new BufferedReader(new InputStreamReader(getClientSocket().getInputStream()));
         StringBuilder jsonStr = new StringBuilder();
 
-        int cc, i = 0;
+        int cc;
         int curlyBraceCount = 0;
         while ((cc = input.read()) != -1) {
             char c = (char) cc;

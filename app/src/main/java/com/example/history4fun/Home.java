@@ -2,14 +2,11 @@ package com.example.history4fun;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Home extends AppCompatActivity {
@@ -22,7 +19,6 @@ public class Home extends AppCompatActivity {
     private Button roman_area_button       = null;
     private Button greek_area_button       = null;
     private Button full_pack_area_button   = null;
-    private ImageButton settingsButton     = null;
     private boolean should_call_on_destroy = true;
 
     // ------------------------------------------------------------------------------ //
@@ -115,16 +111,16 @@ public class Home extends AppCompatActivity {
         user     = (Utente) intent.getSerializableExtra("user");
         nickname = (String) intent.getSerializableExtra("user_nickname");
 
-        full_pack_area_button  = (Button) findViewById(R.id.FullPackButton);
-        jurassic_area_button   = (Button) findViewById(R.id.GiurassicButton);
-        prehistory_area_button = (Button) findViewById(R.id.PreistoricButton);
-        egypt_area_button      = (Button) findViewById(R.id.EgyptButton);
-        roman_area_button      = (Button) findViewById(R.id.RomanButton);
-        greek_area_button      = (Button) findViewById(R.id.GreekButton);
+        full_pack_area_button  = findViewById(R.id.FullPackButton);
+        jurassic_area_button   = findViewById(R.id.GiurassicButton);
+        prehistory_area_button = findViewById(R.id.PreistoricButton);
+        egypt_area_button      = findViewById(R.id.EgyptButton);
+        roman_area_button      = findViewById(R.id.RomanButton);
+        greek_area_button      = findViewById(R.id.GreekButton);
 
         client = MainActivity.client;
 
-        settingsButton = findViewById(R.id.settingsButton);
+        ImageButton settingsButton = findViewById(R.id.settingsButton);
         settingsButton.setOnClickListener(v -> {
             PopupMenu popupMenu = new PopupMenu(this, v);
             MenuInflater inflater = popupMenu.getMenuInflater();

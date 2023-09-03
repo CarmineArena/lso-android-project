@@ -6,13 +6,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Button;
 import android.widget.EditText;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import org.json.*;
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
-    String MailString;
     static Client client              = null;
     private Handler handler           = null;
     private Button login_button       = null;
@@ -128,11 +126,11 @@ public class MainActivity extends AppCompatActivity {
 
         this.handler = new Handler();
 
-        login_button       = (Button)   findViewById(R.id.button);
-        signup_button      = (Button)   findViewById(R.id.signup);
-        forgot_pass_button = (Button) findViewById(R.id.passwordforgetten);
-        mail_text          = (EditText) findViewById(R.id.MailText);
-        pass_text          = (EditText) findViewById(R.id.PasswordText);
+        login_button       = findViewById(R.id.button);
+        signup_button      = findViewById(R.id.signup);
+        forgot_pass_button = findViewById(R.id.passwordforgetten);
+        mail_text          = findViewById(R.id.MailText);
+        pass_text          = findViewById(R.id.PasswordText);
 
         Thread t = new Thread(() -> {
             client = Client.getInstance();
@@ -195,21 +193,21 @@ public class MainActivity extends AppCompatActivity {
     // ------------------------------------------------------------------------------//
 
     /*
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        MailString = String.valueOf(mail_text.getText());
-        // PwdString = String.valueOf(password.getText());
+        @Override
+        public void onSaveInstanceState(@NonNull Bundle outState) {
+            super.onSaveInstanceState(outState);
+            MailString = String.valueOf(mail_text.getText());
+            // PwdString = String.valueOf(password.getText());
 
-        outState.putString("MailKey", MailString);
-        // outState.putString("PwdKey", PwdString);
-    }
+            outState.putString("MailKey", MailString);
+            // outState.putString("PwdKey", PwdString);
+        }
 
-    @Override
-    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        mail_text.setText(savedInstanceState.getString("MailKey"));
-        //password.setText(savedInstanceState.getString("PwdKey"));
-    }
+        @Override
+        protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+            super.onRestoreInstanceState(savedInstanceState);
+            mail_text.setText(savedInstanceState.getString("MailKey"));
+            //password.setText(savedInstanceState.getString("PwdKey"));
+        }
     */
 }

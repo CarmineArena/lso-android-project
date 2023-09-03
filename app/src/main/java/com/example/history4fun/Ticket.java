@@ -2,7 +2,7 @@ package com.example.history4fun;
 
 public class Ticket {
     private String ticket_id = null;
-    private Utente user      = null; // Intestatario del biglietto
+    private Utente user      = null; // Ticket owner (the one who pays for it)
     private int followers    = 0;
     private String date      = null;
     private TicketType type  = TicketType.guest;
@@ -10,9 +10,7 @@ public class Ticket {
     private MuseumArea area = MuseumArea.full;
 
     /* CONSTRUCTOR */
-    public Ticket() {
-        // Fai qualcosa ...
-    }
+    public Ticket() { }
 
     /* GETTERS AND SETTERS */
     public String getTicket_id() {

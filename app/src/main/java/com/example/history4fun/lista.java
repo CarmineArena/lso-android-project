@@ -1,11 +1,11 @@
 package com.example.history4fun;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -14,13 +14,7 @@ public class lista extends AppCompatActivity {
     private Client client;
     private Utente user;
     private String[] opera_descriptions; // LE DESCRIZIONI SONO IN ORDINE DI IDENFITICATIVO
-    private String nickname            = null;
-    private String user_selected_area  = null;
     private String area_clicked_gui    = null;
-    private String user_ticket_type    = null;
-    private ImageView first_img        = null;
-    private ImageView second_img       = null;
-    private ImageView third_img        = null;
     private Button first_opera_button  = null;
     private Button second_opera_button = null;
     private Button third_opera_button  = null;
@@ -68,6 +62,7 @@ public class lista extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,18 +70,18 @@ public class lista extends AppCompatActivity {
 
         Intent intent = getIntent();
         user               = (Utente)   intent.getSerializableExtra("user");
-        nickname           = (String)   intent.getSerializableExtra("user_nickname");
-        user_selected_area = (String)   intent.getSerializableExtra("area_chosen_ticket");
+        String nickname = (String) intent.getSerializableExtra("user_nickname");
+        String user_selected_area = (String) intent.getSerializableExtra("area_chosen_ticket");
         area_clicked_gui   = (String)   intent.getSerializableExtra("area_clicked_on_gui");
-        user_ticket_type   = (String)   intent.getSerializableExtra("ticket_type");
+        String user_ticket_type = (String) intent.getSerializableExtra("ticket_type");
         opera_descriptions = (String[]) intent.getSerializableExtra("opera_descriptions");
         isExpert           = (int)      intent.getSerializableExtra("isExpert");
 
         client = MainActivity.client;
 
-        first_img  = findViewById(R.id.firstopera);
-        second_img = findViewById(R.id.secondopera);
-        third_img  = findViewById(R.id.thirdopera);
+        ImageView first_img = findViewById(R.id.firstopera);
+        ImageView second_img = findViewById(R.id.secondopera);
+        ImageView third_img = findViewById(R.id.thirdopera);
 
         Drawable drawable1 = null;
         Drawable drawable2 = null;

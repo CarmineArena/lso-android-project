@@ -1,9 +1,10 @@
 package com.example.history4fun;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -166,6 +167,7 @@ public class payment extends AppCompatActivity {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
+            @SuppressLint("SetTextI18n")
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (!getUserTypeChoice().equals("Seleziona un tipo")) {
@@ -415,7 +417,6 @@ public class payment extends AppCompatActivity {
 
                 client.send_json_check_ticket_acquired("CHK_ACQRD_TICKET", user.getUser_id(), current_date, getSelected_area());
                 try {
-                    boolean valid = true;
                     JSONObject myjson = client.receive_json();
                     String flag = myjson.getString("flag");
 
@@ -436,7 +437,7 @@ public class payment extends AppCompatActivity {
                                 JSONArray retrieved_data2 = myjson2.getJSONArray("retrieved_data");
                                 JSONObject retrieved2 = retrieved_data2.getJSONObject(0);
                                 String user_ticket_type = retrieved2.getString("type");
-                                String description = null;
+                                String description;
 
                                 if (user_ticket_type.equals("guest") || user_ticket_type.equals("group")) {
                                     description = "n_description";
@@ -534,6 +535,7 @@ public class payment extends AppCompatActivity {
         manage_login_visit();
     }
 
+    @SuppressLint("SetTextI18n")
     private void clearAllText() {
         card_number_text.setText("");
         card_owner_name_text.setText("");

@@ -1,17 +1,17 @@
 package com.example.history4fun;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -138,7 +138,7 @@ public class Sign_up extends AppCompatActivity {
                             if (Objects.requireNonNull(birthDate).after(maxDate)) {
                                 showAlertDialog("ERRORE", "Inserire una data di nascita che sia valida!");
                             } else {
-                                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                                @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                                 Date birth   = null;
                                 Date current = null;
                                 try {

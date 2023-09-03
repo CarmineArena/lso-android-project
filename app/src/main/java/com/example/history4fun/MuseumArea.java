@@ -1,8 +1,11 @@
 package com.example.history4fun;
 
+import androidx.annotation.NonNull;
+
 public enum MuseumArea {
     full, jurassic, prehistory, egypt, roman, greek;
 
+    @NonNull
     @Override
     public String toString() {
         switch (this) {

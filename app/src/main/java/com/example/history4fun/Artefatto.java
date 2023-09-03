@@ -8,9 +8,7 @@ public class Artefatto {
     private MuseumArea area = MuseumArea.full;
 
     /* CONSTRUCTOR */
-    public Artefatto() {
-        // Fai qualcosa ...
-    }
+    public Artefatto() { }
 
     /* GETTERS AND SETTERS */
     public String getArtifact_id() {

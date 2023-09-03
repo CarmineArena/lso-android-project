@@ -6,15 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 
 public class Forgotten_password extends AppCompatActivity {
@@ -89,7 +85,7 @@ public class Forgotten_password extends AppCompatActivity {
             showAlertDialog("ERRORE", "Il campo non può essere vuoto!");
         } else {
             client.send_json_new_password_msg("NEW_PASSWORD", new_password, getEmail());
-            JSONObject myjson = null;
+            JSONObject myjson;
             try {
                 myjson = client.receive_json();
                 String flag = myjson.getString("flag");
@@ -121,7 +117,7 @@ public class Forgotten_password extends AppCompatActivity {
             if (validator.validate(email)) {
                 setEmail(email);
                 client.send_json_forgot_password_msg("FRGTPASS", email);
-                JSONObject myjson = null;
+                JSONObject myjson;
                 try {
                     myjson = client.receive_json();
                     String flag = myjson.getString("flag");

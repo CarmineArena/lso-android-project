@@ -1,8 +1,11 @@
 package com.example.history4fun;
 
+import androidx.annotation.NonNull;
+
 public enum TicketType {
     guest, family, group, expert, school;
 
+    @NonNull
     @Override
     public String toString() {
         switch (this) {
