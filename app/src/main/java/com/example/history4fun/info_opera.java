@@ -72,9 +72,8 @@ public class info_opera extends AppCompatActivity {
 
                             // Typeface customFont = Typeface.createFromAsset(getAssets(), "Karma-Bold.ttf");
                             TextView newTextView = new TextView(this);
-                            // TODO: HERE CHANGE newTextView TEXTVIEW FONT
                             newTextView.setTypeface(Typeface.MONOSPACE);
-                            newTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+                            newTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
                             newTextView.setText(name + " " + surname + ": " + comment);
                             // newTextView.setTypeface(customFont);
                             linearLayout.addView(newTextView);
@@ -82,9 +81,8 @@ public class info_opera extends AppCompatActivity {
                         break;
                     case "FAILURE":
                         TextView newTextView = new TextView(this);
-                        // TODO: HERE CHANGE newTextView TEXTVIEW FONT
                         newTextView.setTypeface(Typeface.MONOSPACE);
-                        newTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+                        newTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
                         newTextView.setText("Al momento non sono presenti commenti!");
                         linearLayout.addView(newTextView);
                         Log.i("NESSUN COMMENTO", " TROVATO");
@@ -123,9 +121,8 @@ public class info_opera extends AppCompatActivity {
                                         comment_area.setText("");
                                         runOnUiThread(() -> {
                                             TextView new_comment = new TextView(this);
-                                            // TODO: HERE CHANGE new_comment TEXTVIEW FONT
                                             new_comment.setTypeface(Typeface.MONOSPACE);
-                                            new_comment.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+                                            new_comment.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
                                             new_comment.setText(user_name + " " + user_surname + ": " + comment_text);
                                             linearLayout.addView(new_comment,3); // WE ADD THE COMMENT TO THE TOP OF THE LIST
                                         });

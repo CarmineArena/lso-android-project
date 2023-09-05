@@ -54,15 +54,21 @@
             <TextView
                 android:id="@+id/GeneralDescription"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="59dp"
                 android:fontFamily="@font/karma_bold"
                 android:text="TextView"
                 android:textSize="24sp" />
 
             <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="       " />
+
+            <TextView
                 android:id="@+id/SpecificDescription"
                 android:layout_width="match_parent"
-                android:layout_height="159dp"
+                android:layout_height="103dp"
                 android:fontFamily="@font/karma_bold"
                 android:text="TextView"
                 android:textSize="24sp" />
