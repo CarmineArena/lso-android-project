@@ -119,6 +119,8 @@ public class info_opera extends AppCompatActivity {
                                         runOnUiThread(() -> {
                                             TextView new_comment = new TextView(this);
                                             // TODO: HERE CHANGE new_comment TEXTVIEW FONT
+                                            Typeface face = Typeface.createFromAsset(getAssets(),
+                                                    "font/karma_bold.xml");
                                             new_comment.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
                                             new_comment.setText(user_name + " " + user_surname + ": " + comment_text);
                                             linearLayout.addView(new_comment,3); // WE ADD THE COMMENT TO THE TOP OF THE LIST
