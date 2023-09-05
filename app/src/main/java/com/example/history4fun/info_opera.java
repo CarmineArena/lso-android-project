@@ -4,11 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.SpannableStringBuilder;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.util.TypedValue;
@@ -31,6 +29,7 @@ public class info_opera extends AppCompatActivity {
 
     private Client client;
     private Handler handler;
+    private TextView general_text     = null;
     private EditText comment_area     = null;
     private LinearLayout linearLayout = null;
     private ImageButton sButton       = null;
@@ -147,6 +146,36 @@ public class info_opera extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("SetTextI18n")
+    private void setGeneralDescription(String area) {
+        switch(area) {
+            case "jurassic":
+                general_text.setText("Il periodo di tempo del Giurassico è solitamente stratigraficamente diviso in 3 epoche: inferiore, medio, e superiore, " +
+                        "indicate rispettivamente come Lias, Dogger e Malm. Questa terminologia faceva riferimento ai tempi cronologici.");
+                break;
+            case "prehistory":
+                general_text.setText("La Preistoria è definita come il primo periodo della storia umana, compreso tra le prime testimonianze della presenza " +
+                        "dell'uomo e i più antichi documenti scritti. La Preistoria finisce quindi quando gli uomini cominciano a lasciare traccia del proprio pensiero tramite la scrittura, la cui invenzione avvenne in Egitto.");
+                break;
+            case "egypt":
+                general_text.setText("La storia dell'antico Egitto, ovvero della civiltà dell'Africa settentrionale sviluppatasi lungo le rive del fiume " +
+                        "Nilo (dalle cateratte a sud e al confine con l'attuale Sudan al delta del Nilo sul Mar Mediterraneo, per un'estensione totale di circa " +
+                            "1000 km), copre complessivamente poco meno di 4000 anni.");
+                break;
+            case "roman":
+                general_text.setText("La civiltà romana è spesso annoverata nell'antichità classica insieme all'antica Grecia, essendo quest'ultima una civiltà " +
+                        "che ha ispirato parte della cultura romana.Oltre al suo modello di potere, che è stato emulato o ispirato da innumerevoli principi, " +
+                            "la civiltà romana ha contribuito enormemente allo sviluppo del diritto, delle istituzioni e della legislazione, nonché della guerra, " +
+                                "dell'arte, della letteratura, dell'architettura, della tecnologia e delle lingue del mondo occidentale.");
+                break;
+            case "greek":
+                general_text.setText("La cultura greca, nonostante la conformazione geografica del continente favorisse l'insorgere di molteplici unità politiche " +
+                            "a sé stanti (le poleis), fu un fenomeno omogeneo, che interessò tutte le genti elleniche, accomunate dalla stessa lingua; " +
+                                "attribuiva molta importanza alla conoscenza e alla ricerca della verità.");
+                break;
+        }
+    }
+
     @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,6 +192,7 @@ public class info_opera extends AppCompatActivity {
         userId             = (String) intent.getSerializableExtra("user_id");
         user_name          = (String) intent.getSerializableExtra("user_name");
         user_surname       = (String) intent.getSerializableExtra("user_surname");
+        String opera_name  = (String) intent.getSerializableExtra("opera_name");
 
         String id = (String) intent.getSerializableExtra("art_id");
         try {
@@ -171,10 +201,16 @@ public class info_opera extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        sButton      = findViewById(R.id.sendButton);
-        comment_area = findViewById(R.id.commentView);
-        linearLayout = findViewById(R.id.imageContainer);
-        ImageView immagine = findViewById(R.id.opera);
+        general_text = findViewById(R.id.GeneralDescription);
+        general_text.setMovementMethod(new ScrollingMovementMethod());
+
+        TextView titolo       = findViewById(R.id.titolo);
+        sButton               = findViewById(R.id.sendButton);
+        comment_area          = findViewById(R.id.commentView);
+        linearLayout          = findViewById(R.id.imageContainer);
+        ImageView immagine    = findViewById(R.id.opera);
+
+        titolo.setText(opera_name);
 
         TextView specific_text = findViewById(R.id.SpecificDescription);
         specific_text.setMovementMethod(new ScrollingMovementMethod());
@@ -280,6 +316,7 @@ public class info_opera extends AppCompatActivity {
         }
 
         immagine.setImageDrawable(drawable);
+        setGeneralDescription(chosen_area);
     }
 
     @Override
