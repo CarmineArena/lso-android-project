@@ -82,7 +82,7 @@ public class payment extends AppCompatActivity {
             data.add(item);
         }
 
-        SimpleAdapter adapter = new SimpleAdapter(this, data, android.R.layout.simple_spinner_item, new String[]{"type"}, new int[]{android.R.id.text1});
+        SimpleAdapter adapter = new SimpleAdapter(this, data, R.layout.custom_spinner_item, new String[]{"type"}, new int[]{android.R.id.text1});
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerType.setAdapter(adapter);
 
