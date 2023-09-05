@@ -70,10 +70,12 @@ public class info_opera extends AppCompatActivity {
                             String surname = retrieved.getString("surname");
                             String comment = retrieved.getString("comment");
 
+                            // Typeface customFont = Typeface.createFromAsset(getAssets(), "Karma-Bold.ttf");
                             TextView newTextView = new TextView(this);
                             // TODO: HERE CHANGE newTextView TEXTVIEW FONT
                             newTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
                             newTextView.setText(name + " " + surname + ": " + comment);
+                            // newTextView.setTypeface(customFont);
                             linearLayout.addView(newTextView);
                         }
                         break;
