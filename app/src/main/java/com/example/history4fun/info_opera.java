@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -72,6 +73,7 @@ public class info_opera extends AppCompatActivity {
                             // Typeface customFont = Typeface.createFromAsset(getAssets(), "Karma-Bold.ttf");
                             TextView newTextView = new TextView(this);
                             // TODO: HERE CHANGE newTextView TEXTVIEW FONT
+                            newTextView.setTypeface(Typeface.MONOSPACE);
                             newTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
                             newTextView.setText(name + " " + surname + ": " + comment);
                             // newTextView.setTypeface(customFont);
@@ -81,6 +83,7 @@ public class info_opera extends AppCompatActivity {
                     case "FAILURE":
                         TextView newTextView = new TextView(this);
                         // TODO: HERE CHANGE newTextView TEXTVIEW FONT
+                        newTextView.setTypeface(Typeface.MONOSPACE);
                         newTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
                         newTextView.setText("Al momento non sono presenti commenti!");
                         linearLayout.addView(newTextView);
@@ -121,6 +124,7 @@ public class info_opera extends AppCompatActivity {
                                         runOnUiThread(() -> {
                                             TextView new_comment = new TextView(this);
                                             // TODO: HERE CHANGE new_comment TEXTVIEW FONT
+                                            new_comment.setTypeface(Typeface.MONOSPACE);
                                             new_comment.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
                                             new_comment.setText(user_name + " " + user_surname + ": " + comment_text);
                                             linearLayout.addView(new_comment,3); // WE ADD THE COMMENT TO THE TOP OF THE LIST
