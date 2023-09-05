@@ -77,16 +77,15 @@
         android:layout_width="248dp"
         android:layout_height="85dp"
         android:layout_centerInParent="true"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="15dp"
         android:background="@drawable/buttonbg"
         android:text="Accedi"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="#DBA775"
         android:textSize="60sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.499"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/PasswordText" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/signup"
