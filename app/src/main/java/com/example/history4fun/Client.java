@@ -9,8 +9,7 @@ import java.io.*;
 public class Client {
     private static Client instance;
     private static final int SERVER_PORT = 6969;
-    private static final String SERVER_IP_EMULATOR = "10.0.2.2";
-    private static final String SERVER_IP_PHYSICAL = "172.18.241.161";
+    private static final String SERVER_IP_EMULATOR =  "10.0.2.2"; // "172.18.241.161" (WSL);
     private Socket client_socket           = null;
     private InetAddress server_address     = null;
     private boolean error_connection       = false;
@@ -36,30 +35,26 @@ public class Client {
     private Client() { connect(); }
 
     /* METHODS */
-    public static boolean isEmulator() {
-        return Build.FINGERPRINT.startsWith("generic")
-                || Build.FINGERPRINT.startsWith("unknown")
-                || Build.MODEL.contains("google_sdk")
-                || Build.MODEL.toLowerCase().contains("emulator")
-                || Build.BOARD == "QC_Reference_Phone";
-    }
+    /*
+        public static boolean isEmulator() {
+            return Build.FINGERPRINT.startsWith("generic")
+                    || Build.FINGERPRINT.startsWith("unknown")
+                    || Build.MODEL.contains("google_sdk")
+                    || Build.MODEL.toLowerCase().contains("emulator")
+                    || Build.BOARD == "QC_Reference_Phone";
+        }
+    */
 
     public void connect() {
         try {
-            int timeout_ms = 5000;
-            int server_port = SERVER_PORT;
-            String server_ip;
-
-            if (isEmulator()) {
-                server_ip   = SERVER_IP_EMULATOR;
-            } else {
-                server_ip   = SERVER_IP_PHYSICAL;
-            }
+            int timeout_ms   = 5000;
+            int server_port  = SERVER_PORT;
+            String server_ip = SERVER_IP_EMULATOR;
 
             InetAddress server_address = InetAddress.getByName(server_ip);
-            setServer_address(server_address);
             Log.i("CONNECTION ADDR: ", server_ip);
             Log.i("CONNECTION PORT: ", String.valueOf(server_port));
+            setServer_address(server_address);
 
             Socket client_socket = new Socket();
             client_socket.connect(new InetSocketAddress(getServer_address(), server_port), timeout_ms); // client_socket.setSoTimeout(timeout_ms);
