@@ -1,5 +1,6 @@
 package com.example.history4fun;
 
+import android.os.Build;
 import android.util.Log;
 import org.json.*;
 import java.net.*;
@@ -7,12 +8,12 @@ import java.io.*;
 
 public class Client {
     private static Client instance;
-    private static final int server_port  = 6969;
-    private static final String server_ip = "10.0.2.2"; // "172.30.219.119"
-    private Socket client_socket          = null;
-
-    private InetAddress server_address = null;
-    private boolean error_connection   = false;
+    private static final int SERVER_PORT = 6969;
+    private static final String SERVER_IP_EMULATOR = "10.0.2.2";
+    private static final String SERVER_IP_PHYSICAL = "172.18.241.161";
+    private Socket client_socket           = null;
+    private InetAddress server_address     = null;
+    private boolean error_connection       = false;
 
     /* GETTERS AND SETTERS */
     public Socket getClientSocket() { return this.client_socket; }
@@ -35,24 +36,45 @@ public class Client {
     private Client() { connect(); }
 
     /* METHODS */
+    public static boolean isEmulator() {
+        return Build.FINGERPRINT.startsWith("generic")
+                || Build.FINGERPRINT.startsWith("unknown")
+                || Build.MODEL.contains("google_sdk")
+                || Build.MODEL.toLowerCase().contains("emulator")
+                || Build.BOARD == "QC_Reference_Phone";
+    }
+
     public void connect() {
         try {
             int timeout_ms = 5000;
+            int server_port = SERVER_PORT;
+            String server_ip;
+
+            if (isEmulator()) {
+                server_ip   = SERVER_IP_EMULATOR;
+            } else {
+                server_ip   = SERVER_IP_PHYSICAL;
+            }
+
             InetAddress server_address = InetAddress.getByName(server_ip);
             setServer_address(server_address);
+            Log.i("CONNECTION ADDR: ", server_ip);
+            Log.i("CONNECTION PORT: ", String.valueOf(server_port));
 
             Socket client_socket = new Socket();
-            client_socket.connect(new InetSocketAddress(getServer_address(), server_port), timeout_ms);
-            // client_socket.setSoTimeout(timeout_ms);
+            client_socket.connect(new InetSocketAddress(getServer_address(), server_port), timeout_ms); // client_socket.setSoTimeout(timeout_ms);
             setClient_socket(client_socket);
         } catch (SocketTimeoutException e) {
             Log.d("SocketTimeoutException", "Client --> connect()");
             setError_connection(true);
+            e.printStackTrace();
         } catch (ConnectException e) {
             Log.e("ConnectException", "Client --> connect()");
+            setError_connection(true);
             e.printStackTrace();
         } catch (IOException e) {
             Log.d("IOException", "Client --> connect()");
+            setError_connection(true);
             e.printStackTrace();
         }
     }
