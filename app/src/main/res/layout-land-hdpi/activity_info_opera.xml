@@ -38,7 +38,7 @@
         android:layout_width="626dp"
         android:layout_height="510dp"
         android:layout_marginTop="120dp"
-        android:background="#CA8848"
+        android:background="#B56619"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.975"
         app:layout_constraintStart_toStartOf="parent"

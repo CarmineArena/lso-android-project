@@ -12,7 +12,7 @@
         android:id="@+id/imageView3"
         android:layout_width="1078dp"
         android:layout_height="223dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +33,7 @@
         android:textColor="#723B06"
         android:textColorHint="#723B06"
         android:textCursorDrawable="@drawable/cursorcolor"
-        android:textSize="60sp"
+        android:textSize="55sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -67,7 +67,7 @@
         android:textColor="#723B06"
         android:textColorHint="#723B06"
         android:textCursorDrawable="@drawable/cursorcolor"
-        android:textSize="60sp"
+        android:textSize="55sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/MailText" />
@@ -82,7 +82,7 @@
         android:text="Accedi"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="#DBA775"
-        android:textSize="60sp"
+        android:textSize="48sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/PasswordText" />
