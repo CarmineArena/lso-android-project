@@ -54,7 +54,7 @@
             <TextView
                 android:id="@+id/GeneralDescription"
                 android:layout_width="match_parent"
-                android:layout_height="59dp"
+                android:layout_height="171dp"
                 android:fontFamily="@font/karma_bold"
                 android:text="TextView"
                 android:textSize="24sp" />
@@ -68,7 +68,7 @@
             <TextView
                 android:id="@+id/SpecificDescription"
                 android:layout_width="match_parent"
-                android:layout_height="103dp"
+                android:layout_height="143dp"
                 android:fontFamily="@font/karma_bold"
                 android:text="TextView"
                 android:textSize="24sp" />
